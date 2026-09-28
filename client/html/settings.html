@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>WebUI Lab - 設定</title>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="app-title">WebUI Lab</h1>
+                <p class="app-subtitle">時間 × 開銷管理</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link" data-page="dashboard">
+                            <span class="nav-icon">📊</span>
+                            <span class="nav-text">綜合</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="timetable.html" class="nav-link" data-page="timetable">
+                            <span class="nav-icon">📅</span>
+                            <span class="nav-text">課表</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="accounting.html" class="nav-link" data-page="accounting">
+                            <span class="nav-icon">💰</span>
+                            <span class="nav-text">記帳</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="settings.html" class="nav-link active" data-page="settings">
+                            <span class="nav-icon">⚙️</span>
+                            <span class="nav-text">設定</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-details">
+                        <p class="user-name">未登入</p>
+                        <p class="user-status">請登入帳號</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div class="header-left">
+                    <h2 class="page-title">設定</h2>
+                </div>
+                <div class="header-right">
+                    <span class="current-date">2026年 09月 28日</span>
+                    <span class="current-semester">115學年 第1學期</span>
+                </div>
+            </header>
+
+            <section class="page-content">
+                <section id="settings" class="page-section active">
+                    <h1 class="section-title">設定</h1>
+
+                    <section class="settings-section account-section">
+                        <h3 class="settings-title">帳號管理</h3>
+                        <div class="settings-content">
+                            <div class="account-status" id="accountStatus">
+                                <p class="status-label">登入狀態：</p>
+                                <p class="status-value">未登入</p>
+                            </div>
+                            <button class="btn btn-primary" id="googleAuthBtn">使用 Google 帳號登入</button>
+                            <button class="btn btn-secondary" id="logoutBtn" style="display: none;">登出</button>
+                        </div>
+                    </section>
+
+                    <section class="settings-section backup-section">
+                        <h3 class="settings-title">資料備份</h3>
+                        <div class="settings-content">
+                            <div class="backup-options">
+                                <div class="option">
+                                    <h4 class="option-title">本地備份</h4>
+                                    <p class="option-description">將資料匯出為 JSON 或 CSV 格式，可在任何時間恢復</p>
+                                    <div class="option-buttons">
+                                        <button class="btn btn-secondary" id="exportJsonBtn">匯出 JSON</button>
+                                        <button class="btn btn-secondary" id="exportCsvBtn">匯出 CSV</button>
+                                        <button class="btn btn-secondary" id="importBtn">匯入資料</button>
+                                        <input type="file" id="importFile" accept=".json,.csv" style="display: none;">
+                                    </div>
+                                </div>
+
+                                <div class="option">
+                                    <h4 class="option-title">雲端備份</h4>
+                                    <p class="option-description">登入 Google 帳號後，資料會自動備份到雲端</p>
+                                    <div class="option-buttons">
+                                        <button class="btn btn-secondary" id="cloudBackupBtn">同步到雲端</button>
+                                        <button class="btn btn-secondary" id="cloudRestoreBtn">從雲端復原</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="settings-section budget-settings-section">
+                        <h3 class="settings-title">預算設定</h3>
+                        <div class="settings-content">
+                            <div class="budget-setting-form">
+                                <div class="form-group">
+                                    <label for="monthlyBudget">每月預算 (NT$)</label>
+                                    <input type="number" id="monthlyBudget" name="monthlyBudget" min="0" step="100" value="5000">
+                                </div>
+                                <button class="btn btn-primary" id="saveBudgetBtn">保存預算設定</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="settings-section category-section">
+                        <h3 class="settings-title">支出分類管理</h3>
+                        <div class="settings-content">
+                            <div class="category-list" id="categoryList">
+                                <div class="category-item">
+                                    <div class="category-info">
+                                        <input type="text" class="category-name" value="早餐" readonly>
+                                        <input type="color" class="category-color" value="#FF6B6B">
+                                    </div>
+                                    <div class="category-actions">
+                                        <button class="btn btn-secondary btn-small edit-category">編輯</button>
+                                        <button class="btn btn-danger btn-small delete-category">刪除</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="add-category-form">
+                                <input type="text" id="newCategoryName" placeholder="新分類名稱">
+                                <input type="color" id="newCategoryColor" value="#5B67CA">
+                                <button class="btn btn-primary" id="addCategoryBtn">新增分類</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="settings-section app-settings-section">
+                        <h3 class="settings-title">應用程式設定</h3>
+                        <div class="settings-content">
+                            <div class="settings-option">
+                                <label class="option-label">
+                                    <input type="checkbox" id="darkModeToggle" class="checkbox">
+                                    <span>深色模式</span>
+                                </label>
+                            </div>
+                            <div class="settings-option">
+                                <label class="option-label">
+                                    <input type="checkbox" id="notificationToggle" class="checkbox" checked>
+                                    <span>啟用通知</span>
+                                </label>
+                            </div>
+                            <div class="settings-option">
+                                <label class="option-label">
+                                    <input type="checkbox" id="autoBackupToggle" class="checkbox" checked>
+                                    <span>自動備份 (每日)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="settings-section about-section">
+                        <h3 class="settings-title">關於應用程式</h3>
+                        <div class="settings-content">
+                            <p class="about-text">
+                                <strong>WebUI Lab v1.0.0</strong><br>
+                                大學生時間與開銷管理系統<br>
+                                由國立暨南國際大學資工系開發
+                            </p>
+                            <p class="about-text">
+                                <strong>課程：</strong> 網頁程式設計 (Web Programming)<br>
+                                <strong>學號：</strong> s115321012<br>
+                                <strong>開發日期：</strong> 2024年1月
+                            </p>
+                            <button class="btn btn-secondary" id="clearDataBtn">清除所有資料</button>
+                        </div>
+                    </section>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

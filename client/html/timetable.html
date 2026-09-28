@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>WebUI Lab - 課表</title>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="app-title">WebUI Lab</h1>
+                <p class="app-subtitle">時間 × 開銷管理</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link" data-page="dashboard">
+                            <span class="nav-icon">📊</span>
+                            <span class="nav-text">綜合</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="timetable.html" class="nav-link active" data-page="timetable">
+                            <span class="nav-icon">📅</span>
+                            <span class="nav-text">課表</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="accounting.html" class="nav-link" data-page="accounting">
+                            <span class="nav-icon">💰</span>
+                            <span class="nav-text">記帳</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="settings.html" class="nav-link" data-page="settings">
+                            <span class="nav-icon">⚙️</span>
+                            <span class="nav-text">設定</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-details">
+                        <p class="user-name">未登入</p>
+                        <p class="user-status">請登入帳號</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div class="header-left">
+                    <h2 class="page-title">課表</h2>
+                </div>
+                <div class="header-right">
+                    <span class="current-date">2026年 09月 28日</span>
+                    <span class="current-semester">115學年 第1學期</span>
+                </div>
+            </header>
+
+            <section class="page-content">
+                <section id="timetable" class="page-section active">
+                    <h1 class="section-title">週課表</h1>
+
+                    <div class="timetable-controls">
+                        <div class="week-selector">
+                            <button class="btn btn-prev" id="prevWeek">← 上週</button>
+                            <span class="week-display" id="weekDisplay">2024/1/15 - 2024/1/21</span>
+                            <button class="btn btn-next" id="nextWeek">下週 →</button>
+                        </div>
+                    </div>
+
+                <div class="timetable-container">
+                    <table class="timetable">
+                        <thead>
+                            <tr>
+                                <th class="time-header">節次 / 時間</th>
+                                <th class="day-header">星期一</th>
+                                <th class="day-header">星期二</th>
+                                <th class="day-header">星期三</th>
+                                <th class="day-header">星期四</th>
+                                <th class="day-header">星期五</th>
+                            </tr>
+                        </thead>
+                    <tbody id="timetableBody">
+                        <tr class="time-slot">
+                            <td class="time-cell">
+                                <div>第1節</div>
+                                <small>08:10 - 09:00</small>
+                            </td>
+                                <td class="class-cell" data-day="1" data-period="1"></td>
+                                <td class="class-cell" data-day="2" data-period="1"></td>
+                                <td class="class-cell" data-day="3" data-period="1"></td>
+                                <td class="class-cell" data-day="4" data-period="1"></td>
+                                <td class="class-cell" data-day="5" data-period="1"></td>
+                        </tr>
+
+                        <tr class="time-slot">
+                            <td class="time-cell">
+                                <div>第2節</div>
+                                <small>09:10 - 10:00</small>
+                            </td>
+                                <td class="class-cell" data-day="1" data-period="2"></td>
+                                <td class="class-cell" data-day="2" data-period="2"></td>
+                                <td class="class-cell" data-day="3" data-period="2"></td>
+                                <td class="class-cell" data-day="4" data-period="2"></td>
+                                <td class="class-cell" data-day="5" data-period="2"></td>
+                        </tr>
+
+                        <tr class="time-slot">
+                            <td class="time-cell">
+                                <div>第3節</div>
+                                <small>10:10 - 11:00</small>
+                            </td>
+                                <td class="class-cell" data-day="1" data-period="3"></td>
+                                <td class="class-cell" data-day="2" data-period="3"></td>
+                                <td class="class-cell" data-day="3" data-period="3"></td>
+                                <td class="class-cell" data-day="4" data-period="3"></td>
+                                <td class="class-cell" data-day="5" data-period="3"></td>
+                        </tr>
+
+                        <tr class="time-slot">
+                            <td class="time-cell">
+                                <div>第4節</div>
+                                <small>11:10 - 12:00</small>
+                            </td>
+                                <td class="class-cell" data-day="1" data-period="4"></td>
+                                <td class="class-cell" data-day="2" data-period="4"></td>
+                                <td class="class-cell" data-day="3" data-period="4"></td>
+                                <td class="class-cell" data-day="4" data-period="4"></td>
+                                <td class="class-cell" data-day="5" data-period="4"></td>
+                        </tr>
+
+            <tr class="time-slot">
+                <td class="time-cell">
+                    <div>中午</div>
+                    <small>12:00 - 13:10</small>
+                </td>
+                <td class="class-cell lunch-break" data-day="1" data-period="0"></td>
+                <td class="class-cell lunch-break" data-day="2" data-period="0"></td>
+                <td class="class-cell lunch-break" data-day="3" data-period="0"></td>
+                <td class="class-cell lunch-break" data-day="4" data-period="0"></td>
+                <td class="class-cell lunch-break" data-day="5" data-period="0"></td>
+            </tr>
+
+                        <tr class="time-slot">
+                            <td class="time-cell">
+                                <div>第5節</div>
+                                <small>13:10 - 14:00</small>
+                            </td>
+                                <td class="class-cell" data-day="1" data-period="5"></td>
+                                <td class="class-cell" data-day="2" data-period="5"></td>
+                                <td class="class-cell" data-day="3" data-period="5"></td>
+                                <td class="class-cell" data-day="4" data-period="5"></td>
+                                <td class="class-cell" data-day="5" data-period="5"></td>
+                        </tr>
+
+                        <tr class="time-slot">
+                            <td class="time-cell">
+                                <div>第6節</div>
+                                <small>14:10 - 15:00</small>
+                            </td>
+                                <td class="class-cell" data-day="1" data-period="6"></td>
+                                <td class="class-cell" data-day="2" data-period="6"></td>
+                                <td class="class-cell" data-day="3" data-period="6"></td>
+                                <td class="class-cell" data-day="4" data-period="6"></td>
+                                <td class="class-cell" data-day="5" data-period="6"></td>
+                        </tr>
+
+                        <tr class="time-slot">
+                            <td class="time-cell">
+                                <div>第7節</div>
+                                <small>15:10 - 16:00</small>
+                            </td>
+                                <td class="class-cell" data-day="1" data-period="7"></td>
+                                <td class="class-cell" data-day="2" data-period="7"></td>
+                                <td class="class-cell" data-day="3" data-period="7"></td>
+                                <td class="class-cell" data-day="4" data-period="7"></td>
+                                <td class="class-cell" data-day="5" data-period="7"></td>
+                        </tr>
+
+                        <tr class="time-slot">
+                            <td class="time-cell">
+                                <div>第8節</div>
+                                <small>16:10 - 17:00</small>
+                            </td>
+                                <td class="class-cell" data-day="1" data-period="8"></td>
+                                <td class="class-cell" data-day="2" data-period="8"></td>
+                                <td class="class-cell" data-day="3" data-period="8"></td>
+                                <td class="class-cell" data-day="4" data-period="8"></td>
+                                <td class="class-cell" data-day="5" data-period="8"></td>
+                        </tr>
+
+                        <tr class="time-slot">
+                            <td class="time-cell">
+                                <div>第9節</div>
+                                <small>17:10 - 18:00</small>
+                            </td>
+                                <td class="class-cell" data-day="1" data-period="9"></td>
+                                <td class="class-cell" data-day="2" data-period="9"></td>
+                                <td class="class-cell" data-day="3" data-period="9"></td>
+                                <td class="class-cell" data-day="4" data-period="9"></td>
+                                <td class="class-cell" data-day="5" data-period="9"></td>
+                        </tr>
+        </tbody>
+    </table>
+</div>
+
+                    <div class="add-class-section">
+                        <h3 class="section-subtitle">新增課程</h3>
+                        <form id="addClassForm" class="add-class-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="className">課程名稱</label>
+                                    <input type="text" id="className" name="className" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="classLocation">教室位置</label>
+                                    <input type="text" id="classLocation" name="classLocation" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="classTeacher">教授名稱</label>
+                                    <input type="text" id="classTeacher" name="classTeacher" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="classDay">星期</label>
+                                    <select id="classDay" name="classDay" required>
+                                        <option value="">選擇星期</option>
+                                        <option value="1">星期一</option>
+                                        <option value="2">星期二</option>
+                                        <option value="3">星期三</option>
+                                        <option value="4">星期四</option>
+                                        <option value="5">星期五</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="classPeriod">節次</label>
+                                    <select id="classPeriod" name="classPeriod" required>
+                                        <option value="">選擇節次</option>
+                                        <option value="1">第1節</option>
+                                        <option value="2">第2節</option>
+                                        <option value="3">第3節</option>
+                                        <option value="4">第4節</option>
+                                        <option value="5">第5節</option>
+                                        <option value="6">第6節</option>
+                                        <option value="7">第7節</option>
+                                        <option value="8">第8節</option>
+                                        <option value="9">第9節</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>課程標籤顏色</label>
+                                        <div class="color-palette" id="classColorPalette">
+                                            <button type="button" class="color-swatch selected" data-color="#5B67CA" style="background:#5B67CA"></button>
+                                            <button type="button" class="color-swatch" data-color="#FF6B6B" style="background:#FF6B6B"></button>
+                                            <button type="button" class="color-swatch" data-color="#4ECDC4" style="background:#4ECDC4"></button>
+                                            <button type="button" class="color-swatch" data-color="#FFD93D" style="background:#FFD93D"></button>
+                                            <button type="button" class="color-swatch" data-color="#95E1D3" style="background:#95E1D3"></button>
+                                            <button type="button" class="color-swatch" data-color="#A78BFA" style="background:#A78BFA"></button>
+                                        </div>
+                                    <input type="hidden" id="classColor" name="classColor" value="#5B67CA">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="courseCategory">畢業門檻分類</label>
+                                    <select id="courseCategory" name="courseCategory" required>
+                                        <option value="">選擇分類</option>
+                                        <option value="required">專業必修</option>
+                                        <option value="elective">專業選修</option>
+                                        <option value="general-required">共同必修 (16學分)</option>
+                                        <option value="general-elective">共同選修</option>
+                                        <option value="field">領域課程 (15學分)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="classCredits">學分數</label>
+                                    <input type="number" id="classCredits" name="classCredits" min="1" max="4" value="3">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">新增課程</button>
+                        </form>
+                    </div>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css">
-    <title>WebUI Lab - 大學生時間與開銷管理</title>
+    <title>WebUI Lab - 綜合</title>
 </head>
 <body>
-    <!-- 主容器 -->
     <div class="container">
-
-        <!-- ===== 左側邊欄 ===== -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h1 class="app-title">WebUI Lab</h1>
@@ -20,25 +17,25 @@
             <nav class="sidebar-nav">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="#dashboard" class="nav-link active" data-page="dashboard">
+                        <a href="index.html" class="nav-link active" data-page="dashboard">
                             <span class="nav-icon">📊</span>
                             <span class="nav-text">綜合</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#timetable" class="nav-link" data-page="timetable">
+                        <a href="timetable.html" class="nav-link" data-page="timetable">
                             <span class="nav-icon">📅</span>
                             <span class="nav-text">課表</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#accounting" class="nav-link" data-page="accounting">
+                        <a href="accounting.html" class="nav-link" data-page="accounting">
                             <span class="nav-icon">💰</span>
                             <span class="nav-text">記帳</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#settings" class="nav-link" data-page="settings">
+                        <a href="settings.html" class="nav-link" data-page="settings">
                             <span class="nav-icon">⚙️</span>
                             <span class="nav-text">設定</span>
                         </a>
@@ -57,9 +54,7 @@
             </div>
         </aside>
 
-        <!-- ===== 主視圖 ===== -->
         <main class="main-content">
-            <!-- 頁面頭部 -->
             <header class="page-header">
                 <div class="header-left">
                     <h2 class="page-title">綜合</h2>
@@ -70,15 +65,12 @@
                 </div>
             </header>
 
-            <!-- 頁面內容 -->
             <section class="page-content">
-                
-                <!-- ===== 1. Dashboard 頁籤 ===== -->
                 <section id="dashboard" class="page-section active">
                     <h1 class="section-title">綜合總覽</h1>
-                    
+
                     <div class="dashboard-grid">
-                        
+
                         <!-- 下一堂課卡片 -->
                         <section class="card next-class-card">
                             <div class="card-header">
@@ -164,7 +156,6 @@
                             </div>
                             <div class="card-content">
                                 <div class="bar-chart" id="barChart">
-                                    <!-- 由 JavaScript 動態生成 -->
                                     <div class="chart-placeholder">載入中...</div>
                                 </div>
                             </div>
@@ -187,490 +178,10 @@
                         </section>
                     </div>
                 </section>
-
-                <!-- ===== 2. Timetable 頁籤 ===== -->
-                <section id="timetable" class="page-section">
-                    <h1 class="section-title">週課表</h1>
-                    
-                    <!-- 課表控制欄 -->
-                    <div class="timetable-controls">
-                        <div class="week-selector">
-                            <button class="btn btn-prev" id="prevWeek">← 上週</button>
-                            <span class="week-display" id="weekDisplay">2024/1/15 - 2024/1/21</span>
-                            <button class="btn btn-next" id="nextWeek">下週 →</button>
-                        </div>
-                    </div>
-
-                    <!-- 課表網格 -->
-<div class="timetable-container">
-    <table class="timetable">
-        <thead>
-            <tr>
-                <th class="time-header">節次 / 時間</th>
-                <th class="day-header">星期一</th>
-                <th class="day-header">星期二</th>
-                <th class="day-header">星期三</th>
-                <th class="day-header">星期四</th>
-                <th class="day-header">星期五</th>
-            </tr>
-        </thead>
-        <tbody id="timetableBody">
-            <tr class="time-slot">
-                <td class="time-cell">
-                    <div>第1節</div>
-                    <small>08:10 - 09:00</small>
-                </td>
-                <td class="class-cell" data-day="1" data-period="1"></td>
-                <td class="class-cell" data-day="2" data-period="1"></td>
-                <td class="class-cell" data-day="3" data-period="1"></td>
-                <td class="class-cell" data-day="4" data-period="1"></td>
-                <td class="class-cell" data-day="5" data-period="1"></td>
-            </tr>
-
-            <tr class="time-slot">
-                <td class="time-cell">
-                    <div>第2節</div>
-                    <small>09:10 - 10:00</small>
-                </td>
-                <td class="class-cell" data-day="1" data-period="2"></td>
-                <td class="class-cell" data-day="2" data-period="2"></td>
-                <td class="class-cell" data-day="3" data-period="2"></td>
-                <td class="class-cell" data-day="4" data-period="2"></td>
-                <td class="class-cell" data-day="5" data-period="2"></td>
-            </tr>
-
-            <tr class="time-slot">
-                <td class="time-cell">
-                    <div>第3節</div>
-                    <small>10:10 - 11:00</small>
-                </td>
-                <td class="class-cell" data-day="1" data-period="3"></td>
-                <td class="class-cell" data-day="2" data-period="3"></td>
-                <td class="class-cell" data-day="3" data-period="3"></td>
-                <td class="class-cell" data-day="4" data-period="3"></td>
-                <td class="class-cell" data-day="5" data-period="3"></td>
-            </tr>
-
-            <tr class="time-slot">
-                <td class="time-cell">
-                    <div>第4節</div>
-                    <small>11:10 - 12:00</small>
-                </td>
-                <td class="class-cell" data-day="1" data-period="4"></td>
-                <td class="class-cell" data-day="2" data-period="4"></td>
-                <td class="class-cell" data-day="3" data-period="4"></td>
-                <td class="class-cell" data-day="4" data-period="4"></td>
-                <td class="class-cell" data-day="5" data-period="4"></td>
-            </tr>
-
-            <tr class="time-slot">
-                <td class="time-cell">
-                    <div>中午</div>
-                    <small>12:00 - 13:10</small>
-                </td>
-                <td class="class-cell lunch-break" data-day="1" data-period="0"></td>
-                <td class="class-cell lunch-break" data-day="2" data-period="0"></td>
-                <td class="class-cell lunch-break" data-day="3" data-period="0"></td>
-                <td class="class-cell lunch-break" data-day="4" data-period="0"></td>
-                <td class="class-cell lunch-break" data-day="5" data-period="0"></td>
-            </tr>
-
-            <tr class="time-slot">
-                <td class="time-cell">
-                    <div>第5節</div>
-                    <small>13:10 - 14:00</small>
-                </td>
-                <td class="class-cell" data-day="1" data-period="5"></td>
-                <td class="class-cell" data-day="2" data-period="5"></td>
-                <td class="class-cell" data-day="3" data-period="5"></td>
-                <td class="class-cell" data-day="4" data-period="5"></td>
-                <td class="class-cell" data-day="5" data-period="5"></td>
-            </tr>
-
-            <tr class="time-slot">
-                <td class="time-cell">
-                    <div>第6節</div>
-                    <small>14:10 - 15:00</small>
-                </td>
-                <td class="class-cell" data-day="1" data-period="6"></td>
-                <td class="class-cell" data-day="2" data-period="6"></td>
-                <td class="class-cell" data-day="3" data-period="6"></td>
-                <td class="class-cell" data-day="4" data-period="6"></td>
-                <td class="class-cell" data-day="5" data-period="6"></td>
-            </tr>
-
-            <tr class="time-slot">
-                <td class="time-cell">
-                    <div>第7節</div>
-                    <small>15:10 - 16:00</small>
-                </td>
-                <td class="class-cell" data-day="1" data-period="7"></td>
-                <td class="class-cell" data-day="2" data-period="7"></td>
-                <td class="class-cell" data-day="3" data-period="7"></td>
-                <td class="class-cell" data-day="4" data-period="7"></td>
-                <td class="class-cell" data-day="5" data-period="7"></td>
-            </tr>
-
-            <tr class="time-slot">
-                <td class="time-cell">
-                    <div>第8節</div>
-                    <small>16:10 - 17:00</small>
-                </td>
-                <td class="class-cell" data-day="1" data-period="8"></td>
-                <td class="class-cell" data-day="2" data-period="8"></td>
-                <td class="class-cell" data-day="3" data-period="8"></td>
-                <td class="class-cell" data-day="4" data-period="8"></td>
-                <td class="class-cell" data-day="5" data-period="8"></td>
-            </tr>
-
-            <tr class="time-slot">
-                <td class="time-cell">
-                    <div>第9節</div>
-                    <small>17:10 - 18:00</small>
-                </td>
-                <td class="class-cell" data-day="1" data-period="9"></td>
-                <td class="class-cell" data-day="2" data-period="9"></td>
-                <td class="class-cell" data-day="3" data-period="9"></td>
-                <td class="class-cell" data-day="4" data-period="9"></td>
-                <td class="class-cell" data-day="5" data-period="9"></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-                    <!-- 課程新增表單 -->
-                    <div class="add-class-section">
-                        <h3 class="section-subtitle">新增課程</h3>
-                        <form id="addClassForm" class="add-class-form">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="className">課程名稱</label>
-                                    <input type="text" id="className" name="className" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="classLocation">教室位置</label>
-                                    <input type="text" id="classLocation" name="classLocation" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="classTeacher">教授名稱</label>
-                                    <input type="text" id="classTeacher" name="classTeacher" required>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="classDay">星期</label>
-                                    <select id="classDay" name="classDay" required>
-                                        <option value="">選擇星期</option>
-                                        <option value="1">星期一</option>
-                                        <option value="2">星期二</option>
-                                        <option value="3">星期三</option>
-                                        <option value="4">星期四</option>
-                                        <option value="5">星期五</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="classPeriod">節次</label>
-                                    <select id="classPeriod" name="classPeriod" required>
-                                        <option value="">選擇節次</option>
-                                        <option value="1">第1節</option>
-                                        <option value="2">第2節</option>
-                                        <option value="3">第3節</option>
-                                        <option value="4">第4節</option>
-                                        <option value="5">第5節</option>
-                                        <option value="5">第6節</option>
-                                        <option value="5">第7節</option>
-                                        <option value="5">第8節</option>
-                                        <option value="5">第9節</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="classColor">課程標籤顏色</label>
-                                    <input type="color" id="classColor" name="classColor" value="#5b67ca">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="courseCategory">畢業門檻分類</label>
-                                    <select id="courseCategory" name="courseCategory" required>
-                                        <option value="">選擇分類</option>
-                                        <option value="required">專業必修</option>
-                                        <option value="elective">專業選修</option>
-                                        <option value="general-required">共同必修 (16學分)</option>
-                                        <option value="general-elective">共同選修</option>
-                                        <option value="field">領域課程 (15學分)</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="classCredits">學分數</label>
-                                    <input type="number" id="classCredits" name="classCredits" min="1" max="4" value="3">
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">新增課程</button>
-                        </form>
-                    </div>
-                </section>
-
-                <!-- ===== 3. Accounting 頁籤 ===== -->
-                <section id="accounting" class="page-section">
-                    <h1 class="section-title">記帳</h1>
-
-                    <!-- 月份選擇器 -->
-                    <div class="month-selector">
-                        <button class="btn btn-prev" id="prevMonth">← 上月</button>
-                        <span class="month-display" id="monthDisplay">2026年 09月</span>
-                        <button class="btn btn-next" id="nextMonth">下月 →</button>
-                    </div>
-
-                    <!-- 圖表區域 -->
-                    <div class="charts-container">
-                        <!-- 支出圓形圖 -->
-                        <div class="chart-wrapper">
-                            <h3 class="chart-title">支出分類</h3>
-                            <div class="doughnut-chart" id="expenseChart">
-                                <div class="chart-center">
-                                    <p class="chart-amount" id="totalExpenseAmount">NT$ 0</p>
-                                    <p class="chart-label">總支出</p>
-                                </div>
-                                <svg class="doughnut-svg" viewBox="0 0 200 200" id="expenseDoughnut"></svg>
-                            </div>
-                        </div>
-
-                        <!-- 收入圓形圖 -->
-                        <div class="chart-wrapper">
-                            <h3 class="chart-title">收入分類</h3>
-                            <div class="doughnut-chart" id="incomeChart">
-                                <div class="chart-center">
-                                    <p class="chart-amount" id="totalIncomeAmount">NT$ 0</p>
-                                    <p class="chart-label">總收入</p>
-                                </div>
-                                <svg class="doughnut-svg" viewBox="0 0 200 200" id="incomeDoughnut"></svg>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 記帳輸入區域 -->
-                    <div class="accounting-input-section">
-                        <h3 class="section-subtitle">新增記帳</h3>
-                        <form id="addRecordForm" class="add-record-form">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="recordType">收/支</label>
-                                    <select id="recordType" name="recordType" required>
-                                        <option value="">選擇類型</option>
-                                        <option value="expense">支出</option>
-                                        <option value="income">收入</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="recordCategory">類別</label>
-                                    <select id="recordCategory" name="recordCategory" required>
-                                        <option value="">選擇類別</option>
-                                        <!-- 由 JavaScript 動態填充 -->
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="recordAmount">金額</label>
-                                    <input type="number" id="recordAmount" name="recordAmount" min="0" step="1" placeholder="0" required>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="recordDate">日期</label>
-                                    <input type="date" id="recordDate" name="recordDate" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="recordNote">備註</label>
-                                    <input type="text" id="recordNote" name="recordNote" placeholder="輸入備註...">
-                                </div>
-                                <button type="submit" class="btn btn-primary">新增</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- 自訂數字鍵盤 (可選用) -->
-                    <div class="custom-keypad" id="customKeypad">
-                        <div class="keypad-display">
-                            <input type="text" class="keypad-input" id="keypadInput" readonly>
-                        </div>
-                        <div class="keypad-buttons">
-                            <button class="keypad-btn" data-key="7">7</button>
-                            <button class="keypad-btn" data-key="8">8</button>
-                            <button class="keypad-btn" data-key="9">9</button>
-                            <button class="keypad-btn keypad-clear" data-key="C">C</button>
-
-                            <button class="keypad-btn" data-key="4">4</button>
-                            <button class="keypad-btn" data-key="5">5</button>
-                            <button class="keypad-btn" data-key="6">6</button>
-                            <button class="keypad-btn keypad-backspace" data-key="⌫">⌫</button>
-
-                            <button class="keypad-btn" data-key="1">1</button>
-                            <button class="keypad-btn" data-key="2">2</button>
-                            <button class="keypad-btn" data-key="3">3</button>
-                            <button class="keypad-btn" data-key=".">.</button>
-
-                            <button class="keypad-btn" data-key="0">0</button>
-                            <button class="keypad-btn keypad-submit" data-key="✓">✓</button>
-                        </div>
-                    </div>
-
-                    <!-- 記帳明細列表 -->
-                    <div class="accounting-records-section">
-                        <h3 class="section-subtitle">記帳明細</h3>
-                        <div class="records-container" id="recordsContainer">
-                            <!-- 按天分組顯示 -->
-                            <div class="day-group">
-                                <h4 class="day-header">2024年01月15日 (星期一)</h4>
-                                <ul class="records-list">
-                                    <li class="record-item">
-                                        <div class="record-info">
-                                            <p class="record-category">早餐</p>
-                                            <p class="record-note">7-11 便當</p>
-                                        </div>
-                                        <div class="record-amount expense">-NT$ 70</div>
-                                        <button class="record-action delete-btn" data-id="1">×</button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ===== 4. Settings 頁籤 ===== -->
-                <section id="settings" class="page-section">
-                    <h1 class="section-title">設定</h1>
-
-                    <!-- 帳號區域 -->
-                    <section class="settings-section account-section">
-                        <h3 class="settings-title">帳號管理</h3>
-                        <div class="settings-content">
-                            <div class="account-status" id="accountStatus">
-                                <p class="status-label">登入狀態：</p>
-                                <p class="status-value">未登入</p>
-                            </div>
-                            <button class="btn btn-primary" id="googleAuthBtn">使用 Google 帳號登入</button>
-                            <button class="btn btn-secondary" id="logoutBtn" style="display: none;">登出</button>
-                        </div>
-                    </section>
-
-                    <!-- 資料備份區域 -->
-                    <section class="settings-section backup-section">
-                        <h3 class="settings-title">資料備份</h3>
-                        <div class="settings-content">
-                            <div class="backup-options">
-                                <div class="option">
-                                    <h4 class="option-title">本地備份</h4>
-                                    <p class="option-description">將資料匯出為 JSON 或 CSV 格式，可在任何時間恢復</p>
-                                    <div class="option-buttons">
-                                        <button class="btn btn-secondary" id="exportJsonBtn">匯出 JSON</button>
-                                        <button class="btn btn-secondary" id="exportCsvBtn">匯出 CSV</button>
-                                        <button class="btn btn-secondary" id="importBtn">匯入資料</button>
-                                        <input type="file" id="importFile" accept=".json,.csv" style="display: none;">
-                                    </div>
-                                </div>
-
-                                <div class="option">
-                                    <h4 class="option-title">雲端備份</h4>
-                                    <p class="option-description">登入 Google 帳號後，資料會自動備份到雲端</p>
-                                    <div class="option-buttons">
-                                        <button class="btn btn-secondary" id="cloudBackupBtn">同步到雲端</button>
-                                        <button class="btn btn-secondary" id="cloudRestoreBtn">從雲端復原</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- 預算設定區域 -->
-                    <section class="settings-section budget-settings-section">
-                        <h3 class="settings-title">預算設定</h3>
-                        <div class="settings-content">
-                            <div class="budget-setting-form">
-                                <div class="form-group">
-                                    <label for="monthlyBudget">每月預算 (NT$)</label>
-                                    <input type="number" id="monthlyBudget" name="monthlyBudget" min="0" step="100" value="5000">
-                                </div>
-                                <button class="btn btn-primary" id="saveBudgetBtn">保存預算設定</button>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- 分類管理區域 -->
-                    <section class="settings-section category-section">
-                        <h3 class="settings-title">支出分類管理</h3>
-                        <div class="settings-content">
-                            <div class="category-list" id="categoryList">
-                                <!-- 由 JavaScript 動態生成 -->
-                                <div class="category-item">
-                                    <div class="category-info">
-                                        <input type="text" class="category-name" value="早餐" readonly>
-                                        <input type="color" class="category-color" value="#FF6B6B">
-                                    </div>
-                                    <div class="category-actions">
-                                        <button class="btn btn-secondary btn-small edit-category">編輯</button>
-                                        <button class="btn btn-danger btn-small delete-category">刪除</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="add-category-form">
-                                <input type="text" id="newCategoryName" placeholder="新分類名稱">
-                                <input type="color" id="newCategoryColor" value="#5B67CA">
-                                <button class="btn btn-primary" id="addCategoryBtn">新增分類</button>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- 應用程式設定區域 -->
-                    <section class="settings-section app-settings-section">
-                        <h3 class="settings-title">應用程式設定</h3>
-                        <div class="settings-content">
-                            <div class="settings-option">
-                                <label class="option-label">
-                                    <input type="checkbox" id="darkModeToggle" class="checkbox">
-                                    <span>深色模式</span>
-                                </label>
-                            </div>
-                            <div class="settings-option">
-                                <label class="option-label">
-                                    <input type="checkbox" id="notificationToggle" class="checkbox" checked>
-                                    <span>啟用通知</span>
-                                </label>
-                            </div>
-                            <div class="settings-option">
-                                <label class="option-label">
-                                    <input type="checkbox" id="autoBackupToggle" class="checkbox" checked>
-                                    <span>自動備份 (每日)</span>
-                                </label>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- 關於應用程式 -->
-                    <section class="settings-section about-section">
-                        <h3 class="settings-title">關於應用程式</h3>
-                        <div class="settings-content">
-                            <p class="about-text">
-                                <strong>WebUI Lab v1.0.0</strong><br>
-                                大學生時間與開銷管理系統<br>
-                                由國立暨南國際大學資工系開發
-                            </p>
-                            <p class="about-text">
-                                <strong>課程：</strong> 網頁程式設計 (Web Programming)<br>
-                                <strong>學號：</strong> s115321012<br>
-                                <strong>開發日期：</strong> 2024年1月
-                            </p>
-                            <button class="btn btn-secondary" id="clearDataBtn">清除所有資料</button>
-                        </div>
-                    </section>
-                </section>
             </section>
         </main>
     </div>
 
-    <!-- JavaScript -->
     <script src="js/main.js"></script>
 </body>
 </html>
