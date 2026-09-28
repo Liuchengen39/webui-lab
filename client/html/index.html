@@ -9,7 +9,7 @@
 <body>
     <!-- 主容器 -->
     <div class="container">
-        
+
         <!-- ===== 左側邊欄 ===== -->
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -65,8 +65,8 @@
                     <h2 class="page-title">綜合</h2>
                 </div>
                 <div class="header-right">
-                    <span class="current-date">2024年 01月 15日</span>
-                    <span class="current-semester">第1學期</span>
+                    <span class="current-date">2026年 09月 28日</span>
+                    <span class="current-semester">115學年 第1學期</span>
                 </div>
             </header>
 
@@ -202,63 +202,141 @@
                     </div>
 
                     <!-- 課表網格 -->
-                    <div class="timetable-container">
-                        <table class="timetable">
-                            <thead>
-                                <tr>
-                                    <th class="time-header">節次</th>
-                                    <th class="day-header">星期一</th>
-                                    <th class="day-header">星期二</th>
-                                    <th class="day-header">星期三</th>
-                                    <th class="day-header">星期四</th>
-                                    <th class="day-header">星期五</th>
-                                </tr>
-                            </thead>
-                            <tbody id="timetableBody">
-                                <!-- 由 JavaScript 動態生成課表網格 -->
-                                <tr class="time-slot">
-                                    <td class="time-cell">1</td>
-                                    <td class="class-cell" data-day="1" data-period="1"></td>
-                                    <td class="class-cell" data-day="2" data-period="1"></td>
-                                    <td class="class-cell" data-day="3" data-period="1"></td>
-                                    <td class="class-cell" data-day="4" data-period="1"></td>
-                                    <td class="class-cell" data-day="5" data-period="1"></td>
-                                </tr>
-                                <tr class="time-slot">
-                                    <td class="time-cell">2</td>
-                                    <td class="class-cell" data-day="1" data-period="2"></td>
-                                    <td class="class-cell" data-day="2" data-period="2"></td>
-                                    <td class="class-cell" data-day="3" data-period="2"></td>
-                                    <td class="class-cell" data-day="4" data-period="2"></td>
-                                    <td class="class-cell" data-day="5" data-period="2"></td>
-                                </tr>
-                                <tr class="time-slot">
-                                    <td class="time-cell">3</td>
-                                    <td class="class-cell" data-day="1" data-period="3"></td>
-                                    <td class="class-cell" data-day="2" data-period="3"></td>
-                                    <td class="class-cell" data-day="3" data-period="3"></td>
-                                    <td class="class-cell" data-day="4" data-period="3"></td>
-                                    <td class="class-cell" data-day="5" data-period="3"></td>
-                                </tr>
-                                <tr class="time-slot">
-                                    <td class="time-cell">4</td>
-                                    <td class="class-cell" data-day="1" data-period="4"></td>
-                                    <td class="class-cell" data-day="2" data-period="4"></td>
-                                    <td class="class-cell" data-day="3" data-period="4"></td>
-                                    <td class="class-cell" data-day="4" data-period="4"></td>
-                                    <td class="class-cell" data-day="5" data-period="4"></td>
-                                </tr>
-                                <tr class="time-slot">
-                                    <td class="time-cell">5</td>
-                                    <td class="class-cell" data-day="1" data-period="5"></td>
-                                    <td class="class-cell" data-day="2" data-period="5"></td>
-                                    <td class="class-cell" data-day="3" data-period="5"></td>
-                                    <td class="class-cell" data-day="4" data-period="5"></td>
-                                    <td class="class-cell" data-day="5" data-period="5"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+<div class="timetable-container">
+    <table class="timetable">
+        <thead>
+            <tr>
+                <th class="time-header">節次 / 時間</th>
+                <th class="day-header">星期一</th>
+                <th class="day-header">星期二</th>
+                <th class="day-header">星期三</th>
+                <th class="day-header">星期四</th>
+                <th class="day-header">星期五</th>
+            </tr>
+        </thead>
+        <tbody id="timetableBody">
+            <tr class="time-slot">
+                <td class="time-cell">
+                    <div>第1節</div>
+                    <small>08:10 - 09:00</small>
+                </td>
+                <td class="class-cell" data-day="1" data-period="1"></td>
+                <td class="class-cell" data-day="2" data-period="1"></td>
+                <td class="class-cell" data-day="3" data-period="1"></td>
+                <td class="class-cell" data-day="4" data-period="1"></td>
+                <td class="class-cell" data-day="5" data-period="1"></td>
+            </tr>
+
+            <tr class="time-slot">
+                <td class="time-cell">
+                    <div>第2節</div>
+                    <small>09:10 - 10:00</small>
+                </td>
+                <td class="class-cell" data-day="1" data-period="2"></td>
+                <td class="class-cell" data-day="2" data-period="2"></td>
+                <td class="class-cell" data-day="3" data-period="2"></td>
+                <td class="class-cell" data-day="4" data-period="2"></td>
+                <td class="class-cell" data-day="5" data-period="2"></td>
+            </tr>
+
+            <tr class="time-slot">
+                <td class="time-cell">
+                    <div>第3節</div>
+                    <small>10:10 - 11:00</small>
+                </td>
+                <td class="class-cell" data-day="1" data-period="3"></td>
+                <td class="class-cell" data-day="2" data-period="3"></td>
+                <td class="class-cell" data-day="3" data-period="3"></td>
+                <td class="class-cell" data-day="4" data-period="3"></td>
+                <td class="class-cell" data-day="5" data-period="3"></td>
+            </tr>
+
+            <tr class="time-slot">
+                <td class="time-cell">
+                    <div>第4節</div>
+                    <small>11:10 - 12:00</small>
+                </td>
+                <td class="class-cell" data-day="1" data-period="4"></td>
+                <td class="class-cell" data-day="2" data-period="4"></td>
+                <td class="class-cell" data-day="3" data-period="4"></td>
+                <td class="class-cell" data-day="4" data-period="4"></td>
+                <td class="class-cell" data-day="5" data-period="4"></td>
+            </tr>
+
+            <tr class="time-slot">
+                <td class="time-cell">
+                    <div>中午</div>
+                    <small>12:00 - 13:10</small>
+                </td>
+                <td class="class-cell lunch-break" data-day="1" data-period="0"></td>
+                <td class="class-cell lunch-break" data-day="2" data-period="0"></td>
+                <td class="class-cell lunch-break" data-day="3" data-period="0"></td>
+                <td class="class-cell lunch-break" data-day="4" data-period="0"></td>
+                <td class="class-cell lunch-break" data-day="5" data-period="0"></td>
+            </tr>
+
+            <tr class="time-slot">
+                <td class="time-cell">
+                    <div>第5節</div>
+                    <small>13:10 - 14:00</small>
+                </td>
+                <td class="class-cell" data-day="1" data-period="5"></td>
+                <td class="class-cell" data-day="2" data-period="5"></td>
+                <td class="class-cell" data-day="3" data-period="5"></td>
+                <td class="class-cell" data-day="4" data-period="5"></td>
+                <td class="class-cell" data-day="5" data-period="5"></td>
+            </tr>
+
+            <tr class="time-slot">
+                <td class="time-cell">
+                    <div>第6節</div>
+                    <small>14:10 - 15:00</small>
+                </td>
+                <td class="class-cell" data-day="1" data-period="6"></td>
+                <td class="class-cell" data-day="2" data-period="6"></td>
+                <td class="class-cell" data-day="3" data-period="6"></td>
+                <td class="class-cell" data-day="4" data-period="6"></td>
+                <td class="class-cell" data-day="5" data-period="6"></td>
+            </tr>
+
+            <tr class="time-slot">
+                <td class="time-cell">
+                    <div>第7節</div>
+                    <small>15:10 - 16:00</small>
+                </td>
+                <td class="class-cell" data-day="1" data-period="7"></td>
+                <td class="class-cell" data-day="2" data-period="7"></td>
+                <td class="class-cell" data-day="3" data-period="7"></td>
+                <td class="class-cell" data-day="4" data-period="7"></td>
+                <td class="class-cell" data-day="5" data-period="7"></td>
+            </tr>
+
+            <tr class="time-slot">
+                <td class="time-cell">
+                    <div>第8節</div>
+                    <small>16:10 - 17:00</small>
+                </td>
+                <td class="class-cell" data-day="1" data-period="8"></td>
+                <td class="class-cell" data-day="2" data-period="8"></td>
+                <td class="class-cell" data-day="3" data-period="8"></td>
+                <td class="class-cell" data-day="4" data-period="8"></td>
+                <td class="class-cell" data-day="5" data-period="8"></td>
+            </tr>
+
+            <tr class="time-slot">
+                <td class="time-cell">
+                    <div>第9節</div>
+                    <small>17:10 - 18:00</small>
+                </td>
+                <td class="class-cell" data-day="1" data-period="9"></td>
+                <td class="class-cell" data-day="2" data-period="9"></td>
+                <td class="class-cell" data-day="3" data-period="9"></td>
+                <td class="class-cell" data-day="4" data-period="9"></td>
+                <td class="class-cell" data-day="5" data-period="9"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
                     <!-- 課程新增表單 -->
                     <div class="add-class-section">
@@ -300,6 +378,10 @@
                                         <option value="3">第3節</option>
                                         <option value="4">第4節</option>
                                         <option value="5">第5節</option>
+                                        <option value="5">第6節</option>
+                                        <option value="5">第7節</option>
+                                        <option value="5">第8節</option>
+                                        <option value="5">第9節</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -584,10 +666,8 @@
                         </div>
                     </section>
                 </section>
-
             </section>
         </main>
-
     </div>
 
     <!-- JavaScript -->
