@@ -1,0 +1,60 @@
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.25rem;
+}
+
+.next-class-card { grid-column: span 4; }
+.budget-card { grid-column: span 4; }
+.monthly-data-card { grid-column: span 4; }
+.chart-card { grid-column: span 7; }
+.today-classes-card { grid-column: span 5; }
+
+.next-class-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.next-class-info p.time-value,
+.next-class-info p.location-value,
+.next-class-info p.name-value {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.budget-bar {
+  height: 12px;
+  background-color: #E2E8F0;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.budget-used {
+  height: 100%;
+  width: 0%;
+  background-color: var(--primary);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.budget-stats { display: flex; justify-content: space-between; }
+.stat-label { font-size: 0.8rem; color: var(--text-muted); }
+.stat-value { font-weight: 600; }
+.stat-value.expense { color: var(--danger); }
+.stat-value.income { color: var(--success); }
+
+.classes-list .class-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px dashed var(--border-color);
+  font-size: 0.9rem;
+}
+.classes-list .class-item:last-child { border-bottom: none; }
+
+@media (max-width: 992px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .next-class-card, .budget-card, .monthly-data-card, .chart-card, .today-classes-card { grid-column: span 1; }
+}
