@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>暨南大學｜系統設定</title>
+  <link rel="stylesheet" href="css\settings.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-mark">△M</div>
+        <div class="logo-text">
+          <strong>暨南大學</strong>
+          <span>課程排課系統</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="index.html"><span class="icon">▦</span><span class="label">綜合總覽</span></a>
+        <a href="timetable.html"><span class="icon">▤</span><span class="label">課表</span></a>
+        <a class="active" href="settings.html"><span class="icon">⚙</span><span class="label">系統設定</span></a>
+      </nav>
+    </aside>
+
+    <div class="main">
+      <header class="header">
+        <div class="notice">♧</div>
+        <div class="profile">
+          <div class="avatar"></div>
+          <div>
+            <b>劉承恩</b>
+            <small>大一</small>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="title-row">
+          <h1>系統設定</h1>
+          <p>管理個人資料、同步方式與資料儲存設定</p>
+        </div>
+
+        <section class="card">
+          <h2 class="card-title"><span class="ti">♙</span>個人資料</h2>
+
+          <div class="row">
+            <div>
+              <b>姓名</b><br>
+              <span class="muted">劉承恩</span>
+            </div>
+            <button class="btn btn-gray">編輯</button>
+          </div>
+
+          <div class="row">
+            <div>
+              <b>系所</b><br>
+              <span class="muted">資訊工程學系</span>
+            </div>
+            <button class="btn btn-gray">編輯</button>
+          </div>
+
+          <div class="row">
+            <div>
+              <b>目前年級</b><br>
+              <span class="muted">大一</span>
+            </div>
+            <button class="btn btn-gray">編輯</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2 class="card-title"><span class="ti">☁</span>Google Drive 雲端同步</h2>
+
+          <div class="row">
+            <div>
+              <b>Google 帳號</b><br>
+              <span class="muted">使用 Google Identity Services 登入</span>
+            </div>
+            <span class="status"><i class="dot"></i>未連結</span>
+          </div>
+
+          <div class="row">
+            <div>
+              <b>自動同步</b><br>
+              <span class="muted">登入後將資料同步至 Google Drive AppData 隱藏目錄</span>
+            </div>
+            <button class="switch" id="syncSwitch" aria-label="切換自動同步">
+              <i></i>
+            </button>
+          </div>
+
+          <div class="action-row">
+            <button class="btn" id="linkGoogleBtn">連結 Google 帳號</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2 class="card-title"><span class="ti">⛁</span>資料儲存</h2>
+
+          <div class="row">
+            <div>
+              <b>離線優先</b><br>
+              <span class="muted">課程資料會先儲存在瀏覽器 LocalStorage</span>
+            </div>
+            <span class="status"><i class="dot"></i>已啟用</span>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/setting.js"></script>
+</body>
+</html>
