@@ -1,189 +1,181 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/layout-components.css">
-    <link rel="stylesheet" href="css/dashboard.css">
-    <title>WebUI Lab - 綜合</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>暨南大學｜課程選課系統</title>
+  <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h1 class="app-title">WebUI Lab</h1>
-                <p class="app-subtitle">時間 × 開銷管理</p>
-            </div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-mark">△M</div>
+        <div class="logo-text"><strong>暨南大學</strong><span>課程排課系統</span></div>
+      </div>
+      <nav class="nav">
+        <a class="active" href="index.html"><span class="icon">▦</span><span class="label">綜合總覽</span></a>
+        <a href="timetable.html"><span class="icon">▤</span><span class="label">課表</span></a>
+        <a href="setting.html"><span class="icon">⚙</span><span class="label">系統設定</span></a>
+      </nav>
+    </aside>
 
-            <nav class="sidebar-nav">
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <a href="index.html" class="nav-link active" data-page="dashboard">
-                            <span class="nav-icon">📊</span>
-                            <span class="nav-text">綜合</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="timetable.html" class="nav-link" data-page="timetable">
-                            <span class="nav-icon">📅</span>
-                            <span class="nav-text">課表</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="accounting.html" class="nav-link" data-page="accounting">
-                            <span class="nav-icon">💰</span>
-                            <span class="nav-text">記帳</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="settings.html" class="nav-link" data-page="settings">
-                            <span class="nav-icon">⚙️</span>
-                            <span class="nav-text">設定</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+    <div class="main">
+      <header class="header">
+        <div class="notice">♧</div>
+        <div class="profile">
+          <div class="avatar"></div>
+          <div><b>劉承恩</b><small>大一</small></div>
+        </div>
+      </header>
 
-            <div class="sidebar-footer">
-                <div class="user-info">
-                    <div class="user-avatar">👤</div>
-                    <div class="user-details">
-                        <p class="user-name">未登入</p>
-                        <p class="user-status">請登入帳號</p>
-                    </div>
+      <main class="content">
+        <div class="title-row">
+          <h1>綜合總覽</h1>
+          <p>整體學分進度一覽，掌握畢業要求與修課狀況</p>
+        </div>
+
+        <div class="columns">
+          <div>
+            <section class="card">
+              <h2 class="card-title"><span class="ti">♟</span>學分完成情況</h2>
+              <div class="credit-grid">
+                <div class="credit-box">
+                  <div class="credit-head"><span class="circle-icon">&lt;/&gt;</span>學分進度</div>
+                  <div class="credit-num"><b>已修學分 72 / 128</b><span>56%</span></div>
+                  <div class="progress"><i style="width:56%"></i></div>
+                  <div class="sub-title">必修／選修／通識 進度</div>
+                  <div class="detail-row"><span>專業必修</span><span>48 / 72</span><span>67%</span></div>
+                  <div class="detail-row"><span>專業選修</span><span>12 / 32</span><span>38%</span></div>
+                  <div class="detail-row"><span>通識－大學</span><span>9 / 12</span><span>75%</span></div>
+                  <div class="detail-row warn"><span>通識－社會</span><span>7 / 10</span><span>70%</span></div>
+                  <div class="warn-note">● 仍差 3 學分</div>
                 </div>
-            </div>
-        </aside>
 
-        <main class="main-content">
-            <header class="page-header">
-                <div class="header-left">
-                    <h2 class="page-title">綜合</h2>
+                <div class="credit-box total">
+                  <div class="credit-head"><span class="circle-icon" style="background:#315c91">◆</span>總計</div>
+                  <div class="total-num">已修學分<br>72 / 128</div>
+                  <div class="ring"></div>
+                  <small>※ 需符合目前的<br>畢業學分要求</small>
                 </div>
-                <div class="header-right">
-                    <span class="current-date">2026年 09月 28日</span>
-                    <span class="current-semester">115學年 第1學期</span>
-                </div>
-            </header>
-
-            <section class="page-content">
-                <section id="dashboard" class="page-section active">
-                    <h1 class="section-title">綜合總覽</h1>
-
-                    <div class="dashboard-grid">
-
-                        <!-- 下一堂課卡片 -->
-                        <section class="card next-class-card">
-                            <div class="card-header">
-                                <h3 class="card-title">下一堂課</h3>
-                            </div>
-                            <div class="card-content">
-                                <div class="next-class-info">
-                                    <div class="class-time">
-                                        <p class="time-label">時間</p>
-                                        <p class="time-value" id="nextClassTime">--:-- ~ --:--</p>
-                                    </div>
-                                    <div class="class-location">
-                                        <p class="location-label">教室</p>
-                                        <p class="location-value" id="nextClassLocation">待確認</p>
-                                    </div>
-                                    <div class="class-name">
-                                        <p class="name-label">課程</p>
-                                        <p class="name-value" id="nextClassName">無課程</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- 本月預算卡片 -->
-                        <section class="card budget-card">
-                            <div class="card-header">
-                                <h3 class="card-title">本月預算</h3>
-                            </div>
-                            <div class="card-content">
-                                <div class="budget-info">
-                                    <div class="budget-bar">
-                                        <div class="budget-used" id="budgetUsedBar"></div>
-                                    </div>
-                                    <div class="budget-stats">
-                                        <div class="budget-stat">
-                                            <p class="stat-label">已用</p>
-                                            <p class="stat-value" id="budgetUsed">NT$ 0</p>
-                                        </div>
-                                        <div class="budget-stat">
-                                            <p class="stat-label">剩餘</p>
-                                            <p class="stat-value" id="budgetRemaining">NT$ 0</p>
-                                        </div>
-                                        <div class="budget-stat">
-                                            <p class="stat-label">預算</p>
-                                            <p class="stat-value" id="budgetTotal">NT$ 0</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- 本月數據卡片 -->
-                        <section class="card monthly-data-card">
-                            <div class="card-header">
-                                <h3 class="card-title">本月數據</h3>
-                            </div>
-                            <div class="card-content">
-                                <div class="monthly-stats">
-                                    <div class="stat-item">
-                                        <p class="stat-label">總支出</p>
-                                        <p class="stat-value expense" id="totalExpense">NT$ 0</p>
-                                    </div>
-                                    <div class="stat-item">
-                                        <p class="stat-label">總收入</p>
-                                        <p class="stat-value income" id="totalIncome">NT$ 0</p>
-                                    </div>
-                                    <div class="stat-item">
-                                        <p class="stat-label">結餘</p>
-                                        <p class="stat-value balance" id="balance">NT$ 0</p>
-                                    </div>
-                                    <div class="stat-item">
-                                        <p class="stat-label">筆數</p>
-                                        <p class="stat-value count" id="recordCount">0</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- 近七日花費柱狀圖 -->
-                        <section class="card chart-card">
-                            <div class="card-header">
-                                <h3 class="card-title">近七日花費</h3>
-                            </div>
-                            <div class="card-content">
-                                <div class="bar-chart" id="barChart">
-                                    <div class="chart-placeholder">載入中...</div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- 今日課程列表 -->
-                        <section class="card today-classes-card">
-                            <div class="card-header">
-                                <h3 class="card-title">今日課程</h3>
-                            </div>
-                            <div class="card-content">
-                                <ul class="classes-list" id="todayClassesList">
-                                    <li class="class-item">
-                                        <span class="class-time">09:10 ~ 10:00</span>
-                                        <span class="class-name">課程名稱</span>
-                                        <span class="class-location">教室位置</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </section>
-                    </div>
-                </section>
+              </div>
             </section>
-        </main>
-    </div>
 
-    <script src="js/main.js"></script>
+            <section class="card table-card">
+              <h2 class="card-title"><span class="ti">⊞</span>新增本學期修課程</h2>
+              <table class="table" id="newCourses">
+                <thead>
+                  <tr>
+                    <th>課程名稱</th>
+                    <th>開課單位</th>
+                    <th>學分</th>
+                    <th>類別</th>
+                    <th>狀態</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>程式設計（一）</td>
+                    <td>資工系</td>
+                    <td>3</td>
+                    <td>專業必修</td>
+                    <td><span class="status">已新增</span></td>
+                    <td><button class="trash" onclick="removeRow(this)">♙</button></td>
+                  </tr>
+                  <tr>
+                    <td>資料結構</td>
+                    <td>資工系</td>
+                    <td>3</td>
+                    <td>專業必修</td>
+                    <td><span class="status">已新增</span></td>
+                    <td><button class="trash" onclick="removeRow(this)">♙</button></td>
+                  </tr>
+                  <tr>
+                    <td>計算機組織</td>
+                    <td>資工系</td>
+                    <td>3</td>
+                    <td>專業必修</td>
+                    <td><span class="status">已新增</span></td>
+                    <td><button class="trash" onclick="removeRow(this)">♙</button></td>
+                  </tr>
+                  <tr>
+                    <td>大學國文</td>
+                    <td>通識中心</td>
+                    <td>2</td>
+                    <td>通識－人文</td>
+                    <td><span class="status">已新增</span></td>
+                    <td><button class="trash" onclick="removeRow(this)">♙</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              <button class="add-btn" onclick="addCourse()">＋ 新增課程</button>
+              <div style="clear:both"></div>
+            </section>
+
+            <section class="card table-card">
+              <h2 class="card-title"><span class="ti">▣</span>已選課程一覽</h2>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>學期</th>
+                    <th>課程名稱</th>
+                    <th>開課單位</th>
+                    <th>學分</th>
+                    <th>類別</th>
+                    <th>狀態</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>114-1</td>
+                    <td>線性代數</td>
+                    <td>資工系</td>
+                    <td>3</td>
+                    <td>專業必修</td>
+                    <td><span class="status">已選上</span></td>
+                  </tr>
+                  <tr>
+                    <td>114-1</td>
+                    <td>微積分（一）</td>
+                    <td>資工系</td>
+                    <td>3</td>
+                    <td>專業必修</td>
+                    <td><span class="status">已選上</span></td>
+                  </tr>
+                  <tr>
+                    <td>114-1</td>
+                    <td>英文（一）</td>
+                    <td>通識中心</td>
+                    <td>2</td>
+                    <td>通識－大學</td>
+                    <td><span class="status">已選上</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+          </div>
+
+          <aside>
+            <section class="card right-card attention">
+              <h3><span>!</span>需注意</h3>
+              <p><b>通識－社會</b> 類別<br>仍差 <b>3</b> 學分，建議優先選修相關課程，以免影響整體畢業進度。</p>
+              <button class="btn" onclick="document.querySelector('.table-card').scrollIntoView({behavior:'smooth'})">查看建議課程</button>
+            </section>
+
+            <section class="card right-card category">
+              <h3>課程分類進度 <small style="font-weight:normal;color:#8a96a7">（目前選課後）</small></h3>
+              <div class="cat"><div class="cat-head"><span>專業必修</span><span>65%</span></div><div class="progress"><i class="blue" style="width:65%"></i></div></div>
+              <div class="cat"><div class="cat-head"><span>專業選修</span><span>45%</span></div><div class="progress"><i class="purple" style="width:45%"></i></div></div>
+              <div class="cat"><div class="cat-head"><span>通識－大學</span><span>75%</span></div><div class="progress"><i class="orange" style="width:75%"></i></div></div>
+              <div class="cat"><div class="cat-head"><span>通識－社會</span><span>60%</span></div><div class="progress"><i class="red" style="width:60%"></i></div><small>(尚缺 3 學分)</small></div>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
