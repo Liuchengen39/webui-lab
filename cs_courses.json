@@ -1,0 +1,155 @@
+[
+  {
+    "source": "cs",
+    "course_id": "210003",
+    "course_name": "微積分(上)",
+    "grade": "1",
+    "teacher": "黃光璿",
+    "location": "科三113",
+    "time_slot": "2cd4d"
+  },
+  {
+    "source": "cs",
+    "course_id": "210013",
+    "course_name": "離散數學",
+    "grade": "1",
+    "teacher": "阮夙姿",
+    "location": "科三113",
+    "time_slot": "5bcd"
+  },
+  {
+    "source": "cs",
+    "course_id": "210016",
+    "course_name": "資料結構與演算法(一)",
+    "grade": "2",
+    "teacher": "陳履恒",
+    "location": "科三108",
+    "time_slot": "4bcd"
+  },
+  {
+    "source": "cs",
+    "course_id": "210025",
+    "course_name": "計算機組織與結構",
+    "grade": "3",
+    "teacher": "林正偉",
+    "location": "科三113",
+    "time_slot": "4fgh"
+  },
+  {
+    "source": "cs",
+    "course_id": "210036",
+    "course_name": "計算機概論",
+    "grade": "1",
+    "teacher": "陳恒佑",
+    "location": "科三209",
+    "time_slot": "4bc5f"
+  },
+  {
+    "source": "cs",
+    "course_id": "210036",
+    "course_name": "計算機概論",
+    "grade": "1",
+    "teacher": "石勝文",
+    "location": "科三208",
+    "time_slot": "1bcd"
+  },
+  {
+    "source": "cs",
+    "course_id": "210086",
+    "course_name": "工程數學",
+    "grade": "2",
+    "teacher": "鄭文凱",
+    "location": "科三118",
+    "time_slot": "1c5bc"
+  },
+  {
+    "source": "cs",
+    "course_id": "210093",
+    "course_name": "系統程式",
+    "grade": "3",
+    "teacher": "張克寧",
+    "location": "科三113",
+    "time_slot": "1bcd"
+  },
+  {
+    "source": "cs",
+    "course_id": "210111",
+    "course_name": "機率",
+    "grade": "1",
+    "teacher": "鄭文凱",
+    "location": "科三118+科三113",
+    "time_slot": "2ef4e"
+  },
+  {
+    "source": "cs",
+    "course_id": "210121",
+    "course_name": "專題（一）",
+    "grade": "3",
+    "teacher": "洪政欣",
+    "location": "無",
+    "time_slot": "無"
+  },
+  {
+    "source": "cs",
+    "course_id": "210122",
+    "course_name": "專題(二)",
+    "grade": "3",
+    "teacher": "黃光璿",
+    "location": "無",
+    "time_slot": "無"
+  },
+  {
+    "source": "cs",
+    "course_id": "210132",
+    "course_name": "程式語言",
+    "grade": "1",
+    "teacher": "張克寧",
+    "location": "科三118",
+    "time_slot": "3bcd"
+  },
+  {
+    "source": "cs",
+    "course_id": "210134",
+    "course_name": "LISP程式設計",
+    "grade": "1",
+    "teacher": "張克寧",
+    "location": "科三119",
+    "time_slot": "2bcd"
+  },
+  {
+    "source": "cs",
+    "course_id": "210136",
+    "course_name": "電腦網路通信協定",
+    "grade": "1",
+    "teacher": "楊峻權",
+    "location": "科三118",
+    "time_slot": "4efg"
+  },
+  {
+    "source": "cs",
+    "course_id": "210152",
+    "course_name": "邏輯設計與實驗（二）",
+    "grade": "2",
+    "teacher": "洪政欣,劉震昌",
+    "location": "科三207+科三305",
+    "time_slot": "3bcd"
+  },
+  {
+    "source": "cs",
+    "course_id": "210152",
+    "course_name": "邏輯設計與實驗（二）",
+    "grade": "2",
+    "teacher": "洪政欣,劉震昌",
+    "location": "科三113+科三305",
+    "time_slot": "3hij"
+  },
+  {
+    "source": "cs",
+    "course_id": "210163",
+    "course_name": "電腦與資訊安全概論",
+    "grade": "1",
+    "teacher": "楊文龍",
+    "location": "圖資027",
+    "time_slot": "1ij4i"
+  }
+]

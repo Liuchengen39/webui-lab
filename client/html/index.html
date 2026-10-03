@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>暨南大學｜課程排課系統</title>
-  <link rel="stylesheet" href="css\dashboard.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
 </head>
 <body>
   <div class="layout">
@@ -138,47 +138,34 @@
 
             <!-- 新增本學期修課程 -->
             <div class="card table-card">
-              <h2 class="card-title"><span class="ti">⊞</span>新增本學期修課程</h2>
+              <div class="card-head">
+                <h2 class="card-title"><span class="ti">📘</span>資工系本學期必選修課程</h2>
 
-              <table class="table">
+                <div class="picker">
+                  <span id="courseCount" class="picker-count">載入中…</span>
+                  <select id="gradeFilter"><option value="">全部年級</option></select>
+                  <label class="search">
+                    <span class="search-icon">🔍</span>
+                    <input id="courseSearch" type="search" placeholder="搜尋課名、老師、課號" />
+                  </label>
+                </div>
+              </div>
+
+              <table class="table" id="newCourses">
                 <thead>
                   <tr>
                     <th>課程名稱</th>
-                    <th>開課單位</th>
-                    <th>學分</th>
                     <th>類別</th>
+                    <th>學分</th>
+                    <th>時間</th>
+                    <th>老師</th>
+                    <th>上課地點</th>
                     <th>狀態</th>
+                    <th>操作</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>程式設計(一)</td>
-                    <td>資工系</td>
-                    <td>3</td>
-                    <td>專業必修</td>
-                    <td><span class="status">已新增</span></td>
-                  </tr>
-                  <tr>
-                    <td>資料結構</td>
-                    <td>資工系</td>
-                    <td>3</td>
-                    <td>專業必修</td>
-                    <td><span class="status">已新增</span></td>
-                  </tr>
-                  <tr>
-                    <td>計算機組織</td>
-                    <td>資工系</td>
-                    <td>3</td>
-                    <td>專業必修</td>
-                    <td><span class="status">已新增</span></td>
-                  </tr>
-                  <tr>
-                    <td>大學國文</td>
-                    <td>通識中心</td>
-                    <td>2</td>
-                    <td>通識-人文</td>
-                    <td><span class="status">已新增</span></td>
-                  </tr>
+
                 </tbody>
               </table>
             </div>
@@ -289,5 +276,6 @@
       </section>
     </main>
   </div>
+  <script src="/js/app.js"></script>
 </body>
 </html>

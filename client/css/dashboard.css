@@ -601,3 +601,41 @@ body{
     align-self:flex-end;
   }
 }
+/* 課程挑選器（卡片標題列右上角） */
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:13px}
+.card-head .card-title{margin:0}
+.picker{display:flex;align-items:center;gap:8px}
+.picker-count{font-size:12px;color:#416da5;background:#eaf3ff;border-radius:12px;padding:5px 10px;white-space:nowrap;font-weight:700}
+.picker select{height:34px;border:1px solid #d3e0f0;border-radius:17px;padding:0 12px;font-size:13px;background:#f7fbff;color:var(--text);cursor:pointer;outline:none}
+.search{position:relative;display:block}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:12px;opacity:.6;pointer-events:none}
+.search input{width:140px;height:34px;border:1px solid #d3e0f0;border-radius:17px;padding:0 10px 0 29px;font-size:12px;background:#f7fbff;color:var(--text);outline:none;transition:border-color .15s,box-shadow .15s,width .2s}
+.search input:focus,.picker select:focus{border-color:#4388e8;box-shadow:0 0 0 3px rgba(40,116,217,.15);background:#fff}
+.search input:focus{width:170px}
+.trash{border:0;background:transparent;cursor:pointer;font-size:14px;color:#e25a63}
+.trash:hover{background:#fff0f1;border-radius:6px}
+
+@media(max-width:620px){
+  .picker{width:100%;flex-wrap:wrap}
+  .search{flex:1}
+  .search input,.search input:focus{width:100%}
+}
+
+/* 分頁 */
+.pager{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin:12px 2px 4px;flex-wrap:wrap}
+.pg-info{margin-right:auto;font-size:12px;color:var(--muted)}
+.pg-btn,.pg-num{height:30px;min-width:30px;padding:0 10px;border:1px solid #d3e0f0;border-radius:15px;background:#f7fbff;color:var(--text);font-size:12px;cursor:pointer}
+.pg-btn:hover:not(:disabled),.pg-num:hover:not(.active){background:#eaf3ff;border-color:#b9d2f2}
+.pg-num.active{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700}
+.pg-btn:disabled{opacity:.45;cursor:default}
+
+/* 新增本學期修課程：類別/學分/狀態/操作置中，標題與內容對齊 */
+#newCourses th:nth-child(2), #newCourses td:nth-child(2),
+#newCourses th:nth-child(3), #newCourses td:nth-child(3),
+#newCourses th:nth-child(7), #newCourses td:nth-child(7),
+#newCourses th:nth-child(8), #newCourses td:nth-child(8){text-align:center}
+
+#generalCourses th:nth-child(2), #generalCourses td:nth-child(2),
+#generalCourses th:nth-child(3), #generalCourses td:nth-child(3),
+#generalCourses th:nth-child(7), #generalCourses td:nth-child(7){text-align:center}
+.pg-gap{color:var(--muted);padding:0 2px}

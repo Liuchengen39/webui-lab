@@ -1,0 +1,893 @@
+[
+  {
+    "source": "general",
+    "course_id": "991040",
+    "course_name": "戲劇與人生",
+    "grade": "1",
+    "teacher": "楊醒輝",
+    "location": "A001",
+    "time_slot": "5ef"
+  },
+  {
+    "source": "general",
+    "course_id": "991062",
+    "course_name": "俗文學欣賞",
+    "grade": "1",
+    "teacher": "蕭敏如",
+    "location": "A100",
+    "time_slot": "1ef"
+  },
+  {
+    "source": "general",
+    "course_id": "991065",
+    "course_name": "音樂與生活",
+    "grade": "1",
+    "teacher": "徐珮珈",
+    "location": "A100",
+    "time_slot": "5cd"
+  },
+  {
+    "source": "general",
+    "course_id": "991085",
+    "course_name": "文化人類學",
+    "grade": "1",
+    "teacher": "梅慧玉",
+    "location": "A201-1",
+    "time_slot": "2bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "991120",
+    "course_name": "英文小說入門",
+    "grade": "2",
+    "teacher": "蔡曉晴",
+    "location": "圖資222數位教室",
+    "time_slot": "3cd"
+  },
+  {
+    "source": "general",
+    "course_id": "991125",
+    "course_name": "台灣慶典與地方文化",
+    "grade": "1",
+    "teacher": "邱正畧",
+    "location": "人215",
+    "time_slot": "1ab"
+  },
+  {
+    "source": "general",
+    "course_id": "991140",
+    "course_name": "西洋哲學史",
+    "grade": "1",
+    "teacher": "黃鉦堤",
+    "location": "人106",
+    "time_slot": "3bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "991163",
+    "course_name": "世界城市和台灣地方",
+    "grade": "1",
+    "teacher": "趙慧琳",
+    "location": "A207",
+    "time_slot": "5fgh"
+  },
+  {
+    "source": "general",
+    "course_id": "991167",
+    "course_name": "從電影看世界",
+    "grade": "1",
+    "teacher": "楊醒輝",
+    "location": "A001",
+    "time_slot": "5bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "991176",
+    "course_name": "日本文化與生活",
+    "grade": "1",
+    "teacher": "林怡資",
+    "location": "A100",
+    "time_slot": "5ab"
+  },
+  {
+    "source": "general",
+    "course_id": "991183",
+    "course_name": "書法-楷書概論與習作",
+    "grade": "1",
+    "teacher": "陳耀銓",
+    "location": "A401-1",
+    "time_slot": "3bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "991184",
+    "course_name": "運動倫理",
+    "grade": "1",
+    "teacher": "于道弘",
+    "location": "A201",
+    "time_slot": "4ef"
+  },
+  {
+    "source": "general",
+    "course_id": "991200",
+    "course_name": "展示與導覽設計",
+    "grade": "1",
+    "teacher": "李健菁",
+    "location": "圖資026",
+    "time_slot": "2efg"
+  },
+  {
+    "source": "general",
+    "course_id": "991203",
+    "course_name": "繪畫、電影與文化",
+    "grade": "1",
+    "teacher": "郭任峯",
+    "location": "A207",
+    "time_slot": "3bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "991207",
+    "course_name": "茶生活藝術",
+    "grade": "1",
+    "teacher": "王子華",
+    "location": "A401-1",
+    "time_slot": "5ef"
+  },
+  {
+    "source": "general",
+    "course_id": "991210",
+    "course_name": "歌唱戲劇實務",
+    "grade": "1",
+    "teacher": "翁芸芸",
+    "location": "方形劇場",
+    "time_slot": "1bc"
+  },
+  {
+    "source": "general",
+    "course_id": "991221",
+    "course_name": "當代藝術",
+    "grade": "1",
+    "teacher": "李健菁",
+    "location": "圖資026",
+    "time_slot": "3bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "991223",
+    "course_name": "文化創意產業",
+    "grade": "1",
+    "teacher": "李健菁",
+    "location": "圖資026",
+    "time_slot": "1efg"
+  },
+  {
+    "source": "general",
+    "course_id": "991225",
+    "course_name": "媒體識讀與敘事",
+    "grade": "1",
+    "teacher": "徐秀菁",
+    "location": "人303",
+    "time_slot": "4gh"
+  },
+  {
+    "source": "general",
+    "course_id": "991227",
+    "course_name": "藝術欣賞與欣賞數學",
+    "grade": "1",
+    "teacher": "胡毓彬",
+    "location": "A207",
+    "time_slot": "4cd"
+  },
+  {
+    "source": "general",
+    "course_id": "991230",
+    "course_name": "探索台灣茶",
+    "grade": "1",
+    "teacher": "王子華",
+    "location": "A401-1",
+    "time_slot": "5cd"
+  },
+  {
+    "source": "general",
+    "course_id": "991233",
+    "course_name": "媒體識讀與ＡＩ人文創作",
+    "grade": "0",
+    "teacher": "温珮琪",
+    "location": "A001",
+    "time_slot": "3cd"
+  },
+  {
+    "source": "general",
+    "course_id": "991236",
+    "course_name": "東南亞文化、差異與理解",
+    "grade": "0",
+    "teacher": "林君燁",
+    "location": "A407",
+    "time_slot": "4cd"
+  },
+  {
+    "source": "general",
+    "course_id": "991237",
+    "course_name": "媒體識讀與影像傳播",
+    "grade": "0",
+    "teacher": "馬翠怡",
+    "location": "A407",
+    "time_slot": "2ef"
+  },
+  {
+    "source": "general",
+    "course_id": "991238",
+    "course_name": "空間敘事與故事採集",
+    "grade": "0",
+    "teacher": "陳冠妤",
+    "location": "A401-1",
+    "time_slot": "4cd"
+  },
+  {
+    "source": "general",
+    "course_id": "991239",
+    "course_name": "華語電影與敘事",
+    "grade": "0",
+    "teacher": "黃健富",
+    "location": "人303",
+    "time_slot": "5bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "991240",
+    "course_name": "泰國語言、文化與當代媒體",
+    "grade": "0",
+    "teacher": "韓智恩",
+    "location": "A401",
+    "time_slot": "4ef"
+  },
+  {
+    "source": "general",
+    "course_id": "991241",
+    "course_name": "音樂製作",
+    "grade": "0",
+    "teacher": "劉家銘",
+    "location": "人110",
+    "time_slot": "5bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "992020",
+    "course_name": "電影與政治",
+    "grade": "1",
+    "teacher": "吳若予",
+    "location": "方形劇場",
+    "time_slot": "3hij"
+  },
+  {
+    "source": "general",
+    "course_id": "992061",
+    "course_name": "性別、教育、人文與社會",
+    "grade": "1",
+    "teacher": "吳金春",
+    "location": "A401",
+    "time_slot": "4cd"
+  },
+  {
+    "source": "general",
+    "course_id": "992062",
+    "course_name": "從經濟學看世界",
+    "grade": "1",
+    "teacher": "陳建良",
+    "location": "圓形劇場",
+    "time_slot": "1ef"
+  },
+  {
+    "source": "general",
+    "course_id": "992073",
+    "course_name": "哲學概論",
+    "grade": "1",
+    "teacher": "徐正光",
+    "location": "A311",
+    "time_slot": "2gh"
+  },
+  {
+    "source": "general",
+    "course_id": "992096",
+    "course_name": "愛情,婚姻與家庭",
+    "grade": "1",
+    "teacher": "易元培",
+    "location": "A407",
+    "time_slot": "2gh"
+  },
+  {
+    "source": "general",
+    "course_id": "992100",
+    "course_name": "人群關懷與社會服務",
+    "grade": "1",
+    "teacher": "莊正中",
+    "location": "A207",
+    "time_slot": "1fgh"
+  },
+  {
+    "source": "general",
+    "course_id": "992101",
+    "course_name": "政治學概論",
+    "grade": "1",
+    "teacher": "莊國銘",
+    "location": "人418",
+    "time_slot": "3hij"
+  },
+  {
+    "source": "general",
+    "course_id": "992106",
+    "course_name": "東南亞社會文化",
+    "grade": "1",
+    "teacher": "葉玉賢",
+    "location": "A001",
+    "time_slot": "1cd"
+  },
+  {
+    "source": "general",
+    "course_id": "992108",
+    "course_name": "政治及財經新聞解讀",
+    "grade": "1",
+    "teacher": "陳嫈郁",
+    "location": "A000",
+    "time_slot": "2gh"
+  },
+  {
+    "source": "general",
+    "course_id": "992116",
+    "course_name": "證券投資分析",
+    "grade": "1",
+    "teacher": "謝東昇",
+    "location": "圖資027",
+    "time_slot": "1bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "992151",
+    "course_name": "社會學概論",
+    "grade": "1",
+    "teacher": "董娟娟",
+    "location": "人B01-2",
+    "time_slot": "3bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "992171",
+    "course_name": "正念減壓與生活藝術",
+    "grade": "1",
+    "teacher": "姜義勝",
+    "location": "圖資大樓多功能演講廳",
+    "time_slot": "5cd"
+  },
+  {
+    "source": "general",
+    "course_id": "992178",
+    "course_name": "情緒覺察與能量平衡",
+    "grade": "1",
+    "teacher": "丁靜如",
+    "location": "體健中心韻律教室",
+    "time_slot": "5cd"
+  },
+  {
+    "source": "general",
+    "course_id": "992191",
+    "course_name": "當代城鄉與社會空間",
+    "grade": "1",
+    "teacher": "趙慧琳",
+    "location": "A207",
+    "time_slot": "5bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "992220",
+    "course_name": "體育行政與管理",
+    "grade": "1",
+    "teacher": "于道弘",
+    "location": "A301",
+    "time_slot": "4cd"
+  },
+  {
+    "source": "general",
+    "course_id": "992238",
+    "course_name": "國家政策與移民工在台灣的生命經驗",
+    "grade": "1",
+    "teacher": "廖麗玉",
+    "location": "人418",
+    "time_slot": "5ef"
+  },
+  {
+    "source": "general",
+    "course_id": "992241",
+    "course_name": "領導與團隊",
+    "grade": "0",
+    "teacher": "黃妍甄",
+    "location": "人B01-1",
+    "time_slot": "1fgh"
+  },
+  {
+    "source": "general",
+    "course_id": "992242",
+    "course_name": "銀髮生活與產業商機",
+    "grade": "0",
+    "teacher": "張克士,劉美吟",
+    "location": "A401",
+    "time_slot": "2gh"
+  },
+  {
+    "source": "general",
+    "course_id": "992244",
+    "course_name": "全球議題與國際發展",
+    "grade": "0",
+    "teacher": "陳仁海",
+    "location": "A000",
+    "time_slot": "2ef"
+  },
+  {
+    "source": "general",
+    "course_id": "992246",
+    "course_name": "媒體素養",
+    "grade": "0",
+    "teacher": "劉家銘",
+    "location": "A407",
+    "time_slot": "2bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "992254",
+    "course_name": "AI 未來應用與趨勢探索",
+    "grade": "0",
+    "teacher": "朱海成",
+    "location": "A201",
+    "time_slot": "1ef"
+  },
+  {
+    "source": "general",
+    "course_id": "992255",
+    "course_name": "交通法規與安全駕駛",
+    "grade": "0",
+    "teacher": "莊介棠,張耀峰",
+    "location": "A401-1",
+    "time_slot": "1f"
+  },
+  {
+    "source": "general",
+    "course_id": "992255",
+    "course_name": "交通法規與安全駕駛",
+    "grade": "0",
+    "teacher": "莊介棠,張耀峰",
+    "location": "A401-1",
+    "time_slot": "1g"
+  },
+  {
+    "source": "general",
+    "course_id": "993001",
+    "course_name": "運動與健康",
+    "grade": "1",
+    "teacher": "陳惠珊",
+    "location": "A000",
+    "time_slot": "1ef"
+  },
+  {
+    "source": "general",
+    "course_id": "993002",
+    "course_name": "急救醫學",
+    "grade": "1",
+    "teacher": "伍福生,吳懿庭",
+    "location": "A000",
+    "time_slot": "4efgh"
+  },
+  {
+    "source": "general",
+    "course_id": "993008",
+    "course_name": "運動與壓力管理",
+    "grade": "1",
+    "teacher": "陳惠珊",
+    "location": "A000",
+    "time_slot": "1gh"
+  },
+  {
+    "source": "general",
+    "course_id": "993013",
+    "course_name": "生態旅遊與城鄉自然資源規劃",
+    "grade": "1",
+    "teacher": "羅慶瑞",
+    "location": "A000",
+    "time_slot": "1bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "993022",
+    "course_name": "城鄉生態",
+    "grade": "1",
+    "teacher": "劉洸甫",
+    "location": "A000",
+    "time_slot": "5ab"
+  },
+  {
+    "source": "general",
+    "course_id": "993023",
+    "course_name": "安全與衛生概論",
+    "grade": "1",
+    "teacher": "王鴻勲",
+    "location": "A201",
+    "time_slot": "5ef"
+  },
+  {
+    "source": "general",
+    "course_id": "993054",
+    "course_name": "醫藥與健康",
+    "grade": "1",
+    "teacher": "朱兆嘉",
+    "location": "A000",
+    "time_slot": "2cd"
+  },
+  {
+    "source": "general",
+    "course_id": "993055",
+    "course_name": "工程倫理",
+    "grade": "1",
+    "teacher": "王鴻勲",
+    "location": "A301",
+    "time_slot": "5cd"
+  },
+  {
+    "source": "general",
+    "course_id": "993062",
+    "course_name": "全球環境變遷與永續發展",
+    "grade": "1",
+    "teacher": "楊智其",
+    "location": "科四322",
+    "time_slot": "1bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "993075",
+    "course_name": "尖端科技通俗講座",
+    "grade": "1",
+    "teacher": "余長澤,程德勝",
+    "location": "科一234",
+    "time_slot": "1fgh"
+  },
+  {
+    "source": "general",
+    "course_id": "993089",
+    "course_name": "奧秘宇宙",
+    "grade": "1",
+    "teacher": "侯建元",
+    "location": "科二414",
+    "time_slot": "1jk"
+  },
+  {
+    "source": "general",
+    "course_id": "993102",
+    "course_name": "氣候變遷調適與社區防災",
+    "grade": "1",
+    "teacher": "林怡資",
+    "location": "A401",
+    "time_slot": "5cd"
+  },
+  {
+    "source": "general",
+    "course_id": "993106",
+    "course_name": "圖解生命原理",
+    "grade": "1",
+    "teacher": "余長澤",
+    "location": "科四114",
+    "time_slot": "4fgh"
+  },
+  {
+    "source": "general",
+    "course_id": "993120",
+    "course_name": "生活藝術與科技",
+    "grade": "1",
+    "teacher": "林素霞",
+    "location": "科四404",
+    "time_slot": "3bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "993126",
+    "course_name": "地方達人：新農業發展",
+    "grade": "1",
+    "teacher": "陳新豪",
+    "location": "A401-1",
+    "time_slot": "1c"
+  },
+  {
+    "source": "general",
+    "course_id": "993129",
+    "course_name": "運動傷害與急救",
+    "grade": "1",
+    "teacher": "郭怡潔,周佩玉",
+    "location": "A001",
+    "time_slot": "1efgh"
+  },
+  {
+    "source": "general",
+    "course_id": "993130",
+    "course_name": "運動生理學(上)",
+    "grade": "1",
+    "teacher": "朱兆嘉",
+    "location": "A001",
+    "time_slot": "2gh"
+  },
+  {
+    "source": "general",
+    "course_id": "993131",
+    "course_name": "聯合國永續發展目標",
+    "grade": "1",
+    "teacher": "蔡勇斌,楊智其",
+    "location": "科四322",
+    "time_slot": "1ef"
+  },
+  {
+    "source": "general",
+    "course_id": "993139",
+    "course_name": "運動生物力學",
+    "grade": "1",
+    "teacher": "陳仕恒",
+    "location": "A207",
+    "time_slot": "2bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "993151",
+    "course_name": "運動技術分析",
+    "grade": "1",
+    "teacher": "陳仕恒",
+    "location": "A207",
+    "time_slot": "2efg"
+  },
+  {
+    "source": "general",
+    "course_id": "993157",
+    "course_name": "資料分析與視覺化",
+    "grade": "1",
+    "teacher": "洪嘉良",
+    "location": "A100",
+    "time_slot": "1gh"
+  },
+  {
+    "source": "general",
+    "course_id": "993158",
+    "course_name": "咖啡科學：生產與製備",
+    "grade": "1",
+    "teacher": "莊雅婷",
+    "location": "管342",
+    "time_slot": "1ef"
+  },
+  {
+    "source": "general",
+    "course_id": "993159",
+    "course_name": "身心健康促進與照護技巧",
+    "grade": "1",
+    "teacher": "吳懿庭",
+    "location": "A000",
+    "time_slot": "4abcd"
+  },
+  {
+    "source": "general",
+    "course_id": "993160",
+    "course_name": "設計思考與科技創新",
+    "grade": "1",
+    "teacher": "駱奕帆",
+    "location": "A407",
+    "time_slot": "3cd"
+  },
+  {
+    "source": "general",
+    "course_id": "993171",
+    "course_name": "消化道疾病與營養",
+    "grade": "0",
+    "teacher": "曾旭弘",
+    "location": "A407",
+    "time_slot": "5cd"
+  },
+  {
+    "source": "general",
+    "course_id": "994001",
+    "course_name": "攝影的生態關懷",
+    "grade": "1",
+    "teacher": "劉明浩",
+    "location": "管R127",
+    "time_slot": "1bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "994002",
+    "course_name": "濕地生態保育",
+    "grade": "1",
+    "teacher": "葉明峰",
+    "location": "A201",
+    "time_slot": "5bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "994012",
+    "course_name": "生態保育與綠色地圖",
+    "grade": "1",
+    "teacher": "劉洸甫",
+    "location": "A000",
+    "time_slot": "5cd"
+  },
+  {
+    "source": "general",
+    "course_id": "994017",
+    "course_name": "鄉村生態旅遊",
+    "grade": "1",
+    "teacher": "陳智峰",
+    "location": "A201",
+    "time_slot": "2efg"
+  },
+  {
+    "source": "general",
+    "course_id": "994024",
+    "course_name": "生態產業與個案分析",
+    "grade": "1",
+    "teacher": "陳智峰",
+    "location": "管204",
+    "time_slot": "1efg"
+  },
+  {
+    "source": "general",
+    "course_id": "994025",
+    "course_name": "城鄉問題與規劃",
+    "grade": "1",
+    "teacher": "柯于璋",
+    "location": "A001",
+    "time_slot": "2ef"
+  },
+  {
+    "source": "general",
+    "course_id": "994027",
+    "course_name": "綠色工法",
+    "grade": "1",
+    "teacher": "楊智其",
+    "location": "科四322",
+    "time_slot": "5efg"
+  },
+  {
+    "source": "general",
+    "course_id": "994062",
+    "course_name": "東南亞教育名著選讀",
+    "grade": "1",
+    "teacher": "葉玉賢",
+    "location": "A001",
+    "time_slot": "1ab"
+  },
+  {
+    "source": "general",
+    "course_id": "994074",
+    "course_name": "社區環境教育實作",
+    "grade": "1",
+    "teacher": "楊智其",
+    "location": "科四322",
+    "time_slot": "4efg"
+  },
+  {
+    "source": "general",
+    "course_id": "994079",
+    "course_name": "R立方創新實作-台灣生態島嶼的食農教育",
+    "grade": "2",
+    "teacher": "孫崇傑",
+    "location": "A407",
+    "time_slot": "1ghi"
+  },
+  {
+    "source": "general",
+    "course_id": "994088",
+    "course_name": "地方知識建構的方法",
+    "grade": "2",
+    "teacher": "許蕙玟",
+    "location": "A401",
+    "time_slot": "5fgh"
+  },
+  {
+    "source": "general",
+    "course_id": "994106",
+    "course_name": "東南亞的音樂文化與實作：甘美朗",
+    "grade": "1",
+    "teacher": "林幗貞",
+    "location": "人402",
+    "time_slot": "3hij"
+  },
+  {
+    "source": "general",
+    "course_id": "994109",
+    "course_name": "「女也」當代音樂敘事：從歐美到東南亞",
+    "grade": "1",
+    "teacher": "林幗貞",
+    "location": "A407",
+    "time_slot": "4hij"
+  },
+  {
+    "source": "general",
+    "course_id": "994119",
+    "course_name": "東南亞經濟及法律閱讀",
+    "grade": "2",
+    "teacher": "李淑貞",
+    "location": "A401",
+    "time_slot": "2cd"
+  },
+  {
+    "source": "general",
+    "course_id": "994121",
+    "course_name": "永續能源、資源暨碳管理",
+    "grade": "1",
+    "teacher": "王鴻勲",
+    "location": "A201",
+    "time_slot": "4cd"
+  },
+  {
+    "source": "general",
+    "course_id": "994126",
+    "course_name": "從點子到事業：創新與創業",
+    "grade": "1",
+    "teacher": "顏昌隆",
+    "location": "管268",
+    "time_slot": "1h"
+  },
+  {
+    "source": "general",
+    "course_id": "994128",
+    "course_name": "地方風土創業理論實務",
+    "grade": "3",
+    "teacher": "陳國明",
+    "location": "管112",
+    "time_slot": "2cd"
+  },
+  {
+    "source": "general",
+    "course_id": "994129",
+    "course_name": "音樂與儀式專題研究-以東南亞區域為主",
+    "grade": "0",
+    "teacher": "林幗貞",
+    "location": "A407",
+    "time_slot": "4efg"
+  },
+  {
+    "source": "general",
+    "course_id": "994130",
+    "course_name": "AI世代產品經理職涯策略與專案管理導論",
+    "grade": "0",
+    "teacher": "駱世民",
+    "location": "管B15",
+    "time_slot": "3g"
+  },
+  {
+    "source": "general",
+    "course_id": "994132",
+    "course_name": "史料和地景：與AI協作共構地方的圖像",
+    "grade": "0",
+    "teacher": "許蕙玟",
+    "location": "圖資026",
+    "time_slot": "5bcd"
+  },
+  {
+    "source": "general",
+    "course_id": "994133",
+    "course_name": "唯識心理學",
+    "grade": "0",
+    "teacher": "賴榮豊",
+    "location": "科一234",
+    "time_slot": "4fg"
+  },
+  {
+    "source": "general",
+    "course_id": "994135",
+    "course_name": "鄉村旅遊與地方創生",
+    "grade": "0",
+    "teacher": "林劭潔",
+    "location": "A401-1",
+    "time_slot": "4ef"
+  },
+  {
+    "source": "general",
+    "course_id": "994136",
+    "course_name": "全球市場趨勢與法人投資思維",
+    "grade": "0",
+    "teacher": "楊昆城",
+    "location": "管115",
+    "time_slot": "2ef"
+  }
+]
