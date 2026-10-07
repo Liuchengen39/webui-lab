@@ -1,4 +1,5 @@
-*{box-sizing:border-box}
+*{box-sizing:border-box}    
+/* 全域顏色 */
 :root{
   --navy:#17335d;
   --blue:#2874d9;
@@ -12,108 +13,118 @@
   --purple:#a45bc8;
 }
 
+/* 全域 */
 body{
-  margin:0;
-  background:#f3f7fc;
-  color:var(--text);
-  font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;
-  font-size:14px;
+  margin:0;                                                             /* 邊界消失 */
+  background:#f3f7fc;                                                 /* 背景顏色 */
+  color:var(--text);                                                    /* 全域文字顏色 */
+  font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;     /* 字體後備順序 */
+  font-size:14px;                                                       /* 全域文字預設字體大小 */
 }
 
-.layout{
+/* 整個頁面展示 */
+.layout{ 
   min-height:100vh;
   display:flex;
 }
 
+/* 側欄 */
 .sidebar{
   width:190px;
-  flex:none;
-  background:linear-gradient(180deg,#193760 0%,#142d51 100%);
-  color:#fff;
-  min-height:100vh;
+  flex:none;                                                          /* 不會跑篇 */
+  background:linear-gradient(180deg,#193760 0%,#142d51 100%);     /* 漸層 */
+  color:#fff;                                                       /* 字的顏色 */
+  min-height:100vh;                                                   /* 高度固定 */
 }
 
+/* 整個左上角logo + 文字 */
 .logo{
   height:64px;
-  border-bottom:1px solid rgba(255,255,255,.12);
+  border-bottom:1px solid rgba(255,255,255,.12);      /* 分隔線 */
   display:flex;
-  align-items:center;
-  padding:8px 17px;
-  gap:10px;
+  align-items:center;                                   /* 內部垂直置中 */
+  padding:8px 17px;                                     /* 內距*/
+  gap:10px;                                             /* 圖標與文字距離 */
 }
 
+/* 整個左上角logo */
 .logo-mark{
   font-size:30px;
   font-weight:900;
-  letter-spacing:-5px;
+  letter-spacing:-5px;       /* 字距縮短 */
 }
 
+/* 整個左上角文字 */
 .logo-text{
   line-height:1.1;
 }
 
+/* 左上角文字--暨南大學 */
 .logo-text strong{
-  display:block;
+  display:block;                   /* 強制轉換成block 會自動換行 */
   font-size:16px;
-  letter-spacing:4px;
+  letter-spacing:4px;              /* 字間距 */
 }
 
+/* 左上角文字--課程排課系統 */
 .logo-text span{
   font-size:11px;
   letter-spacing:2px;
 }
 
+/* 到logo間空白 */
 .nav{
   padding-top:10px;
 }
 
+/* 超連結基礎設定 */
 .nav a{
   height:51px;
   display:flex;
   align-items:center;
   gap:13px;
   color:#d8e4f6;
-  text-decoration:none;
+  text-decoration:none;                       /* 清除預設底線 */
   padding:0 18px;
   font-size:15px;
   border-left:3px solid transparent;
 }
 
+/* 鼠標懸停 */
 .nav a:hover{
   background:rgba(80,145,235,.14);
 }
 
+/* aside目前所在頁面 */
 .nav a.active{
   background:linear-gradient(90deg,#2e7de2,#4b91e8);
   color:#fff;
   border-left-color:#8ec2ff;
 }
 
+/* 左側欄的內容icon */
 .icon{
   width:21px;
   text-align:center;
   font-size:19px;
 }
 
+/* 右邊主要內容 */
 .main{
   flex:1;
-  min-width:0;
+  min-width:0;    /* 不會跑版 */
 }
 
+/* 右邊上面header */
 .header{
   height:64px;
   background:linear-gradient(90deg,#244a7c,#2f5e97);
   color:#fff;
   display:flex;
   align-items:center;
-  justify-content:flex-end;
+  justify-content:flex-end;              /* 內容靠右對齊 */
   padding:0 27px;
   gap:22px;
-}
-
-.notice{
-  font-size:22px;
-  position:relative;
 }
 
 .notice:after{
@@ -163,14 +174,16 @@ body{
   bottom:6px;
 }
 
+/* 使用者名字 */
 .profile b{
   font-size:14px;
 }
 
+/* 使用者年級 */
 .profile small{
   display:block;
   color:#dce8f8;
-  margin-top:2px;
+  margin-top:2px;           /* 與上方姓名文字間距 2 像素 */
 }
 
 .content{
@@ -352,14 +365,14 @@ body{
   width:88px;
   height:88px;
   border-radius:50%;
-  background:conic-gradient(#2874d9 0 56%,#dce7f5 56% 100%);
+  background:conic-gradient(#2874d9 0 calc(var(--p,0) * 1%),#dce7f5 0 100%);
   display:grid;
   place-items:center;
   margin:3px auto 8px;
 }
 
 .ring:after{
-  content:"56%";
+  content:attr(data-pct);
   width:65px;
   height:65px;
   border-radius:50%;
@@ -639,3 +652,48 @@ body{
 #generalCourses th:nth-child(3), #generalCourses td:nth-child(3),
 #generalCourses th:nth-child(7), #generalCourses td:nth-child(7){text-align:center}
 .pg-gap{color:var(--muted);padding:0 2px}
+/* 加入 / 退選 */
+.status.conflict{background:#ffe3e5;color:#d54d57}
+.status.idle{background:#eef2f7;color:#70819a}
+.muted{color:var(--muted)}
+.act-btn{height:26px;padding:0 12px;border-radius:13px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent}
+.act-btn.add{background:var(--blue);color:#fff}
+.act-btn.add:hover{background:#1f63bd}
+.act-btn.remove{background:#fff;color:#e25a63;border-color:#f3c3c7}
+.act-btn.remove:hover{background:#fff0f1}
+#selectedTable th:nth-child(4), #selectedTable td:nth-child(4),
+#selectedTable th:nth-child(7), #selectedTable td:nth-child(7),
+#selectedTable th:nth-child(8), #selectedTable td:nth-child(8){text-align:center}
+#generalCourses th:nth-child(8), #generalCourses td:nth-child(8){text-align:center}
+
+/* 修正換行跑版 */
+.table th, .table td{padding:8px 10px}
+.table th{white-space:nowrap}
+.status, .act-btn{white-space:nowrap}
+.act-btn{min-width:52px}
+#newCourses td, #generalCourses td{vertical-align:middle}
+
+.detail-row small{color:var(--muted);font-size:11px;margin-left:4px}
+.cat .progress i.green{background:#35ad88}
+.cat .progress i.teal{background:#2fa7c4}
+/* 通識底下的各領域子列(縮排顯示) */
+.detail-row.sub{padding-left:18px;color:#5c7088}
+.detail-row.sub span:first-child::before{content:"└ ";color:#a9b8cc}
+.cat.sub{margin-left:18px}
+
+/* 通識群組卡片:總進度 + 四個領域小卡 */
+.cat-group{margin-top:16px;padding:12px;border:1px solid #e3ecf7;border-radius:10px;background:linear-gradient(160deg,#fbfdff,#f3f8ff)}
+.cat-group-head{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;font-weight:bold;margin-bottom:6px}
+.cat-group-head span:first-child{font-size:13px;color:#294c78}
+.cat-group-head span:last-child{color:#4775af;font-weight:700}
+.dom-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.dom{background:#fff;border:1px solid #e6eef8;border-radius:8px;padding:8px 10px}
+.dom.done{border-color:#bfe8d6;background:#f4fcf8}
+.dom-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:6px}
+.dom-name{display:flex;align-items:center;gap:6px;font-weight:700;color:#35506f}
+.dom-name i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dom-num{color:#6a7f99;font-size:11px;font-weight:700}
+.dom.done .dom-num{color:#24926d}
+.dom-bar{height:5px;border-radius:5px;background:#e7eef7;overflow:hidden}
+.dom-bar b{display:block;height:100%;border-radius:5px}
+.dom-note{margin-top:10px;font-size:11px;color:#e25a63;font-weight:700}

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>課程規劃系統｜視覺化課表</title>
-  <link rel="stylesheet" href="css/timetable.css">
+  <link rel="stylesheet" href="/css/timetable.css">
 </head>
 <body>
   <div class="layout">
@@ -43,79 +43,18 @@
 
         <div class="card">
           <h3>2026 秋季學期</h3>
-          <div class="timetable">
-            <div class="cell head">節次</div>
-            <div class="cell head">週一</div>
-            <div class="cell head">週二</div>
-            <div class="cell head">週三</div>
-            <div class="cell head">週四</div>
-            <div class="cell head">週五</div>
+          <div class="timetable" id="timetable"></div>
 
-            <div class="cell period">1<br>08:10</div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-
-            <div class="cell period">2<br>09:10</div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-
-            <div class="cell period">3<br>10:10</div>
-            <div class="cell"></div>
-            <div class="cell"><div class="course">資料結構<br>資工系館 302</div></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-
-            <div class="cell period">4<br>11:10</div>
-            <div class="cell"></div>
-            <div class="cell"><div class="course">資料結構<br>資工系館 302</div></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-
-            <div class="cell period">5<br>13:10</div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"><div class="course">計算機組織<br>理工二館 201</div></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-
-            <div class="cell period">6<br>14:10</div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"><div class="course">計算機組織<br>理工二館 201</div></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-
-            <div class="cell period">7<br>15:10</div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"><div class="course">網頁程式設計<br>資工系館 105</div></div>
-            <div class="cell"></div>
-
-            <div class="cell period">8<br>16:10</div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"><div class="course">網頁程式設計<br>資工系館 105</div></div>
-            <div class="cell"></div>
-          </div>
+          <div id="unscheduled"></div>
 
           <div class="legend">
-            ● 課程會依「本學期新增課程」同步更新　　⚠ 衝堂課程將以警示樣式顯示
+            ● 課程會依首頁「已新增」的課程同步更新　　⚠ 衝堂課程將以紅色警示樣式顯示
           </div>
         </div>
       </main>
     </div>
   </div>
 
-  <script src="../js/timetable.js"></script>
+  <script src="/js/timetable.js"></script>
 </body>
 </html>

@@ -1,0 +1,3173 @@
+[
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991008",
+    "course_name": "音樂欣賞",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991024",
+    "course_name": "歌劇欣賞",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991030",
+    "course_name": "藝術欣賞",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991032",
+    "course_name": "戲劇欣賞",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991038",
+    "course_name": "雕塑藝術欣賞",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991040",
+    "course_name": "戲劇與人生",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991062",
+    "course_name": "俗文學欣賞",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991065",
+    "course_name": "音樂與生活",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991069",
+    "course_name": "兒童繪本藝術",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991070",
+    "course_name": "藝術概論",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991083",
+    "course_name": "短劇創作與演出",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991120",
+    "course_name": "英文小說入門",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991135",
+    "course_name": "環球世界音樂節",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991136",
+    "course_name": "翻譯實務專題：字幕翻譯與製作",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991137",
+    "course_name": "交響樂團與數位應用",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991138",
+    "course_name": "音樂科技專題策展",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991143",
+    "course_name": "書法藝術創作",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991147",
+    "course_name": "電影與文學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991148",
+    "course_name": "跨文化導讀",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991149",
+    "course_name": "學術口語溝通與簡報技巧",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991151",
+    "course_name": "烹飪文化與飲食文學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991152",
+    "course_name": "美國恐怖小說",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991153",
+    "course_name": "地方達人-紙的想像與實踐",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991156",
+    "course_name": "數位攝影與商業修圖",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991160",
+    "course_name": "語言、文化與溝通",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991161",
+    "course_name": "世界音樂巡禮",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991164",
+    "course_name": "從廣告看語言與文化",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991166",
+    "course_name": "微電影剪輯與製作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991167",
+    "course_name": "從電影看世界",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991168",
+    "course_name": "浪漫愛：論述與影像",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991169",
+    "course_name": "音樂家軌跡",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991170",
+    "course_name": "文人畫美學與習作-山水",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991171",
+    "course_name": "文人畫美學與習作-四君子",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991172",
+    "course_name": "從動畫看語言與文化",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991173",
+    "course_name": "書法-隸書概論與習作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991175",
+    "course_name": "口語表達：方法與演練",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991180",
+    "course_name": "網路行銷",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991182",
+    "course_name": "藝文展示與導覽設計",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991183",
+    "course_name": "書法-楷書概論與習作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991185",
+    "course_name": "韓國生活、文化與藝術",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991186",
+    "course_name": "圖文編輯與出版",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991187",
+    "course_name": "地方產業寫作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991188",
+    "course_name": "文化與創意設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991189",
+    "course_name": "設計基礎",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991190",
+    "course_name": "美學散策",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991191",
+    "course_name": "巷弄、文學與生活",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991193",
+    "course_name": "日本文化與美學",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991200",
+    "course_name": "展示與導覽設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991201",
+    "course_name": "網路社群與多媒體製作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991202",
+    "course_name": "錄音實務與音樂創作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991203",
+    "course_name": "繪畫、電影與文化",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991204",
+    "course_name": "社區聲造:音景採集與地方敘事",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991207",
+    "course_name": "茶生活藝術",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991208",
+    "course_name": "饒舌音樂與MV製作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991209",
+    "course_name": "饒舌音樂製作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991210",
+    "course_name": "歌唱戲劇實務",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991211",
+    "course_name": "當代藝術與社會",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991213",
+    "course_name": "臺灣流行音樂發展",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991215",
+    "course_name": "跨界室內樂創作與實演",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991216",
+    "course_name": "台灣原創EDM流行電子音樂",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991217",
+    "course_name": "唐宋詞與流行音樂",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991218",
+    "course_name": "工程美學",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991221",
+    "course_name": "當代藝術",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991222",
+    "course_name": "博物觀與文化符號",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991226",
+    "course_name": "媒體識讀與AI寫作",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991227",
+    "course_name": "藝術欣賞與欣賞數學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "991228",
+    "course_name": "空間實踐：藝術與學習",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "992176",
+    "course_name": "原住民文學",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "993094",
+    "course_name": "數位音樂學習與創作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "G 人文-文學與藝術(105始)",
+    "course_id": "993099",
+    "course_name": "數位音樂學習與創作",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "991094",
+    "course_name": "台灣民間信仰",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "991205",
+    "course_name": "移民社會與民間信仰",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992006",
+    "course_name": "經濟學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992033",
+    "course_name": "台灣社會問題剖析",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992035",
+    "course_name": "全球化現象導論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992043",
+    "course_name": "企業概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992053",
+    "course_name": "台灣地區自然文化資產與台灣話",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992062",
+    "course_name": "從經濟學看世界",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992104",
+    "course_name": "從經濟學看世界",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992105",
+    "course_name": "解讀休閒",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992110",
+    "course_name": "個體經濟焦點",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992116",
+    "course_name": "證券投資分析",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992117",
+    "course_name": "資料分析導論",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992118",
+    "course_name": "觀光與文化創意",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992120",
+    "course_name": "國際禮儀與商務溝通技巧",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992122",
+    "course_name": "國際企業管理",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992123",
+    "course_name": "企業財務報表的認識與運用",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992125",
+    "course_name": "解讀行銷",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992129",
+    "course_name": "非營利組織及社區參與",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992135",
+    "course_name": "資訊、經濟與社會生活",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992136",
+    "course_name": "台股投資法則",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992139",
+    "course_name": "總體經濟焦點",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992140",
+    "course_name": "經濟學",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992141",
+    "course_name": "財務報表與企業經營",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992143",
+    "course_name": "性別與社會",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992151",
+    "course_name": "社會學概論",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992152",
+    "course_name": "城市與影像",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992153",
+    "course_name": "都市、社會與空間",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992169",
+    "course_name": "法律與經濟學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992177",
+    "course_name": "人類學的影像世界",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992182",
+    "course_name": "人力資源管理",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992183",
+    "course_name": "知識管理",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992184",
+    "course_name": "微型金融與融資創新",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992190",
+    "course_name": "組織學習",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992191",
+    "course_name": "當代城鄉與社會空間",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992192",
+    "course_name": "社區防災與城鎮復原力",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992193",
+    "course_name": "地方達人-咖啡產業與飲調",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992194",
+    "course_name": "訓練發展",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992197",
+    "course_name": "職涯發展",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992198",
+    "course_name": "賽局初探",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992199",
+    "course_name": "電商社群與網路行銷",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992201",
+    "course_name": "總體經濟焦點",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992202",
+    "course_name": "不動產經營管理",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992203",
+    "course_name": "金融市場新聞選讀與解析應用",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992204",
+    "course_name": "市場調查與需求分析",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992205",
+    "course_name": "不動產投資與交易實務",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992207",
+    "course_name": "休閒與食文化",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992208",
+    "course_name": "解讀行銷",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992209",
+    "course_name": "鄉村長期照顧與社會創新",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992210",
+    "course_name": "R立方創新實作：地方微型創業提案",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992212",
+    "course_name": "體育活動方案設計評估與實作",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992213",
+    "course_name": "數位金融與生活",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992214",
+    "course_name": "運動場館營運規劃設計評估與實作",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992215",
+    "course_name": "專案管理與實務",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992216",
+    "course_name": "競技運動團隊經營與管理策略",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992217",
+    "course_name": "地方學：經濟與產業",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992220",
+    "course_name": "體育行政與管理",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992222",
+    "course_name": "鄉村的社會照顧",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992223",
+    "course_name": "韌性社區實作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992225",
+    "course_name": "大數據與決策科學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992226",
+    "course_name": "品牌管理與新創",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992229",
+    "course_name": "數位工具與創新商業模式",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992230",
+    "course_name": "運動賽會行銷及賽事規劃管理",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992232",
+    "course_name": "探索觀光與餐旅",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992233",
+    "course_name": "偏鄉醫療大數據厚植在地人文關懷",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992235",
+    "course_name": "流行文化與創新產業實務",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992236",
+    "course_name": "從日常生活閱讀社會學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992237",
+    "course_name": "行銷與品牌創新",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992238",
+    "course_name": "國家政策與移民工在台灣的生命經驗",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "992240",
+    "course_name": "鄉村長期照護與健康促進",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "993008",
+    "course_name": "運動與壓力管理",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "J 社會-社經與管理(105始)",
+    "course_id": "994041",
+    "course_name": "夢與自我探索",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991051",
+    "course_name": "文化創意產業概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991068",
+    "course_name": "現代世界的興起",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991071",
+    "course_name": "中國文化導論",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991073",
+    "course_name": "傳統世界的形成與發展",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991074",
+    "course_name": "哲學與人生",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991075",
+    "course_name": "與哲學家對話",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991084",
+    "course_name": "西方電影與文學文化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991085",
+    "course_name": "文化人類學",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991087",
+    "course_name": "台灣電影與社會文化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991101",
+    "course_name": "佛教概說",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991104",
+    "course_name": "從日本語漫談日本文化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991125",
+    "course_name": "台灣慶典與地方文化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991126",
+    "course_name": "台灣宗教建築與文化資產保存",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991133",
+    "course_name": "音像紀錄與社會參與",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991134",
+    "course_name": "東方智慧管理學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991140",
+    "course_name": "西洋哲學史",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991144",
+    "course_name": "倫理學的理論與應用",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991154",
+    "course_name": "地方達人-族群文化",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991155",
+    "course_name": "口述歷史與田野調查",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991157",
+    "course_name": "噶哈巫語言文化的創意實踐",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991158",
+    "course_name": "近世旅行史",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991159",
+    "course_name": "台灣與南島文化",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991162",
+    "course_name": "農村社會的茶文化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991163",
+    "course_name": "世界城市和台灣地方",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991165",
+    "course_name": "文教會展規劃",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991174",
+    "course_name": "跨世紀電影賞析與世代對話",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991176",
+    "course_name": "日本文化與生活",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991177",
+    "course_name": "田野調查與紀錄片製作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991178",
+    "course_name": "茶文化與產業發展",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991179",
+    "course_name": "地方學：族群與信仰",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991181",
+    "course_name": "地方達人：考古遺址與史前文化",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991184",
+    "course_name": "運動倫理",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991192",
+    "course_name": "宗教文化與生活",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991194",
+    "course_name": "哲學與人工智慧",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991195",
+    "course_name": "災害歷史與防災實務",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991196",
+    "course_name": "葡萄酒賞析",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991197",
+    "course_name": "正念認知療癒練習",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991198",
+    "course_name": "用英文學人文-議題探討",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991199",
+    "course_name": "文化資產再生與創意應用",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991206",
+    "course_name": "客家歷史與文化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991212",
+    "course_name": "恐懼的本質與當代文化-跨文化作品選讀",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991214",
+    "course_name": "伊斯蘭世界的歷史",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991219",
+    "course_name": "跨文化議題探討",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991220",
+    "course_name": "數位科技與人文省思",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991223",
+    "course_name": "文化創意產業",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991224",
+    "course_name": "西方電影與文學文化",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991225",
+    "course_name": "媒體識讀與敘事",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991229",
+    "course_name": "摩登時代的臺灣",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "991230",
+    "course_name": "探索台灣茶",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "992051",
+    "course_name": "生命教育",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "992073",
+    "course_name": "哲學概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "992075",
+    "course_name": "埔里開發史",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "992087",
+    "course_name": "台灣歷史與文化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "992096",
+    "course_name": "愛情,婚姻與家庭",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "992154",
+    "course_name": "生死學概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "992171",
+    "course_name": "正念減壓與生活藝術",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "992173",
+    "course_name": "原住民生態知識",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "H 人文-歷史哲學與文化(105始)",
+    "course_id": "994044",
+    "course_name": "賽德克族傳統的農事與祭儀",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "984003",
+    "course_name": "全球議題與國際發展",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992007",
+    "course_name": "與領導有約",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992020",
+    "course_name": "電影與政治",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992061",
+    "course_name": "性別、教育、人文與社會",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992071",
+    "course_name": "正向心理學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992076",
+    "course_name": "教育家圖像",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992078",
+    "course_name": "教育時事漫談",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992094",
+    "course_name": "法律社會與生活",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992097",
+    "course_name": "生活衝突心理與其分析運用",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992100",
+    "course_name": "人群關懷與社會服務",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992101",
+    "course_name": "政治學概論",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992102",
+    "course_name": "國際文教概論-亞太篇",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992108",
+    "course_name": "政治及財經新聞解讀",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992109",
+    "course_name": "談判理論與實務",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992111",
+    "course_name": "教育識讀",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992112",
+    "course_name": "國際文教概論-歐美篇",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992113",
+    "course_name": "社會問題",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992114",
+    "course_name": "心理學與人生智慧",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992131",
+    "course_name": "性別教育",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992156",
+    "course_name": "政治哲學概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992161",
+    "course_name": "憲法與生活",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992163",
+    "course_name": "地方公共事務調查",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992166",
+    "course_name": "學習型城鎮與在地創新",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992175",
+    "course_name": "多元文化與地方治理",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992178",
+    "course_name": "情緒覺察與能量平衡",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992179",
+    "course_name": "大學生活與法律",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992180",
+    "course_name": "大學生與台灣公民社會",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992181",
+    "course_name": "國際與比較終身學習",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992185",
+    "course_name": "地方達人-生態城鎮",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992186",
+    "course_name": "衝突協調與人格心理發展",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992187",
+    "course_name": "亞洲共同體與教育",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992188",
+    "course_name": "樂在耆中：在地老化社區參與",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992189",
+    "course_name": "數位學習",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992195",
+    "course_name": "職場心理學",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992196",
+    "course_name": "職涯探索與規劃",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992200",
+    "course_name": "職業教育與訓練",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992206",
+    "course_name": "憲法概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992211",
+    "course_name": "互動學習與社群經營",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992218",
+    "course_name": "媒體識讀與資訊整合",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992219",
+    "course_name": "地方學：政治與社會",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992221",
+    "course_name": "系統思考",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992224",
+    "course_name": "教學與學習理論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992227",
+    "course_name": "當代電影中的議題與政策辯論",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992228",
+    "course_name": "家庭生活教育概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992231",
+    "course_name": "公民教育與社會議題",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992234",
+    "course_name": "決策思考力",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "992239",
+    "course_name": "食農教育：從土地到餐桌",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "I 社會-法政與教育(105始)",
+    "course_id": "994025",
+    "course_name": "城鄉問題與規劃",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "983002",
+    "course_name": "資訊素養與倫理",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993023",
+    "course_name": "安全與衛生概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993052",
+    "course_name": "Python 程式設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993055",
+    "course_name": "工程倫理",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993056",
+    "course_name": "網路安全概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993060",
+    "course_name": "生活安全與防災概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993063",
+    "course_name": "自然語言密碼與資訊應用",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993064",
+    "course_name": "數學遊戲",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993067",
+    "course_name": "光電材料與科技生活",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993068",
+    "course_name": "生物與電子訊息之認識",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993075",
+    "course_name": "尖端科技通俗講座",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993085",
+    "course_name": "影像處理與設計-Photoshop",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993089",
+    "course_name": "奧秘宇宙",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993092",
+    "course_name": "Excel 原理與進階應用",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993096",
+    "course_name": "網路創業",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993098",
+    "course_name": "音樂,大腦,與科技",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993100",
+    "course_name": "數位錄音錄影工程",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993101",
+    "course_name": "手作步道",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993102",
+    "course_name": "氣候變遷調適與社區防災",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993103",
+    "course_name": "創客與社區營造",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993107",
+    "course_name": "營造綠色生活",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993109",
+    "course_name": "學習如何與電腦對話",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993110",
+    "course_name": "程式設計入門體驗",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993111",
+    "course_name": "零基礎程式設計入門",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993112",
+    "course_name": "原民文化與機器人程式設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993113",
+    "course_name": "地震與防災",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993116",
+    "course_name": "野趣創客",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993120",
+    "course_name": "生活藝術與科技",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993121",
+    "course_name": "音樂程式設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993122",
+    "course_name": "資料處理與分析實務",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993123",
+    "course_name": "實用家庭電器修護與保養",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993124",
+    "course_name": "創客與農業科技",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993134",
+    "course_name": "趣味網站程式設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993135",
+    "course_name": "程式設計遊戲",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993136",
+    "course_name": "參與式設計實踐",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993140",
+    "course_name": "MATLAB程式設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993143",
+    "course_name": "JavaScript 網頁程式設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993144",
+    "course_name": "創新科技與人文社會之鏈結",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993146",
+    "course_name": "基礎程式語言學習",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993148",
+    "course_name": "程式工作坊",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993149",
+    "course_name": "互動音樂程式設計與創作",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993153",
+    "course_name": "人工智慧與深度學習通論暨素養",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993154",
+    "course_name": "android手機程式設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993155",
+    "course_name": "地震與建築",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993156",
+    "course_name": "永續綠色校園之經營與協作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993157",
+    "course_name": "資料分析與視覺化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993158",
+    "course_name": "咖啡科學：生產與製備",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993159",
+    "course_name": "身心健康促進與照護技巧",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993160",
+    "course_name": "設計思考與科技創新",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993161",
+    "course_name": "以STEAM和設計解決日常問題",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993164",
+    "course_name": "環境安全與衛生概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "K 自然-工程與科技(105始)",
+    "course_id": "993165",
+    "course_name": "探索多重物理模擬的應用科學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993001",
+    "course_name": "運動與健康",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993002",
+    "course_name": "急救醫學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993013",
+    "course_name": "生態旅遊與城鄉自然資源規劃",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993022",
+    "course_name": "城鄉生態",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993036",
+    "course_name": "自然保育概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993054",
+    "course_name": "醫藥與健康",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993066",
+    "course_name": "淺談化學材料",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993070",
+    "course_name": "生命中的化學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993074",
+    "course_name": "綠色大學生活",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993076",
+    "course_name": "圖解生命原理",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993077",
+    "course_name": "從生活中探討物理",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993086",
+    "course_name": "輻射與環境",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993087",
+    "course_name": "醫學美容暨健康管理",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993093",
+    "course_name": "癌症預防與治療",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993095",
+    "course_name": "食品衛生與安全",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993104",
+    "course_name": "地方達人-水沙連生態農業發展",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993105",
+    "course_name": "數位匯流與數位生活",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993106",
+    "course_name": "圖解生命原理",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993108",
+    "course_name": "國際保育事務與在地實踐",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993114",
+    "course_name": "生活化學講座",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993115",
+    "course_name": "化妝品概論",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993117",
+    "course_name": "環境管理與永續發展",
+    "credits": "6.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993118",
+    "course_name": "生物醫學導論",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993119",
+    "course_name": "旅遊保健與公衛管理",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993125",
+    "course_name": "R立方創新實作：生態博物館",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993126",
+    "course_name": "地方達人：新農業發展",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993127",
+    "course_name": "環境設計提案的方法",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993128",
+    "course_name": "運動心理學",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993129",
+    "course_name": "運動傷害與急救",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993130",
+    "course_name": "運動生理學(上)",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993131",
+    "course_name": "聯合國永續發展目標",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993132",
+    "course_name": "運動生理學(下)",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993133",
+    "course_name": "運動防護",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993137",
+    "course_name": "社區保育與調查技術",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993138",
+    "course_name": "基因遺傳研究以「族群」為基礎的倫理議題",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993139",
+    "course_name": "運動生物力學",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993141",
+    "course_name": "化學材料與生活應用",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993142",
+    "course_name": "生醫科學的種族主義",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993145",
+    "course_name": "生物化學與日常",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993147",
+    "course_name": "應用生活微生物學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993150",
+    "course_name": "肌力與體能訓練",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993151",
+    "course_name": "運動技術分析",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993152",
+    "course_name": "教練指導學",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993162",
+    "course_name": "健康管理與醫美",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "L 自然-生命與科學(105始)",
+    "course_id": "993163",
+    "course_name": "運動傷害緊急照護",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "993097",
+    "course_name": "社區環境與自然保育",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994013",
+    "course_name": "永續發展與社區治理",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994017",
+    "course_name": "鄉村生態旅遊",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994018",
+    "course_name": "跨文化溝通在社區",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994029",
+    "course_name": "社區資源與社會創新",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994047",
+    "course_name": "城鄉治理",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994049",
+    "course_name": "攝影敘事與社會參與",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994051",
+    "course_name": "地方學-文化、生態與產業",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994053",
+    "course_name": "地方達人-民宿經營實務",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994054",
+    "course_name": "社區藝術與社會參與",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994055",
+    "course_name": "參與式規劃設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994057",
+    "course_name": "南投產業再設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994058",
+    "course_name": "鄉鎮的社會創新",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994059",
+    "course_name": "仿生學與環境教育",
+    "credits": "6.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994060",
+    "course_name": "R立方創新實作",
+    "credits": "6.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994061",
+    "course_name": "在地實踐自主學習",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994063",
+    "course_name": "創新創業與激勵培力",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994065",
+    "course_name": "R立方創新實作-昆蟲博物館",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994066",
+    "course_name": "程式與教育服務",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994068",
+    "course_name": "在地企業的創新營運",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994069",
+    "course_name": "水圳與環境踏查",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994070",
+    "course_name": "平埔文化保存與活化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994071",
+    "course_name": "地方達人-埔里的蝴蝶",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994072",
+    "course_name": "交響樂的在地實踐",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994073",
+    "course_name": "地方學：文化與生態",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994075",
+    "course_name": "鄉鎮創新與永續發展",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994076",
+    "course_name": "地方達人：初探民宿經營實務",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994077",
+    "course_name": "平埔文化保存與活化",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994078",
+    "course_name": "水圳與環境踏查",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994080",
+    "course_name": "社區調查與方案設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994081",
+    "course_name": "地方達人：社會照顧非營利組織",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994086",
+    "course_name": "R立方創新實作：永續生活設計實踐之路",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994087",
+    "course_name": "R立方創新實作：非營利組織經營實務",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994088",
+    "course_name": "地方知識建構的方法",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994089",
+    "course_name": "R立方創新實作:地方微型創業實務",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994090",
+    "course_name": "地方達人：埔里工藝",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994091",
+    "course_name": "地方達人：青年的社會行動",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994093",
+    "course_name": "R立方創新實作：非營利組織經營管理",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994095",
+    "course_name": "鄉村社會教育",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994112",
+    "course_name": "地方紋理與空間設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994113",
+    "course_name": "地方書寫與展演實務",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994114",
+    "course_name": "咖啡學：消費與文化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994117",
+    "course_name": "日月潭觀光行銷",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994122",
+    "course_name": "創新遊程設計暨社群媒體推廣工作坊",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994124",
+    "course_name": "國際人才訓練與發展",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994125",
+    "course_name": "創新思維：從點子到初創",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994126",
+    "course_name": "從點子到事業：創新與創業",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "O 特色通識-社會創新(在地實踐)105始",
+    "course_id": "994128",
+    "course_name": "地方風土創業理論實務",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "993062",
+    "course_name": "全球環境變遷與永續發展",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994001",
+    "course_name": "攝影的生態關懷",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994002",
+    "course_name": "濕地生態保育",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994003",
+    "course_name": "綠色能源",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994012",
+    "course_name": "生態保育與綠色地圖",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994019",
+    "course_name": "友善農業與生活",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994020",
+    "course_name": "永續能源、資源暨碳管理",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994024",
+    "course_name": "生態產業與個案分析",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994027",
+    "course_name": "綠色工法",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994036",
+    "course_name": "生機蔬果栽培與料理",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994040",
+    "course_name": "適切科技與永續生活",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994052",
+    "course_name": "地方達人-永續生活設計",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994056",
+    "course_name": "環境教育與永續生活",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994074",
+    "course_name": "社區環境教育實作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994079",
+    "course_name": "R立方創新實作-台灣生態島嶼的食農教育",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994082",
+    "course_name": "地方達人-變動中的農村",
+    "credits": "1.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994100",
+    "course_name": "鐵馬革命：單車小旅行",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994121",
+    "course_name": "永續能源、資源暨碳管理",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "N 特色通識-淨零永續(綠概念)105始",
+    "course_id": "994127",
+    "course_name": "溫室氣體排放與碳盤查概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "984002",
+    "course_name": "東南亞概論",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "992106",
+    "course_name": "東南亞社會文化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994009",
+    "course_name": "東南亞史",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994010",
+    "course_name": "東南亞教育制度",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994021",
+    "course_name": "東南亞國際志工服務",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994022",
+    "course_name": "東南亞觀光與發展",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994030",
+    "course_name": "東南亞經濟及法律閱讀",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994031",
+    "course_name": "東南亞企業的勞資關係",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994032",
+    "course_name": "泰緬邊境的多重文化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994045",
+    "course_name": "東南亞影像與意象",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994046",
+    "course_name": "越南社會與文化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994048",
+    "course_name": "從泰國電影看泰國社會與文化",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994062",
+    "course_name": "東南亞教育名著選讀",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994064",
+    "course_name": "緬甸語時事新聞閱讀",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994067",
+    "course_name": "緬甸語時事新聞閱讀(二)",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994083",
+    "course_name": "緬甸文化概論",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994084",
+    "course_name": "閱讀緬甸移民、難民時事新聞與寫作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994085",
+    "course_name": "音樂與儀式專題研究-以東南亞區域為主",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994092",
+    "course_name": "多元文化溝通",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994094",
+    "course_name": "東南亞區域整合",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994096",
+    "course_name": "東南亞宗教與社會",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994097",
+    "course_name": "東南亞的日常習俗",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994098",
+    "course_name": "東南亞街區探究與設計思考",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994099",
+    "course_name": "東南亞街區探究與遊戲設計",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994101",
+    "course_name": "酸甜苦辣的東南亞",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994102",
+    "course_name": "中南半島諸國的影像敘事",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994103",
+    "course_name": "馬來世界:愛情、婚姻與家庭",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994104",
+    "course_name": "東南亞「小語種」的多元面貌:泰國、緬甸",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994105",
+    "course_name": "東南亞多元議題",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994106",
+    "course_name": "東南亞的音樂文化與實作：甘美朗",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994107",
+    "course_name": "當代女性音樂敘事：從歐美到東南亞",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994108",
+    "course_name": "甘美朗進階與跨領域音樂創作",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994109",
+    "course_name": "「女也」當代音樂敘事：從歐美到東南亞",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994110",
+    "course_name": "緬甸的社會文化",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994111",
+    "course_name": "東南亞「小語種」的多元面貌: 新、馬、印、越",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994115",
+    "course_name": "探險越南",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994116",
+    "course_name": "南島社會文化與音樂創作關係",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994118",
+    "course_name": "甘美朗進階與緬甸音樂",
+    "credits": "3.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994119",
+    "course_name": "東南亞經濟及法律閱讀",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994120",
+    "course_name": "東南亞街區探索與社會創新",
+    "credits": "2.00"
+  },
+  {
+    "year": "115",
+    "domain": "M 特色通識-國際連結(東南亞)105始",
+    "course_id": "994123",
+    "course_name": "策展技術與藝術實踐",
+    "credits": "2.00"
+  }
+]
