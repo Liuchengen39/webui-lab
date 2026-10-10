@@ -109,23 +109,7 @@ body{
   justify-content:flex-end;
   padding:0 27px;
   gap:22px;
-}
-
-.notice{
-  font-size:22px;
-  position:relative;
-}
-
-.notice:after{
-  content:"";
-  width:7px;
-  height:7px;
-  background:#ef606b;
-  border-radius:50%;
-  position:absolute;
-  right:-1px;
-  top:1px;
-}
+}           
 
 .profile{
   display:flex;

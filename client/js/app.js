@@ -6,6 +6,8 @@ let GENERAL = []; // 通識課 (/api/general-courses)
 const PAGE_SIZE = 8; // 每頁幾筆
 let page = 1;
 let genPage = 1;
+let PE = []; // 體育(特色運動) + 校共同必修(課名含「資工」)
+let pePage = 1;
 
 const SEMESTER = '115-1'; // 新增的課程所屬學期
 const STORAGE_KEY = 'ncnu_added_courses';
@@ -145,14 +147,83 @@ function recordFromGeneral(c) {
 /* =========================
    新增 / 退選
    ========================= */
+/* =========================
+   體育 / 校共同必修
+   ========================= */
+// 課名開頭是「體育」→ 特色運動;課名包含「資工」→ 校共同必修
+const peCategoryOf = (c) => {
+  const n = String(c.course_name || '').trim();
+  if (n.startsWith('體育')) return '特色運動';
+  if (n.includes('資工')) return '校共同必修';
+  return '';
+};
+
+// 兼容爬蟲輸出的中文欄位名與 API 的英文欄位名
+const normalizePE = (c) => ({
+  course_id: pick(c, 'course_id', '課程代碼', '課號', '選課代碼'),
+  course_name: pick(c, 'course_name', '課程名稱', '中文課名', '中文課程名稱', 'cname'),
+  time_slot: pick(c, 'time_slot', '上課時間', '時間', 'time'),
+  teacher: pick(c, 'teacher', '授課教師', '教師', '老師', 'teachers'),
+  location: pick(c, 'location', '教室', '上課地點', 'classroom'),
+  credits: pick(c, 'credits', '學分', 'credit'),
+  grade: pick(c, 'grade', '年級')
+});
+
+// 資料來源：/api/pe-courses，沒有的話改讀爬蟲輸出的 /physical.json，再依課名分類
+async function loadPE() {
+  const fetchJson = async (url) => {
+    try {
+      const r = await fetch(url);
+      if (!r.ok) return null;
+      const data = await r.json();
+      return Array.isArray(data) ? data : null;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  let raw = await fetchJson('/api/pe-courses');
+  if (!raw) {
+    raw = (await fetchJson('/physical.json')) || [];
+  }
+  if (!raw.length) console.error('載入體育 / 校共同必修課程失敗');
+
+  // 兩個檔案若有重複的課，只留一筆
+  const seen = new Set();
+  return raw
+    .map(normalizePE)
+    .filter((c) => peCategoryOf(c))
+    .filter((c) => {
+      const k = keyOf(c);
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+}
+
+function recordFromPE(c) {
+  const cat = peCategoryOf(c);
+  return {
+    key: keyOf(c),
+    semester: SEMESTER,
+    course_name: c.course_name,
+    unit: cat === '特色運動' ? '體育室' : '資工系',
+    credits: creditsOf(c),
+    category: cat,
+    time_slot: c.time_slot || '無',
+    teacher: c.teacher || '',
+    location: c.location || ''
+  };
+}
+
 function toggleCourse(src, key) {
   if (isAdded(key)) {
     added = added.filter((a) => a.key !== key);
   } else {
-    const list = src === 'general' ? GENERAL : COURSES;
+    const list = src === 'general' ? GENERAL : src === 'pe' ? PE : COURSES;
     const c = list.find((x) => keyOf(x) === key);
     if (!c) return;
-    const rec = src === 'general' ? recordFromGeneral(c) : recordFromCS(c);
+    const rec = src === 'general' ? recordFromGeneral(c) : src === 'pe' ? recordFromPE(c) : recordFromCS(c);
     if (isConflicted(rec.time_slot, rec.key)) {
       if (!confirm(`「${rec.course_name}」與已選課程衝堂,仍要加入嗎?`)) return;
     }
@@ -254,6 +325,68 @@ function renderPager(totalPages) {
 /* =========================
    通識課表
    ========================= */
+function renderPE() {
+  const q = document.getElementById('peSearch').value.trim().toLowerCase();
+  const cat = document.getElementById('peFilter').value;
+  const tbody = document.querySelector('#peCourses tbody');
+
+  const rows = PE.filter((c) => {
+    if (cat && peCategoryOf(c) !== cat) return false;
+    if (!q) return true;
+    return [c.course_name, c.teacher, c.course_id].some((v) =>
+      String(v || '').toLowerCase().includes(q)
+    );
+  });
+
+  const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  pePage = Math.min(Math.max(pePage, 1), totalPages);
+  const pageRows = rows.slice((pePage - 1) * PAGE_SIZE, pePage * PAGE_SIZE);
+
+  tbody.innerHTML = pageRows
+    .map((c) => {
+      const key = keyOf(c);
+      const k = peCategoryOf(c);
+      return `
+<tr>
+  <td>${esc(c.course_name)}</td>
+  <td><span class="status ${k === '校共同必修' ? 'blue' : ''}">${k}</span></td>
+  <td>${esc(creditsOf(c))}</td>
+  <td>${esc(c.time_slot || '無')}</td>
+  <td>${esc(c.teacher || '—')}</td>
+  <td>${esc(c.location || '無')}</td>
+  <td>${statusHtml(key, c.time_slot)}</td>
+  <td>${actionHtml('pe', key)}</td>
+</tr>`;
+    })
+    .join('');
+
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center">沒有符合的課程</td></tr>';
+  }
+
+  document.getElementById('peCount').textContent = `共 ${rows.length} 門`;
+
+  let pager = document.getElementById('pePager');
+  if (!pager) {
+    pager = document.createElement('div');
+    pager.id = 'pePager';
+    pager.className = 'pager';
+    document.getElementById('peCourses').insertAdjacentElement('afterend', pager);
+  }
+  pager.innerHTML =
+    totalPages <= 1
+      ? ''
+      : `
+<span class="pg-info">第 ${pePage} / ${totalPages} 頁</span>
+<button class="pg-btn" onclick="goPE(${pePage - 1})" ${pePage === 1 ? 'disabled' : ''}>‹ 上一頁</button>
+<button class="pg-btn" onclick="goPE(${pePage + 1})" ${pePage === totalPages ? 'disabled' : ''}>下一頁 ›</button>`;
+}
+
+function goPE(p) {
+  pePage = p;
+  renderPE();
+}
+
 function renderGeneral() {
   const table = document.querySelector('.general-card .table');
   if (!table) return;
@@ -383,7 +516,7 @@ const REQ = [
   { key: '通識-特色', label: '領域-特色通識', need: 3, color: 'teal', domain: true }
 ];
 // 其餘畢業要求(目前沒有對應的課程資料來源,先顯示為 0)
-const COMMON = { key: '共同課程', label: '全校共同課程', need: 16, color: 'blue' };
+const COMMON = { key: '校共同必修', label: '校共同必修', need: 16, color: 'blue' };
 const FREE = { key: '自由學分', label: '自由學分', need: 6, color: 'purple' };
 
 function creditsByCategory() {
@@ -488,6 +621,7 @@ function renderProgress() {
 
 function renderAll() {
   renderTable();
+  renderPE();
   renderGeneral();
   renderSelected();
   renderProgress();
@@ -516,6 +650,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   ]);
   COURSES = cs;
   GENERAL = gen;
+  PE = await loadPE();
 
   const sel = document.getElementById('gradeFilter');
   [...new Set(COURSES.map((c) => c.grade).filter(Boolean))]
@@ -537,6 +672,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('generalSearch').addEventListener('input', () => {
     genPage = 1;
     renderGeneral();
+  });
+  document.getElementById('peSearch').addEventListener('input', () => {
+    pePage = 1;
+    renderPE();
+  });
+  document.getElementById('peFilter').addEventListener('change', () => {
+    pePage = 1;
+    renderPE();
   });
   document.getElementById('weekdayFilter').addEventListener('change', () => {
     genPage = 1;
