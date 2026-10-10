@@ -75,6 +75,15 @@ def general_courses():
                 c["credits"] = cr
     return courses
 
+@app.get("/api/pe-courses")
+def pe_courses():
+    # 體育課 + 校共同必修：physical.json，放在專案根目錄（與 server.py 同層）
+    path = BASE / "physical.json"
+    if not path.exists():
+        return []
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
 
 # 1. 先掛載特定的靜態檔案目錄 (CSS, JS 等)
 app.mount("/css", StaticFiles(directory="client/css"), name="css")
