@@ -49,11 +49,12 @@
             <!-- 學分完成情況 -->
             <div class="card">
               <h2 class="card-title"><span class="ti">♟</span>學分完成情況</h2>
-
               <div class="credit-grid">
                 <div class="credit-box">
                   <div class="credit-head">
-                    <div class="circle-icon">&lt;/&gt;</div>
+                    <div class="circle-icon">
+                      &lt;/&gt;
+                    </div>
                     學分進度
                   </div>
 
@@ -61,13 +62,9 @@
                     <b id="creditTotalText">已修學分 0 / 128</b>
                     <span id="creditTotalPct">0%</span>
                   </div>
-
                   <div class="progress"><i id="creditTotalBar" style="width:0%"></i></div>
-
                   <div class="sub-title">必修 / 選修 / 領域課程 進度</div>
-
                   <div id="creditRows"></div>
-
                   <div class="warn-note" id="creditWarn"></div>
                 </div>
 
@@ -114,6 +111,42 @@
                 <tbody>
 
                 </tbody>
+              </table>
+            </div>
+
+            <!-- 體育（特色運動）＋ 校共同必修（課名含「資工」） -->
+            <div class="card table-card pe-card">
+              <div class="card-head">
+                <h2 class="card-title"><span class="ti">🏃</span>體育 / 校共同必修課程</h2>
+
+                <div class="picker">
+                  <span id="peCount" class="picker-count">載入中…</span>
+                  <select id="peFilter">
+                    <option value="">全部類別</option>
+                    <option value="特色運動">特色運動</option>
+                    <option value="校共同必修">校共同必修</option>
+                  </select>
+                  <label class="search">
+                    <span class="search-icon">🔍</span>
+                    <input id="peSearch" type="search" placeholder="搜尋課名、老師、課號" />
+                  </label>
+                </div>
+              </div>
+
+              <table class="table" id="peCourses">
+                <thead>
+                  <tr>
+                    <th>課程名稱</th>
+                    <th>類別</th>
+                    <th>學分</th>
+                    <th>時間</th>
+                    <th>老師</th>
+                    <th>上課地點</th>
+                    <th>狀態</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
               </table>
             </div>
 
