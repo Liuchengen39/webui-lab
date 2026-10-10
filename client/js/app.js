@@ -8,6 +8,7 @@ let page = 1;
 let genPage = 1;
 let PE = []; // 體育(特色運動) + 校共同必修(課名含「資工」)
 let pePage = 1;
+let PE_LOAD_ERROR = ''; // 體育課資料載入失敗時的提示
 
 const SEMESTER = '115-1'; // 新增的課程所屬學期
 const STORAGE_KEY = 'ncnu_added_courses';
@@ -159,15 +160,28 @@ const peCategoryOf = (c) => {
 };
 
 // 兼容爬蟲輸出的中文欄位名與 API 的英文欄位名
-const normalizePE = (c) => ({
-  course_id: pick(c, 'course_id', '課程代碼', '課號', '選課代碼'),
-  course_name: pick(c, 'course_name', '課程名稱', '中文課名', '中文課程名稱', 'cname'),
-  time_slot: pick(c, 'time_slot', '上課時間', '時間', 'time'),
-  teacher: pick(c, 'teacher', '授課教師', '教師', '老師', 'teachers'),
-  location: pick(c, 'location', '教室', '上課地點', 'classroom'),
-  credits: pick(c, 'credits', '學分', 'credit'),
-  grade: pick(c, 'grade', '年級')
-});
+// physical.json 的欄位：課號 / 班別 / 中文課名 / 開課教師 / 地點 / 時間 / 系統可選年級（沒有學分欄）
+// 同一門課有多個班(a、b、c…)，時間和老師都可能相同，所以課號後面接班別才不會被當成重複
+const normalizePE = (c) => {
+  const id = pick(c, 'course_id', '課程代碼', '課號', '選課代碼');
+  const sec = String(pick(c, 'section', '班別') || '');
+  const hasSec = sec && sec !== '0';
+  return {
+    course_id: hasSec ? `${id}-${sec}` : String(id),
+    section: hasSec ? sec : '',
+    course_name: pick(c, 'course_name', '課程名稱', '中文課名', '中文課程名稱', 'cname'),
+    time_slot: pick(c, 'time_slot', '上課時間', '時間', 'time'),
+    teacher: pick(c, 'teacher', '授課教師', '開課教師', '教師', '老師', 'teachers'),
+    location: pick(c, 'location', '教室', '地點', '上課地點', 'classroom'),
+    // 資料裡沒有學分欄：課名含「資工」的（資工系大一體育）是 1 學分，其餘體育課當 0
+    // 體育課的上課節數不等於學分，不能用節數推算
+    credits: String(
+      pick(c, 'credits', '學分', 'credit') ||
+        (String(pick(c, 'course_name', '課程名稱', '中文課名', '中文課程名稱', 'cname')).includes('資工') ? '1' : '0')
+    ),
+    grade: pick(c, 'grade', '系統可選年級', '年級')
+  };
+};
 
 // 資料來源：/api/pe-courses，沒有的話改讀爬蟲輸出的 /physical.json，再依課名分類
 async function loadPE() {
@@ -182,11 +196,21 @@ async function loadPE() {
     }
   };
 
-  let raw = await fetchJson('/api/pe-courses');
-  if (!raw) {
-    raw = (await fetchJson('/physical.json')) || [];
+  // 依序嘗試幾個常見位置，第一個讀得到的就用
+  const candidates = ['/api/pe-courses', '/physical.json', '/data/physical.json', '/js/physical.json', 'physical.json'];
+  let raw = null;
+  for (const url of candidates) {
+    raw = await fetchJson(url);
+    if (raw) {
+      console.info('體育課資料來源：', url, `(${raw.length} 筆)`);
+      break;
+    }
   }
-  if (!raw.length) console.error('載入體育 / 校共同必修課程失敗');
+  if (!raw) {
+    PE_LOAD_ERROR = '讀不到 physical.json：請把它放在網站靜態檔案資料夾的最上層（跟 css、js 資料夾同一層），或提供 /api/pe-courses';
+    console.error(PE_LOAD_ERROR, '已嘗試：', candidates);
+    raw = [];
+  }
 
   // 兩個檔案若有重複的課，只留一筆
   const seen = new Set();
@@ -206,7 +230,7 @@ function recordFromPE(c) {
   return {
     key: keyOf(c),
     semester: SEMESTER,
-    course_name: c.course_name,
+    course_name: c.section ? `${c.course_name} (${c.section}班)` : c.course_name,
     unit: cat === '特色運動' ? '體育室' : '資工系',
     credits: creditsOf(c),
     category: cat,
@@ -348,7 +372,7 @@ function renderPE() {
       const k = peCategoryOf(c);
       return `
 <tr>
-  <td>${esc(c.course_name)}</td>
+  <td>${esc(c.course_name)}${c.section ? ` <span class="muted">(${esc(c.section)}班)</span>` : ''}</td>
   <td><span class="status ${k === '校共同必修' ? 'blue' : ''}">${k}</span></td>
   <td>${esc(creditsOf(c))}</td>
   <td>${esc(c.time_slot || '無')}</td>
@@ -361,7 +385,7 @@ function renderPE() {
     .join('');
 
   if (!rows.length) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center">沒有符合的課程</td></tr>';
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center${PE_LOAD_ERROR ? ';color:#d54d57' : ''}">${esc(PE_LOAD_ERROR || '沒有符合的課程')}</td></tr>`;
   }
 
   document.getElementById('peCount').textContent = `共 ${rows.length} 門`;
