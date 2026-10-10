@@ -168,9 +168,9 @@ function render() {
 <div class="tt-slot" style="left:${left}%;width:${width}%;top:calc(var(--rh) * ${b.start});height:calc(var(--rh) * ${b.span})">
   <div class="tt-block span${Math.min(b.span, 3)}${b.conflict ? ' conflict' : ''}${lanes > 1 ? ' narrow' : ''}" style="--bg:${bg};--bd:${bd};--fg:${fg};--ac:${ac}" title="${esc(tip)}">
     <div class="tt-name">${b.conflict ? '⚠ ' : ''}${esc(b.c.course_name)}</div>
-    ${loc ? `<div class="tt-meta">${esc(loc)}</div>` : ''}
-    ${teacher ? `<div class="tt-meta tt-teacher">${esc(teacher)}</div>` : ''}
-    ${time ? `<div class="tt-time">${time}</div>` : ''}
+    ${b.span === 1
+      ? (loc || teacher ? `<div class="tt-meta">${esc([loc, teacher].filter(Boolean).join(' · '))}</div>` : '')
+      : `${loc ? `<div class="tt-meta">${esc(loc)}</div>` : ''}${teacher ? `<div class="tt-meta">${esc(teacher)}</div>` : ''}`}
   </div>
 </div>`;
   });
@@ -179,7 +179,7 @@ function render() {
 
   // 6. 上方統計、下方圖例
   const credits = courses.reduce((n, c) => n + (parseFloat(c.credits) || 0), 0);
-  summary.innerHTML = courses.length
+  if (summary) summary.innerHTML = courses.length
     ? `<span class="tt-chip">共 ${courses.length} 門</span>
        <span class="tt-chip">${credits} 學分</span>
        ${conflictNames.size
@@ -187,7 +187,7 @@ function render() {
          : '<span class="tt-chip ok">✓ 沒有衝堂</span>'}`
     : '';
 
-  legend.innerHTML = courses
+  if (legend) legend.innerHTML = courses
     .map((c, i) => {
       const ac = PALETTE[i % PALETTE.length][3];
       return `<span style="--ac:${ac}"><i></i>${esc(c.course_name)}</span>`;
@@ -200,7 +200,7 @@ function render() {
   } else if (unscheduled.length) {
     msg = `<div class="tt-note">未排入課表（沒有上課時間）：${unscheduled.map((c) => esc(c.course_name)).join('、')}</div>`;
   }
-  note.innerHTML = msg;
+  if (note) note.innerHTML = msg;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
