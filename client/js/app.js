@@ -9,6 +9,9 @@ let genPage = 1;
 let PE = []; // 體育(特色運動) + 校共同必修(課名含「資工」)
 let pePage = 1;
 let PE_LOAD_ERROR = ''; // 體育課資料載入失敗時的提示
+let CM = []; // 全校共同必修 (/api/common-courses，來源 common.json)
+let cmPage = 1;
+let CM_LOAD_ERROR = '';
 
 const SEMESTER = '115-1'; // 新增的課程所屬學期
 const STORAGE_KEY = 'ncnu_added_courses';
@@ -240,14 +243,64 @@ function recordFromPE(c) {
   };
 }
 
+/* =========================
+   全校共同必修 (common.json)
+   ========================= */
+// common.json 沒有學分欄：用上課節數推算（2ef → 2 學分），與資工系課程相同的算法
+const normalizeCM = (c) => {
+  const n = normalizePE(c);
+  const given = pick(c, 'credits', '學分', 'credit');
+  const inferred = (String(n.time_slot).match(/[a-z]/gi) || []).length;
+  n.credits = String(given || inferred || '0');
+  return n;
+};
+
+async function loadCM() {
+  try {
+    const r = await fetch('/api/common-courses');
+    if (!r.ok) throw new Error(r.status);
+    const data = await r.json();
+    if (!Array.isArray(data)) throw new Error('格式不是陣列');
+    const seen = new Set();
+    return data.map(normalizeCM).filter((c) => {
+      const k = keyOf(c);
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+  } catch (e) {
+    CM_LOAD_ERROR = '讀不到 /api/common-courses：請在 server.py 加上這個路由來讀 common.json，並重新啟動伺服器';
+    console.error(CM_LOAD_ERROR, e);
+    return [];
+  }
+}
+
+function recordFromCM(c) {
+  return {
+    key: keyOf(c),
+    semester: SEMESTER,
+    course_name: c.section ? `${c.course_name} (${c.section}班)` : c.course_name,
+    unit: '共同教育',
+    credits: creditsOf(c),
+    category: '校共同必修',
+    time_slot: c.time_slot || '無',
+    teacher: c.teacher || '',
+    location: c.location || ''
+  };
+}
+
 function toggleCourse(src, key) {
   if (isAdded(key)) {
     added = added.filter((a) => a.key !== key);
   } else {
-    const list = src === 'general' ? GENERAL : src === 'pe' ? PE : COURSES;
+    const list = src === 'general' ? GENERAL : src === 'pe' ? PE : src === 'cm' ? CM : COURSES;
     const c = list.find((x) => keyOf(x) === key);
     if (!c) return;
-    const rec = src === 'general' ? recordFromGeneral(c) : src === 'pe' ? recordFromPE(c) : recordFromCS(c);
+    const rec =
+      src === 'general' ? recordFromGeneral(c)
+      : src === 'pe' ? recordFromPE(c)
+      : src === 'cm' ? recordFromCM(c)
+      : recordFromCS(c);
     if (isConflicted(rec.time_slot, rec.key)) {
       if (!confirm(`「${rec.course_name}」與已選課程衝堂,仍要加入嗎?`)) return;
     }
@@ -409,6 +462,67 @@ function renderPE() {
 function goPE(p) {
   pePage = p;
   renderPE();
+}
+
+function renderCM() {
+  const q = document.getElementById('cmSearch').value.trim().toLowerCase();
+  const grade = document.getElementById('cmGrade').value;
+  const tbody = document.querySelector('#cmCourses tbody');
+
+  const rows = CM.filter((c) => {
+    if (grade && String(c.grade) !== grade) return false;
+    if (!q) return true;
+    return [c.course_name, c.teacher, c.course_id].some((v) =>
+      String(v || '').toLowerCase().includes(q)
+    );
+  });
+
+  const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  cmPage = Math.min(Math.max(cmPage, 1), totalPages);
+  const pageRows = rows.slice((cmPage - 1) * PAGE_SIZE, cmPage * PAGE_SIZE);
+
+  tbody.innerHTML = pageRows
+    .map((c) => {
+      const key = keyOf(c);
+      return `
+<tr>
+  <td>${esc(c.course_name)}${c.section ? ` <span class="muted">(${esc(c.section)}班)</span>` : ''}</td>
+  <td><span class="status blue">校共同必修</span></td>
+  <td>${esc(creditsOf(c))}</td>
+  <td>${esc(c.time_slot || '無')}</td>
+  <td>${esc(c.teacher || '—')}</td>
+  <td>${esc(c.location || '無')}</td>
+  <td>${statusHtml(key, c.time_slot)}</td>
+  <td>${actionHtml('cm', key)}</td>
+</tr>`;
+    })
+    .join('');
+
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center${CM_LOAD_ERROR ? ';color:#d54d57' : ''}">${esc(CM_LOAD_ERROR || '沒有符合的課程')}</td></tr>`;
+  }
+
+  document.getElementById('cmCount').textContent = `共 ${rows.length} 門`;
+
+  let pager = document.getElementById('cmPager');
+  if (!pager) {
+    pager = document.createElement('div');
+    pager.id = 'cmPager';
+    pager.className = 'pager';
+    document.getElementById('cmCourses').insertAdjacentElement('afterend', pager);
+  }
+  pager.innerHTML =
+    totalPages <= 1
+      ? ''
+      : `
+<span class="pg-info">第 ${cmPage} / ${totalPages} 頁</span>
+<button class="pg-btn" onclick="goCM(${cmPage - 1})" ${cmPage === 1 ? 'disabled' : ''}>‹ 上一頁</button>
+<button class="pg-btn" onclick="goCM(${cmPage + 1})" ${cmPage === totalPages ? 'disabled' : ''}>下一頁 ›</button>`;
+}
+
+function goCM(p) {
+  cmPage = p;
+  renderCM();
 }
 
 function renderGeneral() {
@@ -646,6 +760,7 @@ function renderProgress() {
 function renderAll() {
   renderTable();
   renderPE();
+  renderCM();
   renderGeneral();
   renderSelected();
   renderProgress();
@@ -675,6 +790,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   COURSES = cs;
   GENERAL = gen;
   PE = await loadPE();
+  CM = await loadCM();
+
+  const cmGradeSel = document.getElementById('cmGrade');
+  [...new Set(CM.map((c) => String(c.grade)).filter(Boolean))]
+    .sort()
+    .forEach((g) => {
+      cmGradeSel.insertAdjacentHTML('beforeend', `<option value="${esc(g)}">${esc(g)} 年級</option>`);
+    });
+  document.getElementById('cmSearch').addEventListener('input', () => {
+    cmPage = 1;
+    renderCM();
+  });
+  cmGradeSel.addEventListener('change', () => {
+    cmPage = 1;
+    renderCM();
+  });
 
   const sel = document.getElementById('gradeFilter');
   [...new Set(COURSES.map((c) => c.grade).filter(Boolean))]
