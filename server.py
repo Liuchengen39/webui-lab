@@ -25,6 +25,41 @@ def courses():
     with open(BASE / "cs_courses.json", encoding="utf-8") as f:
         return json.load(f)
 
+@app.get("/api/common-courses")
+def common_courses():
+    path = BASE / "common.json"
+    if not path.exists():
+        return []
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+@app.get("/api/pe-courses")
+def pe_courses():
+    """體育課（全校共同課程）：physical.json，放在專案根目錄（與 main.py 同層）"""
+    path = BASE / "physical.json"
+    if not path.exists():
+        return []
+    with open(path, encoding="utf-8") as f:
+        rows = json.load(f)
+    out = []
+    for r in rows:
+        section = str(r.get("班別", "")).strip()
+        name = str(r.get("中文課名", "")).strip()
+        out.append({
+            "source": "pe",
+            "course_id": str(r.get("課號", "")).strip(),
+            "section": "" if section in ("", "0") else section,  # 班別 0 表示只有一班
+            "course_name": name,
+            "pe_type": "特色運動" if name.startswith("體育") else "全校共同",  # 課名以「體育」開頭＝特色運動
+            "grade": str(r.get("系統可選年級", "")).strip(),
+            "teacher": str(r.get("開課教師", "")).strip(),
+            "location": str(r.get("地點", "")).strip(),
+            "time_slot": str(r.get("時間", "")).strip(),
+            "credits": "0" if name.startswith("體育") else "1",  # 特色運動 0 學分、全校共同體育 1 學分
+            "remaining": str(r.get("剩餘名額", "")).strip(),
+        })
+    return out
+
 
 def _short_domain(d: str) -> str:
     """'G 人文-文學與藝術(105始)' → '人文-文學與藝術'"""
@@ -48,7 +83,6 @@ def _load_domain_index():
                 lst.append(dom)
         credits[r["course_id"].strip()] = r.get("credits", "")
     return by_id, by_name, credits
-
 
 @app.get("/api/general-courses")
 def general_courses():
@@ -74,15 +108,6 @@ def general_courses():
             except ValueError:
                 c["credits"] = cr
     return courses
-
-@app.get("/api/pe-courses")
-def pe_courses():
-    # 體育課 + 校共同必修：physical.json，放在專案根目錄（與 server.py 同層）
-    path = BASE / "physical.json"
-    if not path.exists():
-        return []
-    with open(path, encoding="utf-8") as f:
-        return json.load(f)
 
 
 # 1. 先掛載特定的靜態檔案目錄 (CSS, JS 等)

@@ -272,7 +272,7 @@ body{
   color:#28517f;
 }
 
-/* icon設定 */
+/* </>icon設定 */
 .circle-icon{
   width:30px;
   height:30px;
@@ -327,28 +327,24 @@ body{
   margin:13px 0 7px;
 }
 
-/* 系必修 　12 / 49　24%整排 */
 .detail-row{
   height:27px;
   display:grid;
-  grid-template-columns:1fr 54px 40px;     /* 第1欄自動填滿 第2欄 第3欄固定寬度 */
+  grid-template-columns:1fr 54px 40px;
   align-items:center;
   border-bottom:1px solid #edf1f6;
   font-size:12px;
 }
 
-/* 12 / 49 */
 .detail-row span:nth-child(2){
-  text-align:right;             /* 偏右 */
+  text-align:right;
 }
 
-/* 24%整排 */
 .detail-row span:last-child{
   text-align:right;
   color:#426fa6;
 }
 
-/* 警告列 */
 .detail-row.warn{
   background:#fff5f5;
   color:#b63840;
@@ -358,12 +354,10 @@ body{
   padding:0 5px;
 }
 
-/* 警告列 */
 .detail-row.warn span:last-child{
   color:#d54d57;
 }
 
-/* 通識領域總計至少 15、各領域至少  學分,仍差  學分 */
 .warn-note{
   color:#d74f57;
   font-size:11px;
@@ -371,7 +365,6 @@ body{
   font-weight:bold;
 }
 
-/* 已修學分  n/128 */
 .total .total-num{
   font-size:20px;
   font-weight:800;
@@ -380,20 +373,18 @@ body{
   line-height:1.5;
 }
 
-/* 初始圖表 */
 .ring{
   width:88px;
   height:88px;
   border-radius:50%;
-  background:conic-gradient(#2874d9 0 calc(var(--p,0) * 1%),#dce7f5 0 100%);      /* 顏色會沿著圓心轉 從0開始填到p%的位置 */
+  background:conic-gradient(#2874d9 0 calc(var(--p,0) * 1%),#dce7f5 0 100%);
   display:grid;
   place-items:center;
   margin:3px auto 8px;
 }
 
-/* 中間白色圓形&目前完成幾% */ 
 .ring:after{
-  content:attr(data-pct);   /* 讀取現在完成幾% */
+  content:attr(data-pct);
   width:65px;
   height:65px;
   border-radius:50%;
@@ -405,7 +396,6 @@ body{
   color:#315889;
 }
 
-/* ※ 需符合目前的畢業學分要求 */
 .total small{
   display:block;
   color:#71839b;
@@ -413,7 +403,6 @@ body{
   line-height:1.6;
 }
 
-/* 資工系本學期必選修課程 */
 .table-card{
   padding-bottom:10px;
 }
@@ -470,23 +459,21 @@ body{
   padding:15px;
 }
 
-/* 順利畢業卡片 */
+/* 右上目標卡片 */
 .goal-card{
   background:linear-gradient(180deg,#f7fbff 0%, #eef5ff 100%);
   border:1px solid #cfe0f5;
   overflow:hidden;
 }
 
-/* 順利畢業卡片配置 */
 .goal-wrap{
   display:flex;
-  align-items:flex-start;               
+  align-items:flex-start;
   justify-content:space-between;
   gap:10px;
   min-height:112px;
 }
 
-/* 順利畢業卡片標題 */
 .goal-left h3{
   margin:0 0 8px;
   font-size:20px;
@@ -495,7 +482,6 @@ body{
   line-height:1.2;
 }
 
-/* 順利畢業卡片內容 */
 .goal-left p{
   margin:0;
   color:#7a8da8;
@@ -504,9 +490,8 @@ body{
   font-weight:700;
 }
 
-/* 順利畢業卡片icon */
 .goal-icon{
-  display:inline-block;       /* 並排 */
+  display:inline-block;
   margin-right:6px;
 }
 
@@ -518,13 +503,11 @@ body{
   line-height:1;
 }
 
-/* 畢業帽icon */
 .grad-cap{
   font-size:38px;
   margin-bottom:4px;
 }
 
-/* 書icon */
 .books{
   font-size:28px;
 }
@@ -733,3 +716,17 @@ body{
 #peCourses th:nth-child(8), #peCourses td:nth-child(8){text-align:center}
 #peCourses td{vertical-align:middle}
 .pe-card .card-title .ti{color:#35ad88}
+
+/* 全校共同必修卡片：與其他課程表相同的置中規則 */
+#cmCourses th:nth-child(2), #cmCourses td:nth-child(2),
+#cmCourses th:nth-child(3), #cmCourses td:nth-child(3),
+#cmCourses th:nth-child(7), #cmCourses td:nth-child(7),
+#cmCourses th:nth-child(8), #cmCourses td:nth-child(8){text-align:center}
+#cmCourses td{vertical-align:middle}
+.cm-card .card-title .ti{color:#2874d9}
+
+/* 已選課程一覽：學期、類別、時間不要換行（避免 115-1 被拆成兩行） */
+#selectedTable td:nth-child(1),
+#selectedTable td:nth-child(5),
+#selectedTable td:nth-child(6){white-space:nowrap}
+#selectedTable td{vertical-align:middle}

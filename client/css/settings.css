@@ -372,3 +372,24 @@ body{
     align-items:flex-start;
   }
 }
+
+/* 頭像：不被擠扁，頭和肩膀永遠置中 */
+.avatar{flex:none}
+.avatar:before{left:50%;transform:translateX(-50%)}
+.avatar:after{left:50%;transform:translateX(-50%)}
+
+/* 個人資料：行內編輯 */
+.row-actions{display:flex;gap:8px;flex:none}
+.edit-input{height:36px;width:280px;max-width:100%;border:1px solid #d3e0f0;border-radius:8px;padding:0 11px;font-size:14px;background:#f7fbff;color:var(--text);outline:none;font-family:inherit;transition:border-color .15s,box-shadow .15s}
+.edit-input:focus{border-color:#4388e8;box-shadow:0 0 0 3px rgba(40,116,217,.15);background:#fff}
+.edit-err{color:#d54d57;font-size:12px;margin-top:4px;font-weight:700}
+.row .muted.val{display:inline-block;margin-top:2px}
+
+/* Google 同步 */
+.status.off{background:#eef2f7;color:#70819a}
+.status.off .dot{background:#9aa9bd}
+.action-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn:disabled{opacity:.55;cursor:default}
+.sync-msg{margin-top:12px;min-height:20px}
+.sync-msg.err{color:#d54d57;font-weight:700}
+.sync-msg.ok{color:#24926d;font-weight:700}

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>暨南大學｜系統設定</title>
-  <link rel="stylesheet" href="css\settings.css">
+  <link rel="stylesheet" href="/css/settings.css">
 </head>
 <body>
   <div class="layout">
@@ -43,28 +43,28 @@
         <section class="card">
           <h2 class="card-title"><span class="ti">♙</span>個人資料</h2>
 
-          <div class="row">
+          <div class="row" data-field="name">
             <div>
               <b>姓名</b><br>
-              <span class="muted">劉承恩</span>
+              <span class="muted val">劉承恩</span>
             </div>
-            <button class="btn btn-gray">編輯</button>
+            <div class="row-actions"><button class="btn btn-gray edit-btn">編輯</button></div>
           </div>
 
-          <div class="row">
+          <div class="row" data-field="dept">
             <div>
               <b>系所</b><br>
-              <span class="muted">資訊工程學系</span>
+              <span class="muted val">資訊工程學系</span>
             </div>
-            <button class="btn btn-gray">編輯</button>
+            <div class="row-actions"><button class="btn btn-gray edit-btn">編輯</button></div>
           </div>
 
-          <div class="row">
+          <div class="row" data-field="grade">
             <div>
               <b>目前年級</b><br>
-              <span class="muted">大一</span>
+              <span class="muted val">大一</span>
             </div>
-            <button class="btn btn-gray">編輯</button>
+            <div class="row-actions"><button class="btn btn-gray edit-btn">編輯</button></div>
           </div>
         </section>
 
@@ -76,7 +76,7 @@
               <b>Google 帳號</b><br>
               <span class="muted">使用 Google Identity Services 登入</span>
             </div>
-            <span class="status"><i class="dot"></i>未連結</span>
+            <span class="status off" id="googleStatus"><i class="dot"></i>未連結</span>
           </div>
 
           <div class="row">
@@ -91,7 +91,10 @@
 
           <div class="action-row">
             <button class="btn" id="linkGoogleBtn">連結 Google 帳號</button>
+            <button class="btn btn-gray" id="restoreBtn" hidden>從雲端還原</button>
+            <button class="btn btn-gray" id="unlinkBtn" hidden>中斷連結</button>
           </div>
+          <div class="muted sync-msg" id="syncMsg" aria-live="polite"></div>
         </section>
 
         <section class="card">
@@ -109,6 +112,7 @@
     </div>
   </div>
 
-  <script src="../js/setting.js"></script>
+  <script src="/js/profile.js"></script>
+  <script src="/js/settings.js"></script>
 </body>
 </html>

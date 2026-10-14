@@ -117,7 +117,7 @@
             <!-- 體育（特色運動）＋ 校共同必修（課名含「資工」） -->
             <div class="card table-card pe-card">
               <div class="card-head">
-                <h2 class="card-title"><span class="ti">🏃</span>全校共同課程</h2>
+                <h2 class="card-title"><span class="ti">🏃</span>體育 / 校共同必修課程</h2>
 
                 <div class="picker">
                   <span id="peCount" class="picker-count">載入中…</span>
@@ -134,6 +134,38 @@
               </div>
 
               <table class="table" id="peCourses">
+                <thead>
+                  <tr>
+                    <th>課程名稱</th>
+                    <th>類別</th>
+                    <th>學分</th>
+                    <th>時間</th>
+                    <th>老師</th>
+                    <th>上課地點</th>
+                    <th>狀態</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <!-- 全校共同必修（common.json：跨域專業學術英文、資工系共同課） -->
+            <div class="card table-card cm-card">
+              <div class="card-head">
+                <h2 class="card-title"><span class="ti">🏫</span>全校共同必修</h2>
+
+                <div class="picker">
+                  <span id="cmCount" class="picker-count">載入中…</span>
+                  <select id="cmGrade"><option value="">全部年級</option></select>
+                  <label class="search">
+                    <span class="search-icon">🔍</span>
+                    <input id="cmSearch" type="search" placeholder="搜尋課名、老師、課號" />
+                  </label>
+                </div>
+              </div>
+
+              <table class="table" id="cmCourses">
                 <thead>
                   <tr>
                     <th>課程名稱</th>
@@ -239,7 +271,7 @@
             <div class="card right-card goal-card">
               <div class="goal-wrap">
                 <div class="goal-left">
-                  <h3><span class="goal-icon">🎯</span>目標：順利畢業!</h3>
+                  <h3><span class="goal-icon">🎯</span>目標 : 順利畢業!</h3>
                   <p>
                     合理規劃學分，主修修業圓滿，<br>
                     讓大學生活更有方向！
@@ -256,6 +288,7 @@
       </section>
     </main>
   </div>
+  <script src="/js/profile.js"></script>
   <script src="/js/app.js"></script>
 </body>
 </html>
