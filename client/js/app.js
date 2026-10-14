@@ -4,13 +4,9 @@
 let COURSES = []; // 資工系課程 (/api/courses)
 let GENERAL = []; // 通識課 (/api/general-courses)
 const PAGE_SIZE = 8; // 每頁幾筆
-let page = 1;
-let genPage = 1;
 let PE = []; // 體育(特色運動) + 校共同必修(課名含「資工」)
-let pePage = 1;
 let PE_LOAD_ERROR = ''; // 體育課資料載入失敗時的提示
 let CM = []; // 全校共同必修 (/api/common-courses，來源 common.json)
-let cmPage = 1;
 let CM_LOAD_ERROR = '';
 
 const SEMESTER = '115-1'; // 新增的課程所屬學期
@@ -361,7 +357,33 @@ function addManualCourse(e) {
 
   document.getElementById('manualForm').reset();
   document.getElementById('mfCredits').value = '3';
-  setManualMsg(`已新增「${name}」，可在下方已選課程與課表頁看到。`, false);
+  document.getElementById('manualDialog').close();
+  showToast(`已新增「${name}」`);
+}
+
+// 右下角的小提示（彈窗關閉後讓使用者知道有加成功）
+function showToast(text) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = text;
+  document.body.appendChild(t);
+  setTimeout(() => t.classList.add('show'), 10);
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 250); }, 2200);
+}
+
+const MF_HINT = '時間格式：數字＝星期（1=週一）、字母＝節次，例如 2cd4d ＝ 週二 C、D 節與週四 D 節。沒有時間可留空。';
+
+function initManualDialog() {
+  const dlg = document.getElementById('manualDialog');
+  document.getElementById('openManual').addEventListener('click', () => {
+    setManualMsg(MF_HINT, false);
+    dlg.showModal();
+    document.getElementById('mfName').focus();
+  });
+  document.getElementById('mfCancel').addEventListener('click', () => dlg.close());
+  // 點到半透明背景也關閉（內容都包在 .dlg-body 裡，點內容不會觸發）
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+  document.getElementById('manualForm').addEventListener('submit', addManualCourse);
 }
 
 function removeSelected(key) {
@@ -384,316 +406,183 @@ function actionHtml(src, key) {
 }
 
 /* =========================
-   資工系課程表
+   課程表：資工系／體育／共同必修／通識 共用一張表，用分頁籤切換
    ========================= */
-function renderTable() {
-  const q = document.getElementById('courseSearch').value.trim().toLowerCase();
-  const grade = document.getElementById('gradeFilter').value;
-  const tbody = document.querySelector('#newCourses tbody');
+let curTab = 'cs';
+const tabPage = { cs: 1, pe: 1, cm: 1, general: 1 };
+const tabFilter = { cs: '', pe: '', cm: '', general: '' };
+const TAB_DATA = () => ({ cs: COURSES, pe: PE, cm: CM, general: GENERAL });
 
-  const rows = COURSES.filter((c) => {
-    if (grade && c.grade !== grade) return false;
+// 通識領域的標籤顏色，和右側「課程分類進度」的領域顏色一致（跨領域的課看第一個，和學分統計的算法相同）
+function domainBadge(domain) {
+  const first = bigDomain(domain).split('、')[0];
+  return { 人文: 'hum', 社會: 'soc', 自然: 'nat', 特色: 'spe' }[first] || 'none';
+}
+
+// 四種來源整理成同樣的欄位，表格只要畫一種
+function rowOf(src, c) {
+  if (src === 'cs') {
+    const cat = categoryOf(c);
+    return { id: c.course_id, name: c.course_name, section: '', cat, catTitle: '', badge: cat === '專業必修' ? 'blue' : 'pur', credits: creditsOf(c), slot: c.time_slot, teacher: c.teacher, location: c.location };
+  }
+  if (src === 'pe') {
+    const cat = peCategoryOf(c);
+    return { id: c.course_id, name: c.course_name, section: c.section, cat, catTitle: '', badge: cat === '校共同必修' ? 'com' : '', credits: creditsOf(c), slot: c.time_slot, teacher: c.teacher, location: c.location };
+  }
+  if (src === 'cm') {
+    return { id: c.course_id, name: c.course_name, section: c.section, cat: '校共同必修', catTitle: '', badge: 'com', credits: creditsOf(c), slot: c.time_slot, teacher: c.teacher, location: c.location };
+  }
+  const domain = pick(c, 'domain', 'category', 'type');
+  const slot = pick(c, 'time_slot', 'time');
+  return {
+    id: c.course_id,
+    name: pick(c, 'course_name', 'name', 'cname'),
+    section: '',
+    cat: bigDomain(domain),
+    catTitle: domain,
+    badge: domainBadge(domain),
+    credits: pick(c, 'credits', 'credit') || creditsOf(c),
+    slot,
+    teacher: pick(c, 'teacher', 'teachers'),
+    location: pick(c, 'location', 'classroom')
+  };
+}
+
+const gradeOptions = (list) =>
+  [...new Set(list.map((c) => String(c.grade)).filter(Boolean))].sort().map((g) => [g, `${g} 年級`]);
+
+// 每個分頁各自的篩選下拉
+const FILTERS = {
+  cs: { all: '全部年級', opts: () => gradeOptions(COURSES), test: (c, v) => String(c.grade) === v },
+  pe: { all: '全部類別', opts: () => [['特色運動', '特色運動'], ['校共同必修', '校共同必修']], test: (c, v) => peCategoryOf(c) === v },
+  cm: { all: '全部年級', opts: () => gradeOptions(CM), test: (c, v) => String(c.grade) === v },
+  general: {
+    all: '全部星期',
+    opts: () => ['一', '二', '三', '四', '五'].map((d, i) => [String(i + 1), `星期${d}`]),
+    test: (c, v) => parseTimeSlot(pick(c, 'time_slot', 'time')).some((x) => x[0] === v)
+  }
+};
+
+function rebuildFilter() {
+  const sel = document.getElementById('courseFilter');
+  const f = FILTERS[curTab];
+  sel.innerHTML =
+    `<option value="">${f.all}</option>` +
+    f.opts().map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join('');
+  sel.value = tabFilter[curTab];
+}
+
+function renderCourses() {
+  const src = curTab;
+  const q = document.getElementById('courseSearch').value.trim().toLowerCase();
+  const fv = tabFilter[src];
+  const f = FILTERS[src];
+  const tbody = document.querySelector('#courseTable tbody');
+
+  const rows = TAB_DATA()[src].filter((c) => {
+    if (fv && !f.test(c, fv)) return false;
     if (!q) return true;
-    return [c.course_name, c.teacher, c.course_id].some((v) =>
-      String(v || '').toLowerCase().includes(q)
-    );
+    const r = rowOf(src, c);
+    return [r.name, r.teacher, r.id].some((v) => String(v || '').toLowerCase().includes(q));
   });
 
   const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-  page = Math.min(Math.max(page, 1), totalPages);
-  const pageRows = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  tabPage[src] = Math.min(Math.max(tabPage[src], 1), totalPages);
+  const pg = tabPage[src];
+  const pageRows = rows.slice((pg - 1) * PAGE_SIZE, pg * PAGE_SIZE);
 
   tbody.innerHTML = pageRows
     .map((c) => {
       const key = keyOf(c);
+      const r = rowOf(src, c);
+      const cat = r.badge
+        ? `<span class="status ${r.badge}" title="${esc(r.catTitle)}">${esc(r.cat)}</span>`
+        : `<span class="status" title="${esc(r.catTitle)}">${esc(r.cat)}</span>`;
       return `
 <tr>
-  <td>${esc(c.course_name)}</td>
-  <td><span class="status ${categoryOf(c) === '專業必修' ? 'blue' : ''}">${categoryOf(c)}</span></td>
-  <td>${esc(creditsOf(c))}</td>
-  <td>${esc(c.time_slot)}</td>
-  <td>${esc(c.teacher)}</td>
-  <td>${esc(c.location)}</td>
-  <td>${statusHtml(key, c.time_slot)}</td>
-  <td>${actionHtml('cs', key)}</td>
+  <td>${esc(r.name)}${r.section ? ` <span class="muted">(${esc(r.section)}班)</span>` : ''}</td>
+  <td>${cat}</td>
+  <td>${esc(r.credits)}</td>
+  <td>${esc(r.slot || '無')}</td>
+  <td>${esc(r.teacher || '—')}</td>
+  <td>${esc(r.location || '無')}</td>
+  <td>${statusHtml(key, r.slot)}</td>
+  <td>${actionHtml(src, key)}</td>
 </tr>`;
     })
     .join('');
 
   if (!rows.length) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center">沒有符合的課程</td></tr>';
+    const err = src === 'pe' ? PE_LOAD_ERROR : src === 'cm' ? CM_LOAD_ERROR : '';
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center${err ? ';color:#d54d57' : ''}">${esc(err || '沒有符合的課程')}</td></tr>`;
   }
 
   document.getElementById('courseCount').textContent = `共 ${rows.length} 門`;
-  renderPager(totalPages);
-}
 
-function goPage(p) {
-  page = p;
-  renderTable();
-}
-
-function renderPager(totalPages) {
-  let pager = document.getElementById('pager');
-  if (!pager) {
-    pager = document.createElement('div');
-    pager.id = 'pager';
-    pager.className = 'pager';
-    document.getElementById('newCourses').insertAdjacentElement('afterend', pager);
-  }
-
-  if (totalPages <= 1) {
-    pager.innerHTML = '';
-    return;
-  }
-
-  pager.innerHTML = `
-<span class="pg-info">第 ${page} / ${totalPages} 頁</span>
-<button class="pg-btn" onclick="goPage(${page - 1})" ${page === 1 ? 'disabled' : ''}>‹ 上一頁</button>
-<button class="pg-btn" onclick="goPage(${page + 1})" ${page === totalPages ? 'disabled' : ''}>下一頁 ›</button>`;
-}
-
-/* =========================
-   通識課表
-   ========================= */
-function renderPE() {
-  const q = document.getElementById('peSearch').value.trim().toLowerCase();
-  const cat = document.getElementById('peFilter').value;
-  const tbody = document.querySelector('#peCourses tbody');
-
-  const rows = PE.filter((c) => {
-    if (cat && peCategoryOf(c) !== cat) return false;
-    if (!q) return true;
-    return [c.course_name, c.teacher, c.course_id].some((v) =>
-      String(v || '').toLowerCase().includes(q)
-    );
+  // 分頁籤上的總門數
+  const all = TAB_DATA();
+  Object.keys(all).forEach((k) => {
+    const el = document.getElementById('tabCnt-' + k);
+    if (el) el.textContent = all[k].length;
   });
 
-  const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-  pePage = Math.min(Math.max(pePage, 1), totalPages);
-  const pageRows = rows.slice((pePage - 1) * PAGE_SIZE, pePage * PAGE_SIZE);
-
-  tbody.innerHTML = pageRows
-    .map((c) => {
-      const key = keyOf(c);
-      const k = peCategoryOf(c);
-      return `
-<tr>
-  <td>${esc(c.course_name)}${c.section ? ` <span class="muted">(${esc(c.section)}班)</span>` : ''}</td>
-  <td><span class="status ${k === '校共同必修' ? 'blue' : ''}">${k}</span></td>
-  <td>${esc(creditsOf(c))}</td>
-  <td>${esc(c.time_slot || '無')}</td>
-  <td>${esc(c.teacher || '—')}</td>
-  <td>${esc(c.location || '無')}</td>
-  <td>${statusHtml(key, c.time_slot)}</td>
-  <td>${actionHtml('pe', key)}</td>
-</tr>`;
-    })
-    .join('');
-
-  if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center${PE_LOAD_ERROR ? ';color:#d54d57' : ''}">${esc(PE_LOAD_ERROR || '沒有符合的課程')}</td></tr>`;
-  }
-
-  document.getElementById('peCount').textContent = `共 ${rows.length} 門`;
-
-  let pager = document.getElementById('pePager');
-  if (!pager) {
-    pager = document.createElement('div');
-    pager.id = 'pePager';
-    pager.className = 'pager';
-    document.getElementById('peCourses').insertAdjacentElement('afterend', pager);
-  }
-  pager.innerHTML =
+  document.getElementById('coursePager').innerHTML =
     totalPages <= 1
       ? ''
       : `
-<span class="pg-info">第 ${pePage} / ${totalPages} 頁</span>
-<button class="pg-btn" onclick="goPE(${pePage - 1})" ${pePage === 1 ? 'disabled' : ''}>‹ 上一頁</button>
-<button class="pg-btn" onclick="goPE(${pePage + 1})" ${pePage === totalPages ? 'disabled' : ''}>下一頁 ›</button>`;
+<span class="pg-info">第 ${pg} / ${totalPages} 頁</span>
+<button class="pg-btn" onclick="goCourses(${pg - 1})" ${pg === 1 ? 'disabled' : ''}>‹ 上一頁</button>
+<button class="pg-btn" onclick="goCourses(${pg + 1})" ${pg === totalPages ? 'disabled' : ''}>下一頁 ›</button>`;
 }
 
-function goPE(p) {
-  pePage = p;
-  renderPE();
+function goCourses(p) {
+  tabPage[curTab] = p;
+  renderCourses();
 }
 
-function renderCM() {
-  const q = document.getElementById('cmSearch').value.trim().toLowerCase();
-  const grade = document.getElementById('cmGrade').value;
-  const tbody = document.querySelector('#cmCourses tbody');
-
-  const rows = CM.filter((c) => {
-    if (grade && String(c.grade) !== grade) return false;
-    if (!q) return true;
-    return [c.course_name, c.teacher, c.course_id].some((v) =>
-      String(v || '').toLowerCase().includes(q)
-    );
+function switchTab(tab) {
+  if (!FILTERS[tab] || tab === curTab) return;
+  curTab = tab;
+  tabPage[tab] = 1;
+  document.querySelectorAll('#courseTabs .tab').forEach((b) => {
+    const on = b.dataset.tab === tab;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-selected', String(on));
   });
-
-  const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-  cmPage = Math.min(Math.max(cmPage, 1), totalPages);
-  const pageRows = rows.slice((cmPage - 1) * PAGE_SIZE, cmPage * PAGE_SIZE);
-
-  tbody.innerHTML = pageRows
-    .map((c) => {
-      const key = keyOf(c);
-      return `
-<tr>
-  <td>${esc(c.course_name)}${c.section ? ` <span class="muted">(${esc(c.section)}班)</span>` : ''}</td>
-  <td><span class="status blue">校共同必修</span></td>
-  <td>${esc(creditsOf(c))}</td>
-  <td>${esc(c.time_slot || '無')}</td>
-  <td>${esc(c.teacher || '—')}</td>
-  <td>${esc(c.location || '無')}</td>
-  <td>${statusHtml(key, c.time_slot)}</td>
-  <td>${actionHtml('cm', key)}</td>
-</tr>`;
-    })
-    .join('');
-
-  if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center${CM_LOAD_ERROR ? ';color:#d54d57' : ''}">${esc(CM_LOAD_ERROR || '沒有符合的課程')}</td></tr>`;
-  }
-
-  document.getElementById('cmCount').textContent = `共 ${rows.length} 門`;
-
-  let pager = document.getElementById('cmPager');
-  if (!pager) {
-    pager = document.createElement('div');
-    pager.id = 'cmPager';
-    pager.className = 'pager';
-    document.getElementById('cmCourses').insertAdjacentElement('afterend', pager);
-  }
-  pager.innerHTML =
-    totalPages <= 1
-      ? ''
-      : `
-<span class="pg-info">第 ${cmPage} / ${totalPages} 頁</span>
-<button class="pg-btn" onclick="goCM(${cmPage - 1})" ${cmPage === 1 ? 'disabled' : ''}>‹ 上一頁</button>
-<button class="pg-btn" onclick="goCM(${cmPage + 1})" ${cmPage === totalPages ? 'disabled' : ''}>下一頁 ›</button>`;
-}
-
-function goCM(p) {
-  cmPage = p;
-  renderCM();
-}
-
-function renderGeneral() {
-  const table = document.querySelector('.general-card .table');
-  if (!table) return;
-  table.id = 'generalCourses';
-
-  const gq = document.getElementById('generalSearch').value.trim().toLowerCase();
-  const day = document.getElementById('weekdayFilter').value;
-  const filtered = GENERAL.filter((c) => {
-    if (day && !parseTimeSlot(pick(c, 'time_slot', 'time')).some((x) => x[0] === day)) return false;
-    if (!gq) return true;
-    return [pick(c, 'course_name', 'name', 'cname'), pick(c, 'teacher', 'teachers'), c.course_id].some((v) =>
-      String(v || '').toLowerCase().includes(gq)
-    );
-  });
-  const cnt = document.getElementById('generalCount');
-  if (cnt) cnt.textContent = `共 ${filtered.length} 門`;
-
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  genPage = Math.min(Math.max(genPage, 1), totalPages);
-  const rows = filtered.slice((genPage - 1) * PAGE_SIZE, genPage * PAGE_SIZE);
-
-  table.innerHTML = `
-<thead>
-  <tr>
-    <th>課程名稱</th>
-    <th>類別</th>
-    <th>學分</th>
-    <th>時間</th>
-    <th>老師</th>
-    <th>上課地點</th>
-    <th>狀態</th>
-    <th>操作</th>
-  </tr>
-</thead>
-<tbody>
-${
-  rows.map((c) => {
-    const key = keyOf(c);
-    const slot = pick(c, 'time_slot', 'time');
-    return `
-<tr>
-  <td>${esc(pick(c, 'course_name', 'name', 'cname'))}</td>
-  <td title="${esc(pick(c, 'domain', 'category', 'type'))}">
-    ${esc(bigDomain(pick(c, 'domain', 'category', 'type')))}
-  </td>
-  <td>${esc(pick(c, 'credits', 'credit') || creditsOf(c))}</td>
-  <td>${esc(slot || '無')}</td>
-  <td>${esc(pick(c, 'teacher', 'teachers') || '—')}</td>
-  <td>${esc(pick(c, 'location', 'classroom') || '無')}</td>
-  <td>${statusHtml(key, slot)}</td>
-  <td>${actionHtml('general', key)}</td>
-</tr>`;
-  }).join('') || '<tr><td colspan="8" style="text-align:center">沒有符合的通識課</td></tr>'
-}
-</tbody>`;
-
-  let pager = document.getElementById('genPager');
-  if (!pager) {
-    pager = document.createElement('div');
-    pager.id = 'genPager';
-    pager.className = 'pager';
-    table.insertAdjacentElement('afterend', pager);
-  }
-
-  if (totalPages <= 1) {
-    pager.innerHTML = '';
-    return;
-  }
-
-  pager.innerHTML = `
-<span class="pg-info">第 ${genPage} / ${totalPages} 頁(共 ${filtered.length} 門)</span>
-<button class="pg-btn" onclick="goGeneral(${genPage - 1})" ${genPage === 1 ? 'disabled' : ''}>‹ 上一頁</button>
-<button class="pg-btn" onclick="goGeneral(${genPage + 1})" ${genPage === totalPages ? 'disabled' : ''}>下一頁 ›</button>`;
-}
-
-function goGeneral(p) {
-  genPage = p;
-  renderGeneral();
+  rebuildFilter();
+  renderCourses();
 }
 
 /* =========================
    已選課程一覽
    ========================= */
 function renderSelected() {
-  const tbody = document.getElementById('selectedBody');
-  if (!tbody) return;
+  const box = document.getElementById('selectedList');
+  if (!box) return;
 
-  tbody.innerHTML = allSelected()
+  const list = allSelected();
+  box.innerHTML = list
     .map((s) => {
       const isBase = !isAdded(s.key);
-      const status = isBase
-        ? '<span class="status blue">已選上</span>'
-        : s.manual
-          ? '<span class="status manual">手動新增</span>'
-          : '<span class="status">已新增</span>';
-      const action = isBase
-        ? '<span class="muted">—</span>'
-        : `<button class="act-btn remove" data-key="${esc(s.key)}" data-from="selected">退選</button>`;
+      const tag = s.manual ? '<span class="status manual">手動</span>' : '';
+      const del = isBase
+        ? ''
+        : `<button class="sel-del" title="退選" aria-label="退選 ${esc(s.course_name)}" data-key="${esc(s.key)}" data-from="selected">✕</button>`;
+      const meta = [`${esc(s.credits)} 學分`, esc(s.category), esc(s.time_slot || '無')].join(' · ');
       return `
-<tr>
-  <td>${esc(s.semester)}</td>
-  <td>${esc(s.course_name)}</td>
-  <td>${esc(s.unit)}</td>
-  <td>${esc(s.credits)}</td>
-  <td>${esc(s.category)}</td>
-  <td>${esc(s.time_slot || '無')}</td>
-  <td>${status}</td>
-  <td>${action}</td>
-</tr>`;
+<div class="sel-item">
+  <div class="sel-main">
+    <div class="sel-name">${esc(s.course_name)} ${tag}</div>
+    <div class="sel-meta">${meta}</div>
+  </div>
+  ${del}
+</div>`;
     })
-    .join('') || '<tr><td colspan="8" style="text-align:center;color:#70819a">尚未選課,請從上方表格加入課程</td></tr>';
+    .join('') || '<div class="sel-empty">尚未選課,請從左側表格加入課程</div>';
 
-  const total = allSelected().reduce((sum, s) => sum + (parseFloat(s.credits) || 0), 0);
+  const total = list.reduce((sum, s) => sum + (parseFloat(s.credits) || 0), 0);
   const el = document.getElementById('selectedSummary');
-  if (el) el.textContent = `共 ${allSelected().length} 門 · ${total} 學分`;
+  if (el) el.textContent = `${list.length} 門 · ${total} 學分`;
 }
 
 
@@ -710,7 +599,7 @@ const REQ = [
   { key: '通識-特色', label: '領域-特色通識', need: 3, color: 'teal', domain: true }
 ];
 // 其餘畢業要求(目前沒有對應的課程資料來源,先顯示為 0)
-const COMMON = { key: '校共同必修', label: '校共同必修', need: 16, color: 'blue' };
+const COMMON = { key: '校共同必修', label: '校共同必修', need: 16, color: 'pink' };
 const FREE = { key: '自由學分', label: '自由學分', need: 6, color: 'purple' };
 
 function creditsByCategory() {
@@ -814,10 +703,7 @@ function renderProgress() {
 }
 
 function renderAll() {
-  renderTable();
-  renderPE();
-  renderCM();
-  renderGeneral();
+  renderCourses();
   renderSelected();
   renderProgress();
 }
@@ -826,77 +712,44 @@ function renderAll() {
    初始化
    ========================= */
 document.addEventListener('click', (e) => {
-  const btn = e.target.closest('.act-btn');
+  const btn = e.target.closest('.act-btn, .sel-del');
   if (!btn) return;
   if (btn.dataset.from === 'selected') removeSelected(btn.dataset.key);
   else toggleCourse(btn.dataset.src, btn.dataset.key);
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
+  const getJson = (url, label) =>
+    fetch(url)
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .catch((e) => {
+        console.error(label, e);
+        return [];
+      });
   const [cs, gen] = await Promise.all([
-    fetch('/api/courses').then((r) => (r.ok ? r.json() : Promise.reject(r.status))).catch((e) => {
-      console.error('載入課程失敗', e);
-      return [];
-    }),
-    fetch('/api/general-courses').then((r) => (r.ok ? r.json() : Promise.reject(r.status))).catch((e) => {
-      console.error('載入通識課失敗', e);
-      return [];
-    })
+    getJson('/api/courses', '載入課程失敗'),
+    getJson('/api/general-courses', '載入通識課失敗')
   ]);
   COURSES = cs;
   GENERAL = gen;
   PE = await loadPE();
   CM = await loadCM();
 
-  const cmGradeSel = document.getElementById('cmGrade');
-  [...new Set(CM.map((c) => String(c.grade)).filter(Boolean))]
-    .sort()
-    .forEach((g) => {
-      cmGradeSel.insertAdjacentHTML('beforeend', `<option value="${esc(g)}">${esc(g)} 年級</option>`);
-    });
-  document.getElementById('cmSearch').addEventListener('input', () => {
-    cmPage = 1;
-    renderCM();
+  rebuildFilter();
+  document.getElementById('courseTabs').addEventListener('click', (e) => {
+    const b = e.target.closest('.tab');
+    if (b) switchTab(b.dataset.tab);
   });
-  cmGradeSel.addEventListener('change', () => {
-    cmPage = 1;
-    renderCM();
-  });
-
-  const sel = document.getElementById('gradeFilter');
-  [...new Set(COURSES.map((c) => c.grade).filter(Boolean))]
-    .sort()
-    .forEach((g) => {
-      sel.insertAdjacentHTML('beforeend', `<option value="${esc(g)}">${esc(g)} 年級</option>`);
-    });
-
   document.getElementById('courseSearch').addEventListener('input', () => {
-    page = 1;
-    renderTable();
+    tabPage[curTab] = 1;
+    renderCourses();
   });
-
-  sel.addEventListener('change', () => {
-    page = 1;
-    renderTable();
+  document.getElementById('courseFilter').addEventListener('change', (e) => {
+    tabFilter[curTab] = e.target.value;
+    tabPage[curTab] = 1;
+    renderCourses();
   });
-
-  document.getElementById('generalSearch').addEventListener('input', () => {
-    genPage = 1;
-    renderGeneral();
-  });
-  document.getElementById('peSearch').addEventListener('input', () => {
-    pePage = 1;
-    renderPE();
-  });
-  document.getElementById('peFilter').addEventListener('change', () => {
-    pePage = 1;
-    renderPE();
-  });
-  document.getElementById('weekdayFilter').addEventListener('change', () => {
-    genPage = 1;
-    renderGeneral();
-  });
-  document.getElementById('manualForm').addEventListener('submit', addManualCourse);
+  initManualDialog();
 
   renderAll();
 });

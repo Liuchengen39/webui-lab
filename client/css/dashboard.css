@@ -31,7 +31,7 @@ body{
 /* 側欄 */
 .sidebar{
   width:190px;
-  flex:none;                                                          /* 不會跑篇 */
+  flex:none;                                                          /* 不會跑偏 */
   background:linear-gradient(180deg,#193760 0%,#142d51 100%);     /* 漸層 */
   color:#fff;                                                       /* 字的顏色 */
   min-height:100vh;                                                   /* 高度固定 */
@@ -61,7 +61,7 @@ body{
 
 /* 左上角文字--暨南大學 */
 .logo-text strong{
-  display:block;                   /* 強制轉換成block 會自動換行 */
+  display:block;                   /* block會填滿 自動換行 */
   font-size:16px;
   letter-spacing:4px;              /* 字間距 */
 }
@@ -72,7 +72,7 @@ body{
   letter-spacing:2px;
 }
 
-/* 到logo間空白 */
+/* 超連結基礎設定 */
 .nav{
   padding-top:10px;
 }
@@ -87,7 +87,7 @@ body{
   text-decoration:none;                       /* 清除預設底線 */
   padding:0 18px;
   font-size:15px;
-  border-left:3px solid transparent;
+  border-left:3px solid transparent;          /* 最左側白線透明 */
 }
 
 /* 鼠標懸停 */
@@ -140,7 +140,7 @@ body{
   height:39px;
   border-radius:50%;
   background:#e9f1fc;
-  position:relative;            /* 設定定位基準 */
+  position:relative;            /* 相對定位 */
 }
 
 /* 繪製預設大頭照的「頭部」 */
@@ -194,14 +194,14 @@ body{
   margin:0 0 14px;
 }
 
-/* 上面提示 */
+/* 上面提示(綜合總覽) */
 .title-row h1{
   font-size:27px;
   margin:0;
   color:#193c6b;
 }
 
-/* 上面提示 */
+/* 上面提示(整體學分進度一覽，掌握畢業要求與修課狀況) */
 .title-row p{
   margin:0;
   color:#8492a7;
@@ -236,13 +236,13 @@ body{
   gap:8px;
 }
 
-/* 學分完成情況卡片-標題 */
+/* 學分完成情況卡片-標題icon */
 .card-title .ti{
   font-size:20px;
   color:#2874d9;
 }
 
-/* 雙欄版面 */
+/* 拆成學分進度跟總計兩個版面 */
 .credit-grid{
   display:grid;
   grid-template-columns:1fr 155px;            /* 左欄彈性 右欄固定 */
@@ -262,7 +262,7 @@ body{
   background:#f7fbff;
 }
 
-/* 學分進度標題 */
+/* 學分進度卡片標題 */
 .credit-head{
   display:flex;
   align-items:center;
@@ -272,7 +272,7 @@ body{
   color:#28517f;
 }
 
-/* </>icon設定 */
+/* icon設定 */
 .circle-icon{
   width:30px;
   height:30px;
@@ -327,6 +327,7 @@ body{
   margin:13px 0 7px;
 }
 
+/* 系必修        n/49 n% */
 .detail-row{
   height:27px;
   display:grid;
@@ -336,15 +337,18 @@ body{
   font-size:12px;
 }
 
+/* 0/n */ 
 .detail-row span:nth-child(2){
   text-align:right;
 }
 
+/* n% */
 .detail-row span:last-child{
   text-align:right;
   color:#426fa6;
 }
 
+/* 0/n警告 */
 .detail-row.warn{
   background:#fff5f5;
   color:#b63840;
@@ -354,10 +358,12 @@ body{
   padding:0 5px;
 }
 
+/* n%警告 */
 .detail-row.warn span:last-child{
   color:#d54d57;
 }
 
+/* 通識領域總計至少 15、各領域至少 3 學分,仍差 n 學分 */
 .warn-note{
   color:#d74f57;
   font-size:11px;
@@ -732,14 +738,69 @@ body{
 #selectedTable td{vertical-align:middle}
 /* 手動新增課程（加簽／補登） */
 .manual-card .card-title .ti{color:#e08a1e}
-.manual-form{display:grid;grid-template-columns:2fr 1fr 1.3fr;gap:10px 12px;align-items:end}
+.manual-form{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1.3fr);gap:10px 12px;align-items:end}
 .mf{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;color:#48617f}
-.mf input,.mf select{height:34px;border:1px solid #d3e0f0;border-radius:8px;padding:0 10px;font-size:13px;background:#f7fbff;color:var(--text);outline:none;font-family:inherit}
+.mf input,.mf select{width:100%;min-width:0;height:34px;border:1px solid #d3e0f0;border-radius:8px;padding:0 10px;font-size:13px;background:#f7fbff;color:var(--text);outline:none;font-family:inherit}
 .mf input:focus,.mf select:focus{border-color:#4388e8;box-shadow:0 0 0 3px rgba(40,116,217,.15);background:#fff}
 .mf-actions{display:flex;justify-content:flex-end}
 .mf-actions .act-btn{height:34px;padding:0 22px;border-radius:8px;font-size:13px}
 .mf-hint{margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6}
 .mf-hint.err{color:#d54d57;font-weight:700}
 .status.manual{background:#fff1dc;color:#b36a0b}
-@media(max-width:900px){.manual-form{grid-template-columns:1fr 1fr}}
-@media(max-width:620px){.manual-form{grid-template-columns:1fr}}
+@media(max-width:900px){.manual-form{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.manual-form{grid-template-columns:minmax(0,1fr)}}
+
+/* 右側欄固定 + 已選課程精簡清單 */
+.side{align-self:start}
+.side-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.side-head h3{margin:0;font-size:15px;color:#294c78;display:flex;align-items:center;gap:6px}
+.side-head .ti{color:#2874d9}
+.sel-list{height:510px;overflow-y:auto;margin:0 -4px;padding:0 4px}  /* 已選課程固定高度，太多就在裡面捲動 */
+.sel-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #edf1f6}
+.sel-item:last-child{border-bottom:0}
+.sel-main{flex:1;min-width:0}
+.sel-name{font-size:13px;font-weight:700;color:#294c78;line-height:1.35;word-break:break-all}
+.sel-name .status{padding:1px 6px;margin-left:4px;font-size:10px}
+.sel-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.sel-del{flex:none;width:24px;height:24px;border:0;border-radius:50%;background:transparent;color:#e25a63;cursor:pointer;font-size:12px}
+.sel-del:hover{background:#fff0f1}
+.sel-empty{padding:14px 0;text-align:center;color:var(--muted);font-size:12px}
+@media(max-width:900px){.side{position:static;max-height:none;overflow:visible}}
+
+/* ===== 課程表分頁籤 ===== */
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin:0 0 12px;border-bottom:1px solid #e3ecf7}
+.tab{border:0;background:transparent;padding:9px 14px;font-size:13px;font-weight:700;color:#70819a;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;font-family:inherit}
+.tab:hover{color:#2874d9}
+.tab.active{color:#2456a6;border-bottom-color:#2874d9}
+.tab small{margin-left:6px;font-size:11px;background:#eaf3ff;color:#416da5;border-radius:10px;padding:1px 7px}
+.tab.active small{background:#2874d9;color:#fff}
+.tab:empty{display:none}
+/* 類別標籤顏色：對照右側分類進度條 */
+.status.pur{background:#f1e9fd;color:#6b3fa8}   /* 專業選修（紫） */
+.status.hum{background:#fdf1dc;color:#a8700f}   /* 通識-人文（橘） */
+.status.soc{background:#fde6e8;color:#c0394a}   /* 通識-社會（紅） */
+.status.nat{background:#dff5ec;color:#1f8a60}   /* 通識-自然（綠） */
+.status.spe{background:#dcf2f7;color:#17717a}   /* 通識-特色（青） */
+.status.none{background:#eef2f7;color:#70819a}  /* 未分類（灰） */
+#courseTable th:nth-child(2), #courseTable td:nth-child(2),
+#courseTable th:nth-child(3), #courseTable td:nth-child(3),
+#courseTable th:nth-child(7), #courseTable td:nth-child(7),
+#courseTable th:nth-child(8), #courseTable td:nth-child(8){text-align:center}
+#courseTable td{vertical-align:middle}
+.card-head .act-btn.add{height:34px;border-radius:17px;padding:0 14px}
+
+/* ===== 手動新增彈窗 ===== */
+.manual-dialog{overflow-x:hidden;max-height:90vh;border:0;border-radius:12px;padding:0;width:min(640px,92vw);box-shadow:0 18px 50px rgba(23,51,93,.28);color:var(--text);font-family:inherit}
+.manual-dialog::backdrop{background:rgba(20,45,81,.45)}
+.dlg-body{padding:18px 20px 16px}
+.dlg-body .card-title{margin-bottom:14px}
+.manual-form .mf-actions{grid-column:1/-1;gap:8px}
+.act-btn.cancel{background:#eef3f9;color:#48617f;border-color:transparent;height:34px;padding:0 18px;border-radius:8px;font-size:13px}
+.act-btn.cancel:hover{background:#e3ebf5}
+
+/* 小提示 */
+.toast{position:fixed;right:22px;bottom:22px;background:#17335d;color:#fff;padding:10px 16px;border-radius:9px;font-size:13px;font-weight:700;box-shadow:0 6px 20px rgba(23,51,93,.3);opacity:0;transform:translateY(8px);transition:.22s;z-index:50}
+.toast.show{opacity:1;transform:none}
+/* 校共同必修（粉紅） */
+.status.com{background:#fdeaf1;color:#a1325f}
+.cat .progress i.pink{background:#ec5b97}
