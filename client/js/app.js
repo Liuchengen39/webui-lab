@@ -310,6 +310,60 @@ function toggleCourse(src, key) {
   renderAll();
 }
 
+/* =========================
+   手動新增課程（加簽／補登）
+   ========================= */
+// 時間格式：數字＝星期、字母＝節次，例如 2cd4d；可留空
+const TIME_RE = /^(\d[a-z]+)+$/i;
+
+function setManualMsg(text, isErr) {
+  const el = document.getElementById('mfMsg');
+  if (!el) return;
+  el.textContent = text;
+  el.classList.toggle('err', !!isErr);
+}
+
+function addManualCourse(e) {
+  e.preventDefault();
+  const name = document.getElementById('mfName').value.trim();
+  const credits = parseFloat(document.getElementById('mfCredits').value);
+  const category = document.getElementById('mfCategory').value;
+  const time = document.getElementById('mfTime').value.trim().toLowerCase();
+  const teacher = document.getElementById('mfTeacher').value.trim();
+  const location = document.getElementById('mfLocation').value.trim();
+
+  if (!name) return setManualMsg('請輸入課程名稱', true);
+  if (!(credits >= 0)) return setManualMsg('請輸入正確的學分', true);
+  if (time && !TIME_RE.test(time)) {
+    return setManualMsg('時間格式不正確，請用像 2cd4d 的格式（數字＝星期、字母＝節次）', true);
+  }
+
+  const rec = {
+    key: `manual|${Date.now()}`,
+    semester: SEMESTER,
+    course_name: name,
+    unit: '手動新增',
+    credits: String(credits),
+    category,
+    time_slot: time || '無',
+    teacher,
+    location,
+    manual: true
+  };
+
+  if (time && isConflicted(rec.time_slot, rec.key)) {
+    if (!confirm(`「${name}」與已選課程衝堂,仍要加入嗎?`)) return;
+  }
+
+  added.push(rec);
+  saveAdded();
+  renderAll();
+
+  document.getElementById('manualForm').reset();
+  document.getElementById('mfCredits').value = '3';
+  setManualMsg(`已新增「${name}」，可在下方已選課程與課表頁看到。`, false);
+}
+
 function removeSelected(key) {
   added = added.filter((a) => a.key !== key);
   saveAdded();
@@ -617,7 +671,9 @@ function renderSelected() {
       const isBase = !isAdded(s.key);
       const status = isBase
         ? '<span class="status blue">已選上</span>'
-        : '<span class="status">已新增</span>';
+        : s.manual
+          ? '<span class="status manual">手動新增</span>'
+          : '<span class="status">已新增</span>';
       const action = isBase
         ? '<span class="muted">—</span>'
         : `<button class="act-btn remove" data-key="${esc(s.key)}" data-from="selected">退選</button>`;
@@ -840,6 +896,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     genPage = 1;
     renderGeneral();
   });
+  document.getElementById('manualForm').addEventListener('submit', addManualCourse);
 
   renderAll();
 });

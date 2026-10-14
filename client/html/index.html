@@ -233,6 +233,46 @@
               </table>
             </div>
 
+            <!-- 手動新增課程（加簽、外系課、資料裡沒有的課） -->
+            <div class="card manual-card">
+              <div class="card-head">
+                <h2 class="card-title"><span class="ti">✚</span>手動新增課程（加簽／補登）</h2>
+              </div>
+              <form id="manualForm" class="manual-form" autocomplete="off">
+                <label class="mf name">課程名稱 *
+                  <input id="mfName" type="text" maxlength="40" placeholder="例如：線性代數" required />
+                </label>
+                <label class="mf">學分 *
+                  <input id="mfCredits" type="number" min="0" max="9" step="0.5" value="3" required />
+                </label>
+                <label class="mf">類別 *
+                  <select id="mfCategory">
+                    <option>專業必修</option>
+                    <option>專業選修</option>
+                    <option>校共同必修</option>
+                    <option>通識-人文</option>
+                    <option>通識-社會</option>
+                    <option>通識-自然</option>
+                    <option>通識-特色</option>
+                    <option>自由學分</option>
+                  </select>
+                </label>
+                <label class="mf">上課時間
+                  <input id="mfTime" type="text" maxlength="30" placeholder="例如：2cd4d" />
+                </label>
+                <label class="mf">老師
+                  <input id="mfTeacher" type="text" maxlength="30" />
+                </label>
+                <label class="mf">地點
+                  <input id="mfLocation" type="text" maxlength="30" />
+                </label>
+                <div class="mf-actions">
+                  <button type="submit" class="act-btn add">新增</button>
+                </div>
+              </form>
+              <div class="mf-hint" id="mfMsg">時間格式：數字＝星期（1=週一）、字母＝節次，例如 <b>2cd4d</b> ＝ 週二 C、D 節與週四 D 節。沒有時間可留空。</div>
+            </div>
+
             <!-- 已選課程一覽 -->
             <div class="card table-card">
               <div class="card-head">

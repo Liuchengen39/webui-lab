@@ -730,3 +730,16 @@ body{
 #selectedTable td:nth-child(5),
 #selectedTable td:nth-child(6){white-space:nowrap}
 #selectedTable td{vertical-align:middle}
+/* 手動新增課程（加簽／補登） */
+.manual-card .card-title .ti{color:#e08a1e}
+.manual-form{display:grid;grid-template-columns:2fr 1fr 1.3fr;gap:10px 12px;align-items:end}
+.mf{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;color:#48617f}
+.mf input,.mf select{height:34px;border:1px solid #d3e0f0;border-radius:8px;padding:0 10px;font-size:13px;background:#f7fbff;color:var(--text);outline:none;font-family:inherit}
+.mf input:focus,.mf select:focus{border-color:#4388e8;box-shadow:0 0 0 3px rgba(40,116,217,.15);background:#fff}
+.mf-actions{display:flex;justify-content:flex-end}
+.mf-actions .act-btn{height:34px;padding:0 22px;border-radius:8px;font-size:13px}
+.mf-hint{margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6}
+.mf-hint.err{color:#d54d57;font-weight:700}
+.status.manual{background:#fff1dc;color:#b36a0b}
+@media(max-width:900px){.manual-form{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.manual-form{grid-template-columns:1fr}}
