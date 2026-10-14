@@ -42,7 +42,6 @@
           <h1>綜合總覽</h1>
           <p>整體學分進度一覽，掌握畢業要求與修課狀況</p>
         </div>
-
         <div class="columns">
           <!-- 中間主內容 -->
           <div>
@@ -80,60 +79,30 @@
               </div>
             </div>
 
-            <!-- 新增本學期修課程 -->
-            <div class="card table-card">
+            <!-- 本學期課程：四種來源共用一張表，用分頁籤切換 -->
+            <div class="card table-card courses-card">
               <div class="card-head">
-                <h2 class="card-title"><span class="ti">📘</span>資工系本學期必選修課程</h2>
+                <h2 class="card-title"><span class="ti">📘</span>本學期課程</h2>
 
                 <div class="picker">
                   <span id="courseCount" class="picker-count">載入中…</span>
-                  <select id="gradeFilter"><option value="">全部年級</option></select>
+                  <select id="courseFilter"><option value="">全部</option></select>
                   <label class="search">
                     <span class="search-icon">🔍</span>
                     <input id="courseSearch" type="search" placeholder="搜尋課名、老師、課號" />
                   </label>
+                  <button type="button" class="act-btn add" id="openManual">＋ 手動新增</button>
                 </div>
               </div>
 
-              <table class="table" id="newCourses">
-                <thead>
-                  <tr>
-                    <th>課程名稱</th>
-                    <th>類別</th>
-                    <th>學分</th>
-                    <th>時間</th>
-                    <th>老師</th>
-                    <th>上課地點</th>
-                    <th>狀態</th>
-                    <th>操作</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-              </table>
-            </div>
-
-            <!-- 體育（特色運動）＋ 校共同必修（課名含「資工」） -->
-            <div class="card table-card pe-card">
-              <div class="card-head">
-                <h2 class="card-title"><span class="ti">🏃</span>體育 / 校共同必修課程</h2>
-
-                <div class="picker">
-                  <span id="peCount" class="picker-count">載入中…</span>
-                  <select id="peFilter">
-                    <option value="">全部類別</option>
-                    <option value="特色運動">特色運動</option>
-                    <option value="校共同必修">校共同必修</option>
-                  </select>
-                  <label class="search">
-                    <span class="search-icon">🔍</span>
-                    <input id="peSearch" type="search" placeholder="搜尋課名、老師、課號" />
-                  </label>
-                </div>
+              <div class="tabs" id="courseTabs" role="tablist">
+                <button type="button" class="tab active" role="tab" aria-selected="true" data-tab="cs">資工系必選修<small id="tabCnt-cs"></small></button>
+                <button type="button" class="tab" role="tab" aria-selected="false" data-tab="pe">體育<small id="tabCnt-pe"></small></button>
+                <button type="button" class="tab" role="tab" aria-selected="false" data-tab="cm">全校共同必修<small id="tabCnt-cm"></small></button>
+                <button type="button" class="tab" role="tab" aria-selected="false" data-tab="general">通識<small id="tabCnt-general"></small></button>
               </div>
 
-              <table class="table" id="peCourses">
+              <table class="table" id="courseTable">
                 <thead>
                   <tr>
                     <th>課程名稱</th>
@@ -148,158 +117,12 @@
                 </thead>
                 <tbody></tbody>
               </table>
-            </div>
-
-            <!-- 全校共同必修（common.json：跨域專業學術英文、資工系共同課） -->
-            <div class="card table-card cm-card">
-              <div class="card-head">
-                <h2 class="card-title"><span class="ti">🏫</span>全校共同必修</h2>
-
-                <div class="picker">
-                  <span id="cmCount" class="picker-count">載入中…</span>
-                  <select id="cmGrade"><option value="">全部年級</option></select>
-                  <label class="search">
-                    <span class="search-icon">🔍</span>
-                    <input id="cmSearch" type="search" placeholder="搜尋課名、老師、課號" />
-                  </label>
-                </div>
-              </div>
-
-              <table class="table" id="cmCourses">
-                <thead>
-                  <tr>
-                    <th>課程名稱</th>
-                    <th>類別</th>
-                    <th>學分</th>
-                    <th>時間</th>
-                    <th>老師</th>
-                    <th>上課地點</th>
-                    <th>狀態</th>
-                    <th>操作</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-
-            <!-- 本學期通識課 -->
-            <div class="card table-card general-card">
-              <div class="card-head">
-                <h2 class="card-title"><span class="ti">📘</span>本學期通識課</h2>
-
-                <div class="picker">
-                  <span id="generalCount" class="picker-count">載入中…</span>
-                  <select id="weekdayFilter">
-                    <option value="">全部星期</option>
-                    <option value="1">星期一</option>
-                    <option value="2">星期二</option>
-                    <option value="3">星期三</option>
-                    <option value="4">星期四</option>
-                    <option value="5">星期五</option>
-                  </select>
-                  <label class="search">
-                    <span class="search-icon">🔍</span>
-                    <input id="generalSearch" type="search" placeholder="搜尋課名、老師、課號" />
-                  </label>
-                </div>
-              </div>
-
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>課程名稱</th>
-                    <th>開課單位</th>
-                    <th>學分</th>
-                    <th>類別</th>
-                    <th>狀態</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>大學國文</td>
-                    <td>通識中心</td>
-                    <td>2</td>
-                    <td>通識-人文</td>
-                    <td><span class="status">已新增</span></td>
-                  </tr>
-                  <tr>
-                    <td>英文(一)</td>
-                    <td>通識中心</td>
-                    <td>2</td>
-                    <td>通識-大學</td>
-                    <td><span class="status blue">已選上</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- 手動新增課程（加簽、外系課、資料裡沒有的課） -->
-            <div class="card manual-card">
-              <div class="card-head">
-                <h2 class="card-title"><span class="ti">✚</span>手動新增課程（加簽／補登）</h2>
-              </div>
-              <form id="manualForm" class="manual-form" autocomplete="off">
-                <label class="mf name">課程名稱 *
-                  <input id="mfName" type="text" maxlength="40" placeholder="例如：線性代數" required />
-                </label>
-                <label class="mf">學分 *
-                  <input id="mfCredits" type="number" min="0" max="9" step="0.5" value="3" required />
-                </label>
-                <label class="mf">類別 *
-                  <select id="mfCategory">
-                    <option>專業必修</option>
-                    <option>專業選修</option>
-                    <option>校共同必修</option>
-                    <option>通識-人文</option>
-                    <option>通識-社會</option>
-                    <option>通識-自然</option>
-                    <option>通識-特色</option>
-                    <option>自由學分</option>
-                  </select>
-                </label>
-                <label class="mf">上課時間
-                  <input id="mfTime" type="text" maxlength="30" placeholder="例如：2cd4d" />
-                </label>
-                <label class="mf">老師
-                  <input id="mfTeacher" type="text" maxlength="30" />
-                </label>
-                <label class="mf">地點
-                  <input id="mfLocation" type="text" maxlength="30" />
-                </label>
-                <div class="mf-actions">
-                  <button type="submit" class="act-btn add">新增</button>
-                </div>
-              </form>
-              <div class="mf-hint" id="mfMsg">時間格式：數字＝星期（1=週一）、字母＝節次，例如 <b>2cd4d</b> ＝ 週二 C、D 節與週四 D 節。沒有時間可留空。</div>
-            </div>
-
-            <!-- 已選課程一覽 -->
-            <div class="card table-card">
-              <div class="card-head">
-                <h2 class="card-title"><span class="ti">▣</span>已選課程一覽</h2>
-                <span id="selectedSummary" class="picker-count"></span>
-              </div>
-
-              <table class="table" id="selectedTable">
-                <thead>
-                  <tr>
-                    <th>學期</th>
-                    <th>課程名稱</th>
-                    <th>開課單位</th>
-                    <th>學分</th>
-                    <th>類別</th>
-                    <th>時間</th>
-                    <th>狀態</th>
-                    <th>操作</th>
-                  </tr>
-                </thead>
-                <tbody id="selectedBody"></tbody>
-              </table>
+              <div id="coursePager" class="pager"></div>
             </div>
           </div>
 
-          <!-- 右側資訊欄 -->
-          <div>
+          <!-- 右側資訊欄（捲動時固定在畫面上） -->
+          <div class="side">
             <!-- 課程分類進度 -->
             <div class="card right-card category">
               <h3>課程分類進度 <span style="font-size:12px;color:#7a8da8;">(目前選課後)</span></h3>
@@ -307,27 +130,60 @@
               <div id="catList"></div>
             </div>
 
-            <!-- 目標：順利畢業！ -->
-            <div class="card right-card goal-card">
-              <div class="goal-wrap">
-                <div class="goal-left">
-                  <h3><span class="goal-icon">🎯</span>目標 : 順利畢業!</h3>
-                  <p>
-                    合理規劃學分，主修修業圓滿，<br>
-                    讓大學生活更有方向！
-                  </p>
-                </div>
-                <div class="goal-illustration" aria-hidden="true">
-                  <div class="grad-cap">🎓</div>
-                  <div class="books">📚</div>
-                </div>
+            <!-- 已選課程（精簡版）：加課、退選當場就看得到 -->
+            <div class="card right-card selected-card">
+              <div class="side-head">
+                <h3><span class="ti">▣</span>已選課程</h3>
+                <span id="selectedSummary" class="picker-count"></span>
               </div>
+              <div id="selectedList" class="sel-list"></div>
             </div>
           </div>
         </div>
       </section>
     </main>
   </div>
+  <!-- 手動新增課程（加簽、外系課、資料裡沒有的課） -->
+  <dialog id="manualDialog" class="manual-dialog">
+    <div class="dlg-body">
+      <h2 class="card-title"><span class="ti">✚</span>手動新增課程（加簽／補登）</h2>
+      <form id="manualForm" class="manual-form" autocomplete="off">
+        <label class="mf name">課程名稱 *
+          <input id="mfName" type="text" maxlength="40" placeholder="例如：線性代數" required />
+        </label>
+        <label class="mf">學分 *
+          <input id="mfCredits" type="number" min="0" max="9" step="0.5" value="3" required />
+        </label>
+        <label class="mf">類別 *
+          <select id="mfCategory">
+            <option>專業必修</option>
+            <option>專業選修</option>
+            <option>校共同必修</option>
+            <option>通識-人文</option>
+            <option>通識-社會</option>
+            <option>通識-自然</option>
+            <option>通識-特色</option>
+            <option>自由學分</option>
+          </select>
+        </label>
+        <label class="mf">上課時間
+          <input id="mfTime" type="text" maxlength="30" placeholder="例如：2cd4d" />
+        </label>
+        <label class="mf">老師
+          <input id="mfTeacher" type="text" maxlength="30" />
+        </label>
+        <label class="mf">地點
+          <input id="mfLocation" type="text" maxlength="30" />
+        </label>
+        <div class="mf-actions">
+          <button type="button" class="act-btn cancel" id="mfCancel">取消</button>
+          <button type="submit" class="act-btn add">新增</button>
+        </div>
+      </form>
+      <div class="mf-hint" id="mfMsg"></div>
+    </div>
+  </dialog>
+
   <script src="/js/profile.js"></script>
   <script src="/js/app.js"></script>
 </body>
