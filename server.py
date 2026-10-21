@@ -6,6 +6,10 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 BASE = Path(__file__).parent
+CLIENT = BASE / "client"
+# 自動尋找 data 資料夾（小寫）：專案根目錄的 data，或 client/data，找到哪個用哪個
+DATA = next((p for p in (BASE / "data", CLIENT / "data") if p.is_dir()), BASE / "data")
+print("data 資料夾位置：", DATA, "（存在）" if DATA.is_dir() else "（找不到！請確認資料夾名稱與位置）")
 app = FastAPI()
 
 
@@ -21,13 +25,13 @@ async def no_cache(request, call_next):
 # 0. API 路由要放在所有 mount 之前（"/" 的 mount 會吃掉其他沒匹配到的路徑）
 @app.get("/api/courses")
 def courses():
-    # cs.py 產生的 cs_courses.json，放在專案根目錄（與 main.py 同層）
-    with open(BASE / "cs_courses.json", encoding="utf-8") as f:
+    # cs.py 產生的 cs_courses.json，放在 data 資料夾
+    with open(DATA / "cs_courses.json", encoding="utf-8") as f:
         return json.load(f)
 
 @app.get("/api/common-courses")
 def common_courses():
-    path = BASE / "common.json"
+    path = DATA / "common.json"
     if not path.exists():
         return []
     with open(path, encoding="utf-8") as f:
@@ -35,8 +39,8 @@ def common_courses():
 
 @app.get("/api/pe-courses")
 def pe_courses():
-    """體育課（全校共同課程）：physical.json，放在專案根目錄（與 main.py 同層）"""
-    path = BASE / "physical.json"
+    """體育課（全校共同課程）：physical.json，放在 data 資料夾"""
+    path = DATA / "physical.json"
     if not path.exists():
         return []
     with open(path, encoding="utf-8") as f:
@@ -50,12 +54,12 @@ def pe_courses():
             "course_id": str(r.get("課號", "")).strip(),
             "section": "" if section in ("", "0") else section,  # 班別 0 表示只有一班
             "course_name": name,
-            "pe_type": "特色運動" if name.startswith("體育") else "全校共同",  # 課名以「體育」開頭＝特色運動
+            "pe_type": "特色運動" if name.startswith("體育") else "全校共同",
             "grade": str(r.get("系統可選年級", "")).strip(),
             "teacher": str(r.get("開課教師", "")).strip(),
             "location": str(r.get("地點", "")).strip(),
             "time_slot": str(r.get("時間", "")).strip(),
-            "credits": "0" if name.startswith("體育") else "1",  # 特色運動 0 學分、全校共同體育 1 學分
+            "credits": "0" if name.startswith("體育") else "1",
             "remaining": str(r.get("剩餘名額", "")).strip(),
         })
     return out
@@ -68,8 +72,8 @@ def _short_domain(d: str) -> str:
 
 
 def _load_domain_index():
-    """general_domains.json（general_domains.py 產生）→ {課號: [領域...]}、{課名: [領域...]}、{課號: 學分}"""
-    path = BASE / "general_domains.json"
+    """general_domains.json → {課號: [領域...]}、{課名: [領域...]}、{課號: 學分}"""
+    path = DATA / "general_domains.json"
     by_id, by_name, credits = {}, {}, {}
     if not path.exists():
         return by_id, by_name, credits
@@ -86,8 +90,8 @@ def _load_domain_index():
 
 @app.get("/api/general-courses")
 def general_courses():
-    # 通識課資料：general_courses.json，放在專案根目錄（與 main.py 同層）
-    path = BASE / "general_courses.json"
+    # 通識課資料：general_courses.json，放在 data 資料夾
+    path = DATA / "general_courses.json"
     if not path.exists():
         return []
     with open(path, encoding="utf-8") as f:
@@ -110,9 +114,12 @@ def general_courses():
     return courses
 
 
-# 1. 先掛載特定的靜態檔案目錄 (CSS, JS 等)
-app.mount("/css", StaticFiles(directory="client/css"), name="css")
-app.mount("/js", StaticFiles(directory="client/js"), name="js")
+# 1. 掛載靜態資源目錄（順序很重要："/" 一定要放最後）
+app.mount("/css", StaticFiles(directory=CLIENT / "css"), name="css")
+app.mount("/js", StaticFiles(directory=CLIENT / "js"), name="js")
+# 讓前端也能直接讀 data/xxx.json（app.js 的 DATA_DIR = 'data/'）
+if DATA.is_dir():
+    app.mount("/data", StaticFiles(directory=DATA), name="data")
 
-# 2. 最後才掛載 HTML 根目錄 (會涵蓋 client/html 下的所有 .html 檔案)
-app.mount("/", StaticFiles(directory="client/html", html=True), name="html")
+# 2. 存取 http://localhost:7777/ 時直接顯示 index.html
+app.mount("/", StaticFiles(directory=CLIENT / "html", html=True), name="html")

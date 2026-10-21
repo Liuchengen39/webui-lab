@@ -371,6 +371,7 @@ body{
   font-weight:bold;
 }
 
+/* 總計卡片的已修學分 n/128 */
 .total .total-num{
   font-size:20px;
   font-weight:800;
@@ -379,6 +380,7 @@ body{
   line-height:1.5;
 }
 
+/* 圓形圖表 */
 .ring{
   width:88px;
   height:88px;
@@ -389,6 +391,7 @@ body{
   margin:3px auto 8px;
 }
 
+/* 中心數值 */
 .ring:after{
   content:attr(data-pct);
   width:65px;
@@ -402,6 +405,7 @@ body{
   color:#315889;
 }
 
+/* ※需符合目前的畢業學分要求 */
 .total small{
   display:block;
   color:#71839b;
