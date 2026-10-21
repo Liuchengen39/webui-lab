@@ -2,7 +2,8 @@
 // 每一頁在 app.js / timetable.js / settings.js 之前引入這支檔案即可
 (function () {
   const KEY = 'ncnu_profile';
-  const DEFAULT = { name: '劉承恩', dept: '資訊工程學系', grade: '大一' };
+  const DEFAULT = { name: '', dept: '', grade: '' }; // 預設是空白(登出或換帳號後不會留下上一個人的資料)
+  const EMPTY_NAME = '未設定';
 
   function load() {
     try {
@@ -16,7 +17,7 @@
   // 把名字、年級寫進右上角
   function apply(p) {
     p = p || load();
-    document.querySelectorAll('.profile b').forEach((el) => { el.textContent = p.name; });
+    document.querySelectorAll('.profile b').forEach((el) => { el.textContent = p.name || EMPTY_NAME; });
     document.querySelectorAll('.profile small').forEach((el) => { el.textContent = p.grade; });
   }
 

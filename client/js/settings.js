@@ -7,7 +7,7 @@
 
 // ★ 申請到 Google OAuth「用戶端 ID」後貼在這裡，例如 '123456789-abc.apps.googleusercontent.com'
 // 沒填的話，按「連結 Google 帳號」只會顯示提示，其他功能照常使用
-const GOOGLE_CLIENT_ID = '609296002726-5q8ir34q4stklncpmtsc9bsu7395f0uq.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = '609296002726-pds1hehq70fkchcrj8uuefreooperdkd.apps.googleusercontent.com';
 
 const SYNC_KEY = 'ncnu_autosync';
 const COURSES_KEY = 'ncnu_added_courses';
@@ -122,9 +122,36 @@ function initSwitch() {
 }
 
 /* ---------- 3. Google Drive 同步（資料存在 Drive 的 AppData 隱藏資料夾）---------- */
-const SCOPE = 'https://www.googleapis.com/auth/drive.appdata';
+const SCOPE = 'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/userinfo.email'; // 後者用來辨識是哪個帳號,偵測換帳號
+const ACCOUNT_KEY = 'ncnu_google_account'; // 目前這台瀏覽器連結的 Google 帳號(email)
 const FILE_NAME = 'ncnu-courses.json';
 let accessToken = null;
+
+// 登入狀態要跨頁保留:切到別的 html 再回來,不用重新登入
+// token 只放 sessionStorage(關閉分頁就清掉),大約 1 小時後 Google 會讓它失效
+const TOKEN_KEY = 'ncnu_google_token';
+const LINKED_KEY = 'ncnu_google_linked'; // 這台瀏覽器曾經連結過(之後重新登入不再詢問要用哪邊的資料)
+
+function saveToken(token, expiresIn) {
+  accessToken = token;
+  try {
+    sessionStorage.setItem(TOKEN_KEY, JSON.stringify({ token, exp: Date.now() + ((expiresIn || 3600) - 60) * 1000 }));
+    localStorage.setItem(LINKED_KEY, '1');
+  } catch (e) { /* 無法儲存就只在這一頁有效 */ }
+}
+
+function clearToken() {
+  accessToken = null;
+  try { sessionStorage.removeItem(TOKEN_KEY); } catch (e) { /* 忽略 */ }
+}
+
+function loadToken() {
+  try {
+    const v = JSON.parse(sessionStorage.getItem(TOKEN_KEY) || 'null');
+    if (v && v.token && v.exp > Date.now()) return v.token;
+  } catch (e) { /* 壞掉的資料當作沒有 */ }
+  return null;
+}
 let syncTimer = null;
 
 function setMsg(text, kind) {
@@ -161,6 +188,32 @@ function snapshot() {
   return { version: 1, savedAt: new Date().toISOString(), profile: NCNU_PROFILE.load(), courses };
 }
 
+// 清空這台瀏覽器上的課程與個人資料(切換帳號、中斷連結時使用)
+function clearLocalData() {
+  try {
+    localStorage.removeItem(COURSES_KEY);
+    localStorage.removeItem(NCNU_PROFILE.KEY);
+  } catch (e) { /* 忽略 */ }
+  NCNU_PROFILE.apply();
+  renderProfile();
+}
+
+const localIsEmpty = () => {
+  let n = 0;
+  try { n = JSON.parse(localStorage.getItem(COURSES_KEY) || '[]').length; } catch (e) { /* 當作空的 */ }
+  return n === 0 && !localStorage.getItem(NCNU_PROFILE.KEY);
+};
+
+async function fetchEmail() {
+  try {
+    const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { Authorization: 'Bearer ' + accessToken } });
+    if (!r.ok) return '';
+    return (await r.json()).email || '';
+  } catch (e) {
+    return '';
+  }
+}
+
 function restore(data) {
   if (data && data.profile) NCNU_PROFILE.save({ ...NCNU_PROFILE.DEFAULT, ...data.profile });
   try { localStorage.setItem(COURSES_KEY, JSON.stringify(Array.isArray(data && data.courses) ? data.courses : [])); } catch (e) { /* 忽略 */ }
@@ -170,7 +223,7 @@ function restore(data) {
 async function drive(url, opts = {}) {
   const res = await fetch(url, { ...opts, headers: { Authorization: 'Bearer ' + accessToken, ...(opts.headers || {}) } });
   if (res.status === 401) {
-    accessToken = null;
+    clearToken();
     setLinked(false);
     throw new Error('Google 登入已逾時，請重新連結');
   }
@@ -238,6 +291,10 @@ async function firstSync() {
       return setMsg('已連結，並把目前的資料上傳到 Google Drive', 'ok');
     }
     const remote = await downloadRemote(file);
+    if (localIsEmpty()) { // 這台沒有資料(例如剛登出或換帳號)→ 直接載入雲端,不用問
+      restore(remote);
+      return setMsg('已載入這個帳號的雲端資料(回到首頁就會看到)', 'ok');
+    }
     const when = remote.savedAt ? new Date(remote.savedAt).toLocaleString() : '未知時間';
     const n = Array.isArray(remote.courses) ? remote.courses.length : 0;
     if (confirm(`雲端已有資料（${when}，${n} 門課）。\n\n按「確定」：用雲端資料覆蓋這台電腦\n按「取消」：用這台電腦的資料覆蓋雲端`)) {
@@ -265,9 +322,17 @@ async function connectGoogle() {
       scope: SCOPE,
       callback: async (resp) => {
         if (resp.error) return setMsg('Google 登入失敗：' + resp.error, 'err');
-        accessToken = resp.access_token;
+        const firstTime = !localStorage.getItem(LINKED_KEY);
+        saveToken(resp.access_token, Number(resp.expires_in));
         setLinked(true);
-        await firstSync();
+        // 換了另一個 Google 帳號 → 先清掉上一個帳號留在這台的資料,再載入新帳號的雲端資料
+        const email = await fetchEmail();
+        const prev = localStorage.getItem(ACCOUNT_KEY);
+        const switched = !!(prev && email && prev !== email);
+        if (switched) clearLocalData();
+        if (email) { try { localStorage.setItem(ACCOUNT_KEY, email); } catch (e) { /* 忽略 */ } }
+        if (firstTime || switched) await firstSync(); // 第一次連結或換帳號才檢查雲端
+        else setMsg('已重新登入 Google' + (email ? '(' + email + ')' : ''), 'ok');
       },
       error_callback: (err) => setMsg('Google 登入失敗：' + (err.type || '已取消'), 'err'),
     });
@@ -290,11 +355,21 @@ async function restoreFromCloud() {
   }
 }
 
-function unlink() {
+async function unlink() {
+  if (!confirm('中斷連結後,這台電腦上的課程與個人資料會被清空(雲端上的資料不會刪除)。\n\n要繼續嗎?')) return;
+  // 清空前先把最新資料傳上雲端,避免遺失
+  if (accessToken && !localIsEmpty()) {
+    try { await upload(await findFile()); } catch (e) { /* 傳不上去也照常登出 */ }
+  }
   if (accessToken && window.google) google.accounts.oauth2.revoke(accessToken, () => {});
-  accessToken = null;
+  clearToken();
+  try {
+    localStorage.removeItem(LINKED_KEY);
+    localStorage.removeItem(ACCOUNT_KEY);
+  } catch (e) { /* 忽略 */ }
+  clearLocalData();
   setLinked(false);
-  setMsg('已中斷連結（雲端上的資料不會被刪除）');
+  setMsg('已中斷連結,並清空這台電腦上的資料(雲端上的資料不會被刪除)');
 }
 
 // 自動同步：已連結 + 開關開啟時，資料有變動就稍後上傳
@@ -305,7 +380,15 @@ function scheduleAutoSync() {
 }
 
 function initGoogle() {
-  setLinked(false);
+  // 先前已登入且 token 還有效 → 直接維持「已連結」
+  const saved = loadToken();
+  if (saved) {
+    accessToken = saved;
+    setLinked(true);
+  } else {
+    setLinked(false);
+    if (localStorage.getItem(LINKED_KEY)) setMsg('Google 登入已逾時,請再按一次「連結 Google」');
+  }
   $('linkGoogleBtn').addEventListener('click', connectGoogle);
   $('restoreBtn').addEventListener('click', restoreFromCloud);
   $('unlinkBtn').addEventListener('click', unlink);

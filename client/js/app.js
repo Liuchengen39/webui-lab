@@ -1,4 +1,52 @@
 /* =========================
+   資料來源：靜態 JSON（放在 data 資料夾，與 index.html 同層）
+   ※ 資料夾名稱大小寫要與實際一致
+   ========================= */
+const DATA_DIR = 'data/';
+
+const getJson = (file, label) =>
+  fetch(DATA_DIR + file)
+    .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+    .catch((e) => {
+      console.error(label, DATA_DIR + file, e);
+      return [];
+    });
+
+// 通識課：把原本 server.py 的合併邏輯搬到前端（先用課號比對領域，找不到再用課名）
+const shortDomain = (d) =>
+  String(d).replace(/^[A-Za-z]\s+/, '').replace(/\s*[(（]?\d+始[)）]?\s*$/, '').trim();
+
+async function loadGeneral() {
+  const [courses, domains] = await Promise.all([
+    getJson('general_courses.json', '載入通識課失敗'),
+    getJson('general_domains.json', '載入通識領域失敗')
+  ]);
+  const byId = {}, byName = {}, credits = {};
+  domains.forEach((r) => {
+    const dom = shortDomain(r.domain);
+    const id = String(r.course_id).trim();
+    const name = String(r.course_name).trim();
+    [[byId, id], [byName, name]].forEach(([t, k]) => {
+      const list = (t[k] = t[k] || []);
+      if (!list.includes(dom)) list.push(dom);
+    });
+    credits[id] = r.credits || '';
+  });
+  courses.forEach((c) => {
+    const id = String(c.course_id || '').trim();
+    const name = String(c.course_name || '').trim();
+    const doms = byId[id] || byName[name] || [];
+    c.domain = doms.length ? doms.join('、') : '未分類';
+    const cr = credits[id];
+    if (cr && !c.credits) {
+      const n = parseFloat(cr);
+      c.credits = Number.isFinite(n) ? String(n) : cr;
+    }
+  });
+  return courses;
+}
+
+/* =========================
    資料與狀態
    ========================= */
 let COURSES = []; // 資工系課程 (/api/courses)
@@ -196,7 +244,7 @@ async function loadPE() {
   };
 
   // 依序嘗試幾個常見位置，第一個讀得到的就用
-  const candidates = ['/api/pe-courses', '/physical.json', '/data/physical.json', '/js/physical.json', 'physical.json'];
+  const candidates = [DATA_DIR + 'physical.json'];
   let raw = null;
   for (const url of candidates) {
     raw = await fetchJson(url);
@@ -206,7 +254,7 @@ async function loadPE() {
     }
   }
   if (!raw) {
-    PE_LOAD_ERROR = '讀不到 physical.json：請把它放在網站靜態檔案資料夾的最上層（跟 css、js 資料夾同一層），或提供 /api/pe-courses';
+    PE_LOAD_ERROR = '讀不到 data/physical.json：請確認 data 資料夾（大小寫要一致）與 index.html 在同一層';
     console.error(PE_LOAD_ERROR, '已嘗試：', candidates);
     raw = [];
   }
@@ -253,7 +301,7 @@ const normalizeCM = (c) => {
 
 async function loadCM() {
   try {
-    const r = await fetch('/api/common-courses');
+    const r = await fetch(DATA_DIR + 'common.json');
     if (!r.ok) throw new Error(r.status);
     const data = await r.json();
     if (!Array.isArray(data)) throw new Error('格式不是陣列');
@@ -265,7 +313,7 @@ async function loadCM() {
       return true;
     });
   } catch (e) {
-    CM_LOAD_ERROR = '讀不到 /api/common-courses：請在 server.py 加上這個路由來讀 common.json，並重新啟動伺服器';
+    CM_LOAD_ERROR = '讀不到 data/common.json：請確認 data 資料夾（大小寫要一致）與 index.html 在同一層';
     console.error(CM_LOAD_ERROR, e);
     return [];
   }
@@ -719,16 +767,9 @@ document.addEventListener('click', (e) => {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const getJson = (url, label) =>
-    fetch(url)
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .catch((e) => {
-        console.error(label, e);
-        return [];
-      });
   const [cs, gen] = await Promise.all([
-    getJson('/api/courses', '載入課程失敗'),
-    getJson('/api/general-courses', '載入通識課失敗')
+    getJson('cs_courses.json', '載入課程失敗'),
+    loadGeneral()
   ]);
   COURSES = cs;
   GENERAL = gen;
