@@ -1,6 +1,6 @@
 // 視覺化課表：把首頁「加入」的課程（localStorage 'ncnu_added_courses'）排進課表
 // 時間格式如 "2cd4d"：數字=星期（1=週一…7=週日），後面的字母=節次；連續的節次會合併成一格
-const STORAGE_KEY = 'ncnu_added_courses'; // 與首頁 app.js 相同
+const STORAGE_KEY = (window.NCNU_KEY || ((k) => k))('ncnu_added_courses'); // 與首頁 app.js 相同(依網站路徑區分,見 profile.js)
 
 // 節次對應時間（每節 50 分鐘）：a–d 上午、e–i 下午、j 晚上
 const PERIODS = [

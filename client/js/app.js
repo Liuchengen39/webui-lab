@@ -1,9 +1,6 @@
-/* =========================
-   資料來源：靜態 JSON（放在 data 資料夾，與 index.html 同層）
-   ※ 資料夾名稱大小寫要與實際一致
-   ========================= */
 const DATA_DIR = 'data/';
 
+// 抓出所有json檔
 const getJson = (file, label) =>
   fetch(DATA_DIR + file)
     .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
@@ -12,32 +9,40 @@ const getJson = (file, label) =>
       return [];
     });
 
-// 通識課：把原本 server.py 的合併邏輯搬到前端（先用課號比對領域，找不到再用課名）
+// 對比通識課程
 const shortDomain = (d) =>
   String(d).replace(/^[A-Za-z]\s+/, '').replace(/\s*[(（]?\d+始[)）]?\s*$/, '').trim();
 
+// 非同步載入通識資料 比對課程名稱或ID 補上學分
 async function loadGeneral() {
   const [courses, domains] = await Promise.all([
     getJson('general_courses.json', '載入通識課失敗'),
     getJson('general_domains.json', '載入通識領域失敗')
   ]);
+  // 建立查詢索引
   const byId = {}, byName = {}, credits = {};
   domains.forEach((r) => {
     const dom = shortDomain(r.domain);
     const id = String(r.course_id).trim();
     const name = String(r.course_name).trim();
+    // 對byId和byName建立陣列
     [[byId, id], [byName, name]].forEach(([t, k]) => {
       const list = (t[k] = t[k] || []);
       if (!list.includes(dom)) list.push(dom);
     });
+    // 以課程 ID 紀錄學分數
     credits[id] = r.credits || '';
   });
+  // 將領域與學分資訊補回主課程清單中
   courses.forEach((c) => {
     const id = String(c.course_id || '').trim();
     const name = String(c.course_name || '').trim();
+    // 用ID尋找找不到則改用名稱尋找
     const doms = byId[id] || byName[name] || [];
+    // 多個用頓號、串接，找不到標記為未分類
     c.domain = doms.length ? doms.join('、') : '未分類';
     const cr = credits[id];
+    // 若課程缺學分，從對照表補充並格式化數字
     if (cr && !c.credits) {
       const n = parseFloat(cr);
       c.credits = Number.isFinite(n) ? String(n) : cr;
@@ -46,9 +51,6 @@ async function loadGeneral() {
   return courses;
 }
 
-/* =========================
-   資料與狀態
-   ========================= */
 let COURSES = []; // 資工系課程 (/api/courses)
 let GENERAL = []; // 通識課 (/api/general-courses)
 const PAGE_SIZE = 8; // 每頁幾筆
@@ -58,7 +60,7 @@ let CM = []; // 全校共同必修 (/api/common-courses，來源 common.json)
 let CM_LOAD_ERROR = '';
 
 const SEMESTER = '115-1'; // 新增的課程所屬學期
-const STORAGE_KEY = 'ncnu_added_courses';
+const STORAGE_KEY = (window.NCNU_KEY || ((k) => k))('ncnu_added_courses'); // 依網站路徑區分(見 profile.js)
 
 // 先前已選上、不可退選的課程
 const BASE_SELECTED = [];
@@ -66,6 +68,7 @@ const BASE_SELECTED = [];
 // 使用者自己新增的課程(存在瀏覽器,重新整理後還在)
 let added = loadAdded();
 
+// 讀取本地資料
 function loadAdded() {
   try {
     const v = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
@@ -75,6 +78,7 @@ function loadAdded() {
   }
 }
 
+// 儲存進本地
 function saveAdded() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(added));
@@ -82,8 +86,9 @@ function saveAdded() {
     /* 無法儲存時仍可在本頁操作 */
   }
 }
-
+// 檢查某門課是否已經被加入
 const isAdded = (key) => added.some((a) => a.key === key);
+// 算出最終總選課程清單
 const allSelected = () => [...BASE_SELECTED, ...added];
 
 // 資工系「專業選修」課號(依系上必選修科目表);不在名單內的視為專業必修
@@ -96,7 +101,7 @@ const ELECTIVE_IDS = new Set([
   '210167', '210168', '210169', '210170', '210171', '210172', '210173', '210174',
 ]);
 
-// 領域只顯示大類:自然 / 人文 / 社會 / 特色(完整名稱放在滑鼠提示)
+// 領域只顯示:自然/人文/社會/特色
 const bigDomain = (d) => {
   if (!d) return '通識';
   const out = [];
@@ -108,8 +113,10 @@ const bigDomain = (d) => {
   return out.join('、');
 };
 
+// 比對課號判斷是選修還是必修
 const categoryOf = (c) => (ELECTIVE_IDS.has(c.course_id) ? '專業選修' : '專業必修');
 
+// 預防 XSS
 const esc = (s) =>
   String(s ?? '').replace(/[&<>"']/g, (c) => ({
     '&': '&amp;',
@@ -121,11 +128,14 @@ const esc = (s) =>
 
 // 用上課時間推算學分:時間格式如 "2cd4d"(數字=星期,字母=節次),字母數 = 學分
 function creditsOf(c) {
+  // 若原本就有學分直接回傳
   if (c.credits) return c.credits;
+  // 抓出英文節次字母，並計算有幾個字母
   const n = (String(c.time_slot || '').match(/[a-z]/gi) || []).length;
   return n || '—';
 }
 
+// 找關鍵
 const pick = (c, ...keys) => {
   for (const k of keys) {
     if (c[k] !== undefined && c[k] !== null && c[k] !== '') return c[k];
@@ -139,9 +149,9 @@ const keyOf = (c) => `${c.course_id}|${pick(c, 'time_slot', 'time')}`;
 function parseTimeSlot(slot) {
   const s = String(slot || '').trim();
   if (!s || s === '無') return [];
-
   const result = [];
   const matches = s.match(/\d[a-z]+/gi) || [];
+  // 提取自首數字作為星期，將後續字母逐一拆解組合
   matches.forEach((part) => {
     const day = part[0];
     part.slice(1).split('').forEach((p) => result.push(`${day}${p}`));
@@ -149,7 +159,7 @@ function parseTimeSlot(slot) {
   return result;
 }
 
-// 與目前已選課程(含新增的)是否衝堂
+// 與課程是否衝堂
 function isConflicted(slot, selfKey) {
   const cur = parseTimeSlot(slot);
   if (!cur.length) return false;
@@ -160,9 +170,7 @@ function isConflicted(slot, selfKey) {
   });
 }
 
-/* =========================
-   把原始課程轉成「已選」紀錄
-   ========================= */
+// 把資工系原始課程轉成已選紀錄
 function recordFromCS(c) {
   return {
     key: keyOf(c),
@@ -177,6 +185,7 @@ function recordFromCS(c) {
   };
 }
 
+// 把通識原始課程轉成已選紀錄
 function recordFromGeneral(c) {
   const domain = pick(c, 'domain', 'category', 'type');
   return {
@@ -192,12 +201,6 @@ function recordFromGeneral(c) {
   };
 }
 
-/* =========================
-   新增 / 退選
-   ========================= */
-/* =========================
-   體育 / 校共同必修
-   ========================= */
 // 課名開頭是「體育」→ 特色運動;課名包含「資工」→ 校共同必修
 const peCategoryOf = (c) => {
   const n = String(c.course_name || '').trim();
@@ -206,8 +209,6 @@ const peCategoryOf = (c) => {
   return '';
 };
 
-// 兼容爬蟲輸出的中文欄位名與 API 的英文欄位名
-// physical.json 的欄位：課號 / 班別 / 中文課名 / 開課教師 / 地點 / 時間 / 系統可選年級（沒有學分欄）
 // 同一門課有多個班(a、b、c…)，時間和老師都可能相同，所以課號後面接班別才不會被當成重複
 const normalizePE = (c) => {
   const id = pick(c, 'course_id', '課程代碼', '課號', '選課代碼');
@@ -220,7 +221,7 @@ const normalizePE = (c) => {
     time_slot: pick(c, 'time_slot', '上課時間', '時間', 'time'),
     teacher: pick(c, 'teacher', '授課教師', '開課教師', '教師', '老師', 'teachers'),
     location: pick(c, 'location', '教室', '地點', '上課地點', 'classroom'),
-    // 資料裡沒有學分欄：課名含「資工」的（資工系大一體育）是 1 學分，其餘體育課當 0
+    // 資料裡沒有學分欄：課名含「資工」的（資工系大一體育）是 1 學分，其餘特色運動當 0
     // 體育課的上課節數不等於學分，不能用節數推算
     credits: String(
       pick(c, 'credits', '學分', 'credit') ||
@@ -230,7 +231,7 @@ const normalizePE = (c) => {
   };
 };
 
-// 資料來源：/api/pe-courses，沒有的話改讀爬蟲輸出的 /physical.json，再依課名分類
+// 非同步載入體育課資料
 async function loadPE() {
   const fetchJson = async (url) => {
     try {
@@ -250,7 +251,7 @@ async function loadPE() {
     raw = await fetchJson(url);
     if (raw) {
       console.info('體育課資料來源：', url, `(${raw.length} 筆)`);
-      break;
+      break;        // 取得資料後立刻跳出迴圈
     }
   }
   if (!raw) {
@@ -263,6 +264,7 @@ async function loadPE() {
   const seen = new Set();
   return raw
     .map(normalizePE)
+    // 排除無法被歸類的
     .filter((c) => peCategoryOf(c))
     .filter((c) => {
       const k = keyOf(c);
@@ -272,6 +274,7 @@ async function loadPE() {
     });
 }
 
+// 把體育課原始課程轉成已選紀錄
 function recordFromPE(c) {
   const cat = peCategoryOf(c);
   return {
@@ -287,10 +290,7 @@ function recordFromPE(c) {
   };
 }
 
-/* =========================
-   全校共同必修 (common.json)
-   ========================= */
-// common.json 沒有學分欄：用上課節數推算（2ef → 2 學分），與資工系課程相同的算法
+// 用上課節數推算校共同必修學分
 const normalizeCM = (c) => {
   const n = normalizePE(c);
   const given = pick(c, 'credits', '學分', 'credit');
@@ -299,6 +299,7 @@ const normalizeCM = (c) => {
   return n;
 };
 
+// 非同步載入校共同必修資料
 async function loadCM() {
   try {
     const r = await fetch(DATA_DIR + 'common.json');
@@ -319,6 +320,7 @@ async function loadCM() {
   }
 }
 
+// 把校共同必修原始課程轉成已選紀錄
 function recordFromCM(c) {
   return {
     key: keyOf(c),
@@ -333,7 +335,9 @@ function recordFromCM(c) {
   };
 }
 
+// 控制加退選是否有衝堂
 function toggleCourse(src, key) {
+  // 若已在已選清單執行退選
   if (isAdded(key)) {
     added = added.filter((a) => a.key !== key);
   } else {
@@ -345,21 +349,22 @@ function toggleCourse(src, key) {
       : src === 'pe' ? recordFromPE(c)
       : src === 'cm' ? recordFromCM(c)
       : recordFromCS(c);
+    // 若衝突且使用者取消則不加入
     if (isConflicted(rec.time_slot, rec.key)) {
       if (!confirm(`「${rec.course_name}」與已選課程衝堂,仍要加入嗎?`)) return;
     }
+    // 加入已選陣列
     added.push(rec);
   }
+  // 儲存至本地快取並刷新 UI
   saveAdded();
   renderAll();
 }
 
-/* =========================
-   手動新增課程（加簽／補登）
-   ========================= */
-// 時間格式：數字＝星期、字母＝節次，例如 2cd4d；可留空
+// 時間格式：數字＝星期、字母＝節次
 const TIME_RE = /^(\d[a-z]+)+$/i;
 
+// 在手動新增表單畫面上更新狀態提示訊息
 function setManualMsg(text, isErr) {
   const el = document.getElementById('mfMsg');
   if (!el) return;
@@ -367,8 +372,10 @@ function setManualMsg(text, isErr) {
   el.classList.toggle('err', !!isErr);
 }
 
+// 處理使用者手動新增課
 function addManualCourse(e) {
   e.preventDefault();
+  // 取得表單輸入欄位數值
   const name = document.getElementById('mfName').value.trim();
   const credits = parseFloat(document.getElementById('mfCredits').value);
   const category = document.getElementById('mfCategory').value;
@@ -376,29 +383,33 @@ function addManualCourse(e) {
   const teacher = document.getElementById('mfTeacher').value.trim();
   const location = document.getElementById('mfLocation').value.trim();
 
+  // 欄位合理性驗證
   if (!name) return setManualMsg('請輸入課程名稱', true);
   if (!(credits >= 0)) return setManualMsg('請輸入正確的學分', true);
   if (time && !TIME_RE.test(time)) {
     return setManualMsg('時間格式不正確，請用像 2cd4d 的格式（數字＝星期、字母＝節次）', true);
   }
-
+  
+  // 封裝手動新增課程的物件
   const rec = {
     key: `manual|${Date.now()}`,
     semester: SEMESTER,
     course_name: name,
-    unit: '手動新增',
+    unit: '手動新增',                     // 標示開課單位為手動新增
     credits: String(credits),
     category,
     time_slot: time || '無',
     teacher,
-    location,
-    manual: true
+    location, 
+    manual: true                         // 註記為手動自訂課程標籤
   };
 
+  // 時間衝堂檢查
   if (time && isConflicted(rec.time_slot, rec.key)) {
     if (!confirm(`「${name}」與已選課程衝堂,仍要加入嗎?`)) return;
   }
 
+  // 更新狀態刷新 UI
   added.push(rec);
   saveAdded();
   renderAll();
@@ -419,49 +430,53 @@ function showToast(text) {
   setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 250); }, 2200);
 }
 
+// 手動新增課程，時間欄位的提示說明字串
 const MF_HINT = '時間格式：數字＝星期（1=週一）、字母＝節次，例如 2cd4d ＝ 週二 C、D 節與週四 D 節。沒有時間可留空。';
 
+// 綁定按鈕狀態
 function initManualDialog() {
   const dlg = document.getElementById('manualDialog');
   document.getElementById('openManual').addEventListener('click', () => {
-    setManualMsg(MF_HINT, false);
+    setManualMsg(MF_HINT, false);                   // 重置並顯示標準時間格式提示
     dlg.showModal();
-    document.getElementById('mfName').focus();
+    document.getElementById('mfName').focus();      // 自動聚焦至課程名稱欄位 
   });
+  // 綁定取消按鈕點擊事件
   document.getElementById('mfCancel').addEventListener('click', () => dlg.close());
   // 點到半透明背景也關閉（內容都包在 .dlg-body 裡，點內容不會觸發）
   dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+  // 綁定表單送出事件
   document.getElementById('manualForm').addEventListener('submit', addManualCourse);
 }
 
+// 移除已選課程
 function removeSelected(key) {
   added = added.filter((a) => a.key !== key);
   saveAdded();
   renderAll();
 }
 
-// 狀態標籤 + 按鈕
+// 顯示已選或未選狀態
 function statusHtml(key, slot) {
   if (isAdded(key)) return '<span class="status">已新增</span>';
   if (isConflicted(slot, key)) return '<span class="status conflict">衝堂</span>';
   return '<span class="status idle">未選</span>';
 }
 
+// 產生點擊按鈕
 function actionHtml(src, key) {
   return isAdded(key)
     ? `<button class="act-btn remove" data-src="${src}" data-key="${esc(key)}">退選</button>`
     : `<button class="act-btn add" data-src="${src}" data-key="${esc(key)}">加入</button>`;
 }
 
-/* =========================
-   課程表：資工系／體育／共同必修／通識 共用一張表，用分頁籤切換
-   ========================= */
+// 資工系／體育／共同必修／通識 共用一張表
 let curTab = 'cs';
 const tabPage = { cs: 1, pe: 1, cm: 1, general: 1 };
 const tabFilter = { cs: '', pe: '', cm: '', general: '' };
 const TAB_DATA = () => ({ cs: COURSES, pe: PE, cm: CM, general: GENERAL });
 
-// 通識領域的標籤顏色，和右側「課程分類進度」的領域顏色一致（跨領域的課看第一個，和學分統計的算法相同）
+// 通識領域的標籤
 function domainBadge(domain) {
   const first = bigDomain(domain).split('、')[0];
   return { 人文: 'hum', 社會: 'soc', 自然: 'nat', 特色: 'spe' }[first] || 'none';
@@ -496,6 +511,7 @@ function rowOf(src, c) {
   };
 }
 
+// 年級選擇
 const gradeOptions = (list) =>
   [...new Set(list.map((c) => String(c.grade)).filter(Boolean))].sort().map((g) => [g, `${g} 年級`]);
 
@@ -511,6 +527,7 @@ const FILTERS = {
   }
 };
 
+// 依據當前的分頁更新分類篩選下拉選單
 function rebuildFilter() {
   const sel = document.getElementById('courseFilter');
   const f = FILTERS[curTab];
@@ -520,8 +537,10 @@ function rebuildFilter() {
   sel.value = tabFilter[curTab];
 }
 
+// 把課程搜尋結果排成表格畫在畫面上
 function renderCourses() {
   const src = curTab;
+  // 取得搜尋框輸入內容，並轉為小寫去空白
   const q = document.getElementById('courseSearch').value.trim().toLowerCase();
   const fv = tabFilter[src];
   const f = FILTERS[src];
@@ -583,11 +602,14 @@ function renderCourses() {
 <button class="pg-btn" onclick="goCourses(${pg + 1})" ${pg === totalPages ? 'disabled' : ''}>下一頁 ›</button>`;
 }
 
+// 分頁顯示
 function goCourses(p) {
+  // 將當前的頁碼狀態更新為目標頁碼 p
   tabPage[curTab] = p;
   renderCourses();
 }
 
+// 切換課程分類頁籤
 function switchTab(tab) {
   if (!FILTERS[tab] || tab === curTab) return;
   curTab = tab;
@@ -601,22 +623,25 @@ function switchTab(tab) {
   renderCourses();
 }
 
-/* =========================
-   已選課程一覽
-   ========================= */
+// 已選課程一覽
 function renderSelected() {
+  // 取得已選課程的HTML容器
   const box = document.getElementById('selectedList');
   if (!box) return;
-
+  // 取得所有已選課程的陣列
   const list = allSelected();
   box.innerHTML = list
     .map((s) => {
+      // 判斷是否為預設/基礎課程
       const isBase = !isAdded(s.key);
+      // 若為手動新增的課程，顯示「手動」標籤
       const tag = s.manual ? '<span class="status manual">手動</span>' : '';
       const del = isBase
         ? ''
         : `<button class="sel-del" title="退選" aria-label="退選 ${esc(s.course_name)}" data-key="${esc(s.key)}" data-from="selected">✕</button>`;
+      // 組裝後設資料字串
       const meta = [`${esc(s.credits)} 學分`, esc(s.category), esc(s.time_slot || '無')].join(' · ');
+      // 回傳單一已選課程卡片的 HTML
       return `
 <div class="sel-item">
   <div class="sel-main">
@@ -627,16 +652,13 @@ function renderSelected() {
 </div>`;
     })
     .join('') || '<div class="sel-empty">尚未選課,請從左側表格加入課程</div>';
-
+// 計算並更新已選課程的總學分與總門數
   const total = list.reduce((sum, s) => sum + (parseFloat(s.credits) || 0), 0);
   const el = document.getElementById('selectedSummary');
   if (el) el.textContent = `${list.length} 門 · ${total} 學分`;
 }
 
-
-/* =========================
-   學分進度(依已選課程計算)
-   ========================= */
+// 學分進度(依已選課程計算)
 const TOTAL_REQUIRED = 128;
 const REQ = [
   { key: '專業必修', label: '系必修', need: 49, color: 'blue' },
@@ -663,25 +685,31 @@ function creditsByCategory() {
   return { sums, total };
 }
 
+// 計算完成數值
 const pct = (a, b) => Math.min(100, Math.round((a / b) * 100));
 
+// 學分進度
 function renderProgress() {
+  // 取得各分類已修學分小計與畢業總學分
   const { sums, total } = creditsByCategory();
+  // 計算畢業總學分百分比
   const totalPct = pct(total, TOTAL_REQUIRED);
 
   const set = (id, fn) => {
     const el = document.getElementById(id);
     if (el) fn(el);
   };
+  // 更新總體進度列與圓環圖文字與樣式
   set('creditTotalText', (el) => (el.textContent = `已修學分 ${total} / ${TOTAL_REQUIRED}`));
   set('creditTotalPct', (el) => (el.textContent = `${totalPct}%`));
   set('creditTotalBar', (el) => (el.style.width = `${totalPct}%`));
   set('totalNum', (el) => (el.innerHTML = `已修學分<br>${total} / ${TOTAL_REQUIRED}`));
   set('totalRing', (el) => {
-    el.style.setProperty('--p', totalPct);
+    el.style.setProperty('--p', totalPct);          // 設定CSS自訂變數做為圓環圖進度
     el.dataset.pct = `${totalPct}%`;
   });
 
+  // 計算通識各領域修課狀況
   const gen = REQ.filter((r) => r.domain);
   const genGot = gen.reduce((n, r) => n + (sums[r.key] || 0), 0);
   const genNeed = 15; // 通識領域總學分至少 15(四個領域各至少 3)
@@ -697,6 +725,7 @@ function renderProgress() {
     { ...FREE, got: sums[FREE.key] || 0, last: true }
   ];
 
+  // 渲染「學分明細列表」表格列
   const rows = items.map((r) => `
 <div class="detail-row${r.sub ? ' sub' : ''}">
   <span>${r.label}${r.sub ? '<small>(至少 ' + r.need + ')</small>' : ''}</span>
@@ -705,8 +734,10 @@ function renderProgress() {
 </div>`).join('');
   set('creditRows', (el) => (el.innerHTML = rows));
 
+  // 計算通識領域尚缺學分
   const domainLack = lackDomains.reduce((n, r) => n + (r.need - (sums[r.key] || 0)), 0);
   const short = Math.max(domainLack, genNeed - genGot, 0);
+  // 取各領域缺額和與總額缺額的最大值，確保符合畢業雙重標準
   set('creditWarn', (el) => (el.textContent = short ? `● 通識領域總計至少 15、各領域至少 3 學分,仍差 ${short} 學分` : ''));
 
   const DOMAIN_COLOR = { 人文: '#efb34f', 社會: '#e6606c', 自然: '#35ad88', 特色通識: '#2fa7c4' };
@@ -750,15 +781,14 @@ function renderProgress() {
   });
 }
 
+// 更新前端所有 UI 頁面區塊
 function renderAll() {
-  renderCourses();
-  renderSelected();
-  renderProgress();
+  renderCourses();              // 重新渲染課程搜尋與選課清單
+  renderSelected();             // 重新渲染已選課程與課表視圖
+  renderProgress();             // 重新渲染學分累積與進度條統計
 }
 
-/* =========================
-   初始化
-   ========================= */
+// 全域監聽 判斷是否為加退選按鈕或刪除按鈕
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('.act-btn, .sel-del');
   if (!btn) return;
@@ -766,6 +796,7 @@ document.addEventListener('click', (e) => {
   else toggleCourse(btn.dataset.src, btn.dataset.key);
 });
 
+// 載入後非同步初始化
 document.addEventListener('DOMContentLoaded', async () => {
   const [cs, gen] = await Promise.all([
     getJson('cs_courses.json', '載入課程失敗'),
@@ -773,23 +804,30 @@ document.addEventListener('DOMContentLoaded', async () => {
   ]);
   COURSES = cs;
   GENERAL = gen;
+  // 載入體育課與校共同必修資料
   PE = await loadPE();
   CM = await loadCM();
 
+  // 初始化UI篩選選單與頁籤點擊事件
   rebuildFilter();
   document.getElementById('courseTabs').addEventListener('click', (e) => {
     const b = e.target.closest('.tab');
     if (b) switchTab(b.dataset.tab);
   });
+
+  // 監聽關鍵字搜尋輸入（自動重置頁碼並重新繪製列表）
   document.getElementById('courseSearch').addEventListener('input', () => {
     tabPage[curTab] = 1;
     renderCourses();
   });
+
+  // 監聽分類篩選下拉選單變更
   document.getElementById('courseFilter').addEventListener('change', (e) => {
     tabFilter[curTab] = e.target.value;
     tabPage[curTab] = 1;
     renderCourses();
   });
+
   initManualDialog();
 
   renderAll();

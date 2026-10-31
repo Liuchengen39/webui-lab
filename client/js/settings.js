@@ -9,8 +9,9 @@
 // 沒填的話，按「連結 Google 帳號」只會顯示提示，其他功能照常使用
 const GOOGLE_CLIENT_ID = '609296002726-pds1hehq70fkchcrj8uuefreooperdkd.apps.googleusercontent.com';
 
-const SYNC_KEY = 'ncnu_autosync';
-const COURSES_KEY = 'ncnu_added_courses';
+const K = window.NCNU_KEY || ((k) => k); // 依網站路徑加前綴(見 profile.js),避免和同網域的其他同學互相覆蓋
+const SYNC_KEY = K('ncnu_autosync');
+const COURSES_KEY = K('ncnu_added_courses');
 const GRADES = ['大一', '大二', '大三', '大四', '延畢', '研究所'];
 
 const $ = (id) => document.getElementById(id);
@@ -25,7 +26,7 @@ const FIELDS = {
 function renderProfile() {
   const p = NCNU_PROFILE.load();
   document.querySelectorAll('[data-field]').forEach((row) => {
-    row.querySelector('.val').textContent = p[row.dataset.field];
+    row.querySelector('.val').textContent = p[row.dataset.field] || '未設定';
   });
 }
 
@@ -40,8 +41,9 @@ function startEdit(row) {
   let input;
   if (cfg.type === 'select') {
     input = document.createElement('select');
-    const opts = GRADES.includes(current) ? GRADES : [current, ...GRADES];
-    input.innerHTML = opts.map((g) => `<option${g === current ? ' selected' : ''}>${g}</option>`).join('');
+    const opts = !current || GRADES.includes(current) ? GRADES : [current, ...GRADES];
+    input.innerHTML = (current ? '' : '<option value="" selected disabled>請選擇年級</option>') +
+      opts.map((g) => `<option${g === current ? ' selected' : ''}>${g}</option>`).join('');
   } else {
     input = document.createElement('input');
     input.type = 'text';
@@ -123,14 +125,14 @@ function initSwitch() {
 
 /* ---------- 3. Google Drive 同步（資料存在 Drive 的 AppData 隱藏資料夾）---------- */
 const SCOPE = 'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/userinfo.email'; // 後者用來辨識是哪個帳號,偵測換帳號
-const ACCOUNT_KEY = 'ncnu_google_account'; // 目前這台瀏覽器連結的 Google 帳號(email)
+const ACCOUNT_KEY = K('ncnu_google_account'); // 目前這台瀏覽器連結的 Google 帳號(email)
 const FILE_NAME = 'ncnu-courses.json';
 let accessToken = null;
 
 // 登入狀態要跨頁保留:切到別的 html 再回來,不用重新登入
 // token 只放 sessionStorage(關閉分頁就清掉),大約 1 小時後 Google 會讓它失效
-const TOKEN_KEY = 'ncnu_google_token';
-const LINKED_KEY = 'ncnu_google_linked'; // 這台瀏覽器曾經連結過(之後重新登入不再詢問要用哪邊的資料)
+const TOKEN_KEY = K('ncnu_google_token');
+const LINKED_KEY = K('ncnu_google_linked'); // 這台瀏覽器曾經連結過(之後重新登入不再詢問要用哪邊的資料)
 
 function saveToken(token, expiresIn) {
   accessToken = token;
