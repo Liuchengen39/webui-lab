@@ -1,29 +1,11 @@
-"""
-爬取暨大「本學期開課列表」(x_deptid=90) 並輸出成 JSON。
-
-功能說明：
-1. 從學校課程查詢系統抓取指定系所 / 單位的開課資料
-2. 自動翻頁，收集所有課程
-3. 最後只保留：
-   - 中文課名包含「資工」
-   - 或課名開頭是「體育:」
-4. 輸出成 physical.json
-
-需求：
-    pip install selenium
-Selenium 4.6+ 內建 Selenium Manager，通常可自動下載對應 chromedriver
-"""
-
 import json
 import re
 import time
-from urllib.parse import urlparse, parse_qs, urlencode, urlunparse  
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException  
+from selenium.common.exceptions import TimeoutException
 
 # 查詢網址：x_deptid=90
 URL = (
@@ -37,10 +19,10 @@ URL = (
 BASE_URL = "https://ccweb6.ncnu.edu.tw/student/current_semester_opened_listlist.php"
 
 # 輸出檔名
-OUT_JSON = "physical.json"
+OUT_JSON = "tset.json"
 
 # 是否使用無頭模式
-HEADLESS = True  
+HEADLESS = True
 
 
 def make_driver():
@@ -50,60 +32,45 @@ def make_driver():
         opts.add_argument("--headless=new")
         opts.add_argument("--window-size=1600,1000")
         opts.add_argument("--lang=zh-TW")
-    return webdriver.Chrome(options=opts)  
+    return webdriver.Chrome(options=opts)
 
+# 壓縮空白字元並去頭尾空白
+def clean(text):
+    return re.sub(r"\s+", " ", text or "").strip()
 
-def find_course_table(driver):
-    """
-    從頁面中找出最像「課程列表」的 table。
-    判斷方式：
-    - 有表頭
-    - 資料列數最多
-    """
+# 尋找<tr>和<td>  
+def find_course_table(soup):
+
     best, best_rows = None, 0
-    for t in driver.find_elements(By.TAG_NAME, "table"):
-        rows = t.find_elements(By.XPATH, ".//tr[td]")
-        has_head = t.find_elements(By.XPATH, ".//tr[th] | .//thead//td")
-        if has_head and len(rows) > best_rows:
-            best, best_rows = t, len(rows)
-    return best  
+    for table in soup.find_all("table"):
+        data_rows = [tr for tr in table.find_all("tr") if tr.find("td")]
+        has_head = table.find("th") or table.find("thead")
+        if has_head and len(data_rows) > best_rows:
+            best, best_rows = table, len(data_rows)
+    return best
 
 
 def parse_table(table):
-    """
-    解析表格內容，回傳：
-    - headers: 表頭列表
-    - rows: 每一列資料
-    只抓該 table 自己的 tr，避免巢狀 table 干擾。
-    """
-    trs = table.find_elements(By.XPATH, "./thead/tr | ./tbody/tr | ./tr")
     headers, rows = [], []
 
-    for tr in trs:
-        ths = tr.find_elements(By.XPATH, "./th")
-        tds = tr.find_elements(By.XPATH, "./td")
+    for tr in table.find_all("tr"):
+        ths = tr.find_all("th")
+        tds = tr.find_all("td")
 
         # 若這列是表頭，且 headers 尚未設定，就記錄表頭
         if ths and not headers:
-            headers = [re.sub(r"\s+", " ", th.text).strip() for th in ths]
+            headers = [clean(th.get_text()) for th in ths]
 
         # 若是資料列，就清理空白後加入 rows
         elif tds:
-            cells = [re.sub(r"\s+", " ", td.text).strip() for td in tds]
+            cells = [clean(td.get_text()) for td in tds]
             if any(cells):
                 rows.append(cells)
 
-    return headers, rows  
+    return headers, rows
 
 
 def scrape():
-    """
-    主爬蟲流程：
-    1. 開啟第一頁
-    2. 解析表格
-    3. 依 start 參數翻頁
-    4. 收集所有頁的資料
-    """
     driver = make_driver()
     all_rows, headers = [], []
     seen_signatures = set()
@@ -117,18 +84,22 @@ def scrape():
         while True:
             try:
                 WebDriverWait(driver, 15).until(
-                    lambda d: find_course_table(d) is not None
+                    lambda d: find_course_table(
+                        BeautifulSoup(d.page_source, "html.parser")
+                    )
+                    is not None
                 )
             except TimeoutException:
                 print("找不到課程表格，結束。")
-                break  
+                break
 
-            table = find_course_table(driver)
+            soup = BeautifulSoup(driver.page_source, "html.parser")
+            table = find_course_table(soup)
             h, rows = parse_table(table)
 
             # 第一次成功解析到表頭時記錄
             if not headers and h:
-                headers = h  
+                headers = h
 
             # 將本頁資料轉成 tuple，方便檢查是否重複
             sig = tuple(tuple(r) for r in rows)
@@ -157,13 +128,12 @@ def scrape():
             time.sleep(0.5)  # 稍微放慢，避免對學校伺服器造成太大負擔
 
     finally:
-        driver.quit()  
+        driver.quit()
 
-    return headers, all_rows  
+    return headers, all_rows
 
 
 def main():
-    """主程式入口。"""
     headers, rows = scrape()
 
     if not rows:
@@ -186,25 +156,20 @@ def main():
 
     if name_idx is None:
         print(f"找不到課名欄位，表頭是：{headers}，請手動調整 name_idx")
-        return  
+        return
 
     def keep(name):
-        """
-        篩選條件：
-        - 課名包含「資工」
-        - 或課名開頭是「體育:」
-        """
         name = name.strip()
-        return "資工" in name or name.startswith(("體育:", "體育："))  
+        return "資工" in name or name.startswith(("體育:", "體育："))
 
     # 只保留符合條件的列
-    rows = [r for r in rows if keep(r[name_idx])]  
+    rows = [r for r in rows if keep(r[name_idx])]
 
     # 輸出成 JSON
     with open(OUT_JSON, "w", encoding="utf-8") as f:
         json.dump([dict(zip(headers, r)) for r in rows], f, ensure_ascii=False, indent=2)
 
-    print(f"完成，共 {len(rows)} 筆 → {OUT_JSON}")  
+    print(f"完成，共 {len(rows)} 筆 → {OUT_JSON}")
 
 
 if __name__ == "__main__":
