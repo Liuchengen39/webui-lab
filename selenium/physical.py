@@ -7,7 +7,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 
-# 查詢網址：x_deptid=90
 URL = (
     "https://ccweb6.ncnu.edu.tw/student/current_semester_opened_listlist.php"
     "?cmd=search&t=current_semester_opened_list&z_courseid=%3D&x_courseid="
@@ -15,18 +14,14 @@ URL = (
     "&z_grade=%3D&x_grade=&z_teachers=LIKE&x_teachers="
 )
 
-# 基底網址，後續翻頁時會用到
 BASE_URL = "https://ccweb6.ncnu.edu.tw/student/current_semester_opened_listlist.php"
 
-# 輸出檔名
-OUT_JSON = "tset.json"
+OUT_JSON = "physical.json"
 
-# 是否使用無頭模式
 HEADLESS = True
 
 
 def make_driver():
-    """建立 Selenium Chrome driver。"""
     opts = Options()
     if HEADLESS:
         opts.add_argument("--headless=new")
@@ -34,11 +29,9 @@ def make_driver():
         opts.add_argument("--lang=zh-TW")
     return webdriver.Chrome(options=opts)
 
-# 壓縮空白字元並去頭尾空白
 def clean(text):
     return re.sub(r"\s+", " ", text or "").strip()
 
-# 尋找<tr>和<td>  
 def find_course_table(soup):
 
     best, best_rows = None, 0
@@ -57,11 +50,9 @@ def parse_table(table):
         ths = tr.find_all("th")
         tds = tr.find_all("td")
 
-        # 若這列是表頭，且 headers 尚未設定，就記錄表頭
         if ths and not headers:
             headers = [clean(th.get_text()) for th in ths]
 
-        # 若是資料列，就清理空白後加入 rows
         elif tds:
             cells = [clean(td.get_text()) for td in tds]
             if any(cells):
@@ -140,15 +131,12 @@ def main():
         print("沒有抓到資料。")
         return
 
-    # 找出最寬的列數，避免表頭與資料欄位數不一致
     width = max(len(r) for r in rows)
 
-    # 若 headers 長度不足，補上預設欄位名
     if len(headers) != width:
         headers = headers[:width] + [f"col{i+1}" for i in range(len(headers), width)]
         rows = [r + [""] * (width - len(r)) for r in rows]
 
-    # 找出課名欄位索引
     name_idx = next(
         (i for i, h in enumerate(headers) if "中文" in h and "名" in h),
         next((i for i, h in enumerate(headers) if "名稱" in h or "課名" in h), None),
@@ -162,10 +150,8 @@ def main():
         name = name.strip()
         return "資工" in name or name.startswith(("體育:", "體育："))
 
-    # 只保留符合條件的列
     rows = [r for r in rows if keep(r[name_idx])]
 
-    # 輸出成 JSON
     with open(OUT_JSON, "w", encoding="utf-8") as f:
         json.dump([dict(zip(headers, r)) for r in rows], f, ensure_ascii=False, indent=2)
 

@@ -541,18 +541,12 @@ function rebuildFilter() {
 // 把課程搜尋結果排成表格畫在畫面上
 function renderCourses() {
   const src = curTab;
-  // 取得搜尋框輸入內容，並轉為小寫去空白
-  const q = document.getElementById('courseSearch').value.trim().toLowerCase();
   const fv = tabFilter[src];
   const f = FILTERS[src];
   const tbody = document.querySelector('#courseTable tbody');
 
-  const rows = TAB_DATA()[src].filter((c) => {
-    if (fv && !f.test(c, fv)) return false;
-    if (!q) return true;
-    const r = rowOf(src, c);
-    return [r.name, r.teacher, r.id].some((v) => String(v || '').toLowerCase().includes(q));
-  });
+  // 只套用分類篩選，不吃搜尋框內容：打字不會即時過濾這張表，要按「搜尋」才會查
+  const rows = TAB_DATA()[src].filter((c) => !fv || f.test(c, fv));
 
   const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
   tabPage[src] = Math.min(Math.max(tabPage[src], 1), totalPages);
@@ -783,7 +777,7 @@ function renderProgress() {
   });
 }
 
-// ===== 搜尋：input #courseSearch（停止打字後）→ searchData() → fetch GET → render #results =====
+// ===== 搜尋：打字不做任何過濾，按 Enter → searchData() → fetch GET → render #results =====
 
 // 每個分頁對應的 API（server.py）。回傳的資料先整理成與本地資料相同的欄位，
 // keyOf() 算出的 key 才會一致，結果裡的「加入／退選」才找得到課。
@@ -797,13 +791,6 @@ const SEARCH_API = {
 // status: idle | ok | empty | error
 let searchState = { status: 'idle', src: 'cs', q: '', list: [], message: '' };
 let searchSeq = 0; // 每次搜尋遞增；回來時編號對不上代表已經過期，直接丟掉
-let searchTimer = null;
-const SEARCH_DELAY = 300; // 停止打字這麼久才送出請求，避免每打一個字就打一次 API
-
-function scheduleSearch() {
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(searchData, SEARCH_DELAY);
-}
 
 const fail = (kind, message, extra) => Object.assign(new Error(message), { kind }, extra);
 
@@ -814,7 +801,7 @@ const matchesQuery = (src, c, q) => {
 };
 
 // Event 的處理函式：呼叫 API → 整理資料 → 更新 searchState → 畫到 #results
-// 由 #courseSearch 的 input 觸發（停止打字 SEARCH_DELAY 毫秒後，經 scheduleSearch()）
+// 由 #courseSearch 按下 Enter 觸發（見 DOMContentLoaded 內的 keydown 監聽）
 async function searchData() {
   const src = curTab;
   const q = document.getElementById('courseSearch').value.trim().toLowerCase();
@@ -904,7 +891,6 @@ function renderResults() {
 
 // 清掉搜尋結果並讓進行中的請求作廢（清空搜尋框、改篩選、切換分頁時用）
 function clearSearch() {
-  clearTimeout(searchTimer);
   searchSeq++;
   searchState = { status: 'idle', src: curTab, q: '', list: [], message: '' };
   renderResults();
@@ -945,28 +931,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (b) switchTab(b.dataset.tab);
   });
 
-  // 監聽關鍵字搜尋輸入（自動重置頁碼並重新繪製列表）
+  // 搜尋框本身打字不做任何過濾／查詢，只有清空時回到原本的表；按下 Enter 才真正送出 API 搜尋
   const searchBox = document.getElementById('courseSearch');
-  searchBox.addEventListener('input', (e) => {
-    clearTimeout(searchTimer);
-    tabPage[curTab] = 1;
-    if (!searchBox.value.trim()) { // 清空（含按搜尋框的 ✕）→ 回到原本的表
-      clearSearch();
-      renderCourses();
-      return;
-    }
-    renderCourses();                    // 原本的表先即時過濾，API 結果回來前看這個
-    if (!e.isComposing) scheduleSearch(); // 注音選字中先不送，避免拿「ㄐㄧˋ」去查
+  searchBox.addEventListener('input', () => {
+    if (!searchBox.value.trim()) clearSearch(); // 清空（含按搜尋框的 ✕）→ 回到原本的表
   });
-  // 注音、拼音輸入完成（選好字）才算打完一個詞
-  searchBox.addEventListener('compositionend', () => {
-    if (searchBox.value.trim()) scheduleSearch();
+  // 按下 Enter 才呼叫 API 搜尋（略過注音/拼音選字途中按 Enter 確認選字的那一下）
+  searchBox.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' || e.isComposing || e.keyCode === 229) return;
+    e.preventDefault();
+    if (searchBox.value.trim()) searchData();
   });
 
   // 監聽分類篩選下拉選單變更
   document.getElementById('courseFilter').addEventListener('change', (e) => {
     tabFilter[curTab] = e.target.value;
-    clearSearch(); // 回到即時過濾
+    clearSearch(); // 離開搜尋結果，改回依分類篩選的表格
     tabPage[curTab] = 1;
     renderCourses();
   });

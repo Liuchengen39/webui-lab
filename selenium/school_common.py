@@ -7,7 +7,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 
-# 查詢網址：x_deptid=98、學士班(B)
 URL = (
     "https://ccweb6.ncnu.edu.tw/student/current_semester_opened_listlist.php"
     "?cmd=search&t=current_semester_opened_list&z_courseid=%3D&x_courseid="
@@ -15,17 +14,13 @@ URL = (
     "&z_grade=%3D&x_grade=&z_teachers=LIKE&x_teachers="
 )
 
-# 用來翻頁的基底網址
 BASE_URL = "https://ccweb6.ncnu.edu.tw/student/current_semester_opened_listlist.php"
 
-# 輸出檔名
+
 OUT_JSON = "common.json"
 
-# 中文課名包含任一關鍵字就保留
-# 如果之後想加條件，直接在這個列表新增即可
 KEYWORDS = ["資工", "(基礎)", "(進階)"]
 
-# 是否啟用無頭模式
 HEADLESS = True
 
 
@@ -75,7 +70,7 @@ def scrape():
     seen = set()
 
     try:
-        driver.get(URL)  # 先載入帶搜尋條件的第一頁
+        driver.get(URL) 
         page, start, page_size = 1, 1, None
 
         while True:
@@ -96,7 +91,6 @@ def scrape():
             if not headers and h:
                 headers = h
 
-            # 用整頁內容判斷是否重複
             sig = tuple(tuple(r) for r in rows)
             if not rows or sig in seen:
                 break
@@ -105,15 +99,13 @@ def scrape():
             all_rows.extend(rows)
             print(f"第 {page} 頁：{len(rows)} 筆（累計 {len(all_rows)}）")
 
-            # 第一次以當頁筆數作為 page_size
             if page_size is None:
                 page_size = len(rows)
 
-            # 若本頁筆數少於 page_size，表示最後一頁
+
             if len(rows) < page_size:
                 break
 
-            # 換到下一頁
             start += page_size
             page += 1
             driver.get(f"{BASE_URL}?start={start}")
@@ -132,13 +124,13 @@ def main():
         print("沒有抓到資料。")
         return
 
-    # 統一欄位寬度
+
     width = max(len(r) for r in rows)
     if len(headers) != width:
         headers = headers[:width] + [f"col{i+1}" for i in range(len(headers), width)]
         rows = [r + [""] * (width - len(r)) for r in rows]
 
-    # 找課名欄位
+
     name_idx = next(
         (i for i, h in enumerate(headers) if "中文" in h and "名" in h),
         next((i for i, h in enumerate(headers) if "名稱" in h or "課名" in h), None),
@@ -148,13 +140,12 @@ def main():
         print(f"找不到課名欄位，表頭是：{headers}，請改 name_idx")
         return
 
-    # 只保留課名包含任一關鍵字的課程
+
     rows = [
         r for r in rows
         if any(k in r[name_idx].replace("（", "(").replace("）", ")") for k in KEYWORDS)
     ]
 
-    # 輸出成 JSON
     with open(OUT_JSON, "w", encoding="utf-8") as f:
         json.dump([dict(zip(headers, r)) for r in rows], f, ensure_ascii=False, indent=2)
 
