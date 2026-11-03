@@ -418,6 +418,7 @@ body{
   padding-bottom:10px;
 }
 
+/* 本學期課程卡片 */
 .table{
   width:100%;
   border-collapse:separate;
@@ -809,3 +810,16 @@ body{
 /* 校共同必修（粉紅） */
 .status.com{background:#fdeaf1;color:#a1325f}
 .cat .progress i.pink{background:#ec5b97}
+
+/* ===== 搜尋結果（#results）===== */
+/* 瀏覽器預設的 [hidden] 會被 .pager{display:flex} 這類規則蓋掉，所以要補這行 */
+[hidden]{display:none!important}
+/* 與 #courseTable 相同的對齊；老師欄不換行 */
+#results .table th:nth-child(2), #results .table td:nth-child(2),
+#results .table th:nth-child(3), #results .table td:nth-child(3),
+#results .table th:nth-child(7), #results .table td:nth-child(7),
+#results .table th:nth-child(8), #results .table td:nth-child(8){text-align:center}
+#results .table td{vertical-align:middle}
+#results .table td:nth-child(5){white-space:nowrap}
+.results-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 2px 10px;font-size:12px;color:var(--muted)}
+.results-head.is-error{color:#d54d57}

@@ -342,7 +342,8 @@ function toggleCourse(src, key) {
     added = added.filter((a) => a.key !== key);
   } else {
     const list = src === 'general' ? GENERAL : src === 'pe' ? PE : src === 'cm' ? CM : COURSES;
-    const c = list.find((x) => keyOf(x) === key);
+    // 本地資料沒有時（例如 data/ 讀不到、但 API 有資料），退而從搜尋結果找
+    const c = list.find((x) => keyOf(x) === key) || searchState.list.find((x) => keyOf(x) === key);
     if (!c) return;
     const rec =
       src === 'general' ? recordFromGeneral(c)
@@ -614,6 +615,7 @@ function switchTab(tab) {
   if (!FILTERS[tab] || tab === curTab) return;
   curTab = tab;
   tabPage[tab] = 1;
+  clearSearch();
   document.querySelectorAll('#courseTabs .tab').forEach((b) => {
     const on = b.dataset.tab === tab;
     b.classList.toggle('active', on);
@@ -781,17 +783,145 @@ function renderProgress() {
   });
 }
 
+// ===== 搜尋：input #courseSearch（停止打字後）→ searchData() → fetch GET → render #results =====
+
+// 每個分頁對應的 API（server.py）。回傳的資料先整理成與本地資料相同的欄位，
+// keyOf() 算出的 key 才會一致，結果裡的「加入／退選」才找得到課。
+const SEARCH_API = {
+  cs:      { url: 'api/courses',         normalize: (rows) => rows },
+  pe:      { url: 'api/pe-courses',      normalize: (rows) => rows.map(normalizePE).filter(peCategoryOf) },
+  cm:      { url: 'api/common-courses',  normalize: (rows) => rows.map(normalizeCM) },
+  general: { url: 'api/general-courses', normalize: (rows) => rows }
+};
+
+// status: idle | ok | empty | error
+let searchState = { status: 'idle', src: 'cs', q: '', list: [], message: '' };
+let searchSeq = 0; // 每次搜尋遞增；回來時編號對不上代表已經過期，直接丟掉
+let searchTimer = null;
+const SEARCH_DELAY = 300; // 停止打字這麼久才送出請求，避免每打一個字就打一次 API
+
+function scheduleSearch() {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(searchData, SEARCH_DELAY);
+}
+
+const fail = (kind, message, extra) => Object.assign(new Error(message), { kind }, extra);
+
+// 與 renderCourses() 相同的比對欄位：課名、老師、課號
+const matchesQuery = (src, c, q) => {
+  const r = rowOf(src, c);
+  return [r.name, r.teacher, r.id].some((v) => String(v || '').toLowerCase().includes(q));
+};
+
+// Event 的處理函式：呼叫 API → 整理資料 → 更新 searchState → 畫到 #results
+// 由 #courseSearch 的 input 觸發（停止打字 SEARCH_DELAY 毫秒後，經 scheduleSearch()）
+async function searchData() {
+  const src = curTab;
+  const q = document.getElementById('courseSearch').value.trim().toLowerCase();
+  if (!q) { clearSearch(); return; } // 沒有關鍵字就不打 API，回到原本的表
+  const seq = ++searchSeq;
+
+  try {
+    const res = await fetch(SEARCH_API[src].url); // GET
+    // 錯誤 1：HTTP error（404、500…），fetch 不會自己 reject，要自己檢查 res.ok
+    if (!res.ok) throw fail('http', `HTTP ${res.status}`, { status: res.status });
+
+    const raw = await res.json(); // 不是合法 JSON 會丟 SyntaxError
+    if (!Array.isArray(raw)) throw fail('format', '回傳內容不是陣列');
+    if (seq !== searchSeq) return; // 期間又打了字或切了分頁，這份回應已經過期
+
+    const list = SEARCH_API[src].normalize(raw).filter((c) => matchesQuery(src, c, q));
+
+    // 錯誤 3：空資料。API 本身回 []，或有資料但沒有符合關鍵字
+    if (!list.length) {
+      searchState = {
+        status: 'empty', src, q, list: [],
+        message: raw.length ? `沒有符合「${q}」的課程` : 'API 回傳空資料（伺服器可能找不到資料檔）'
+      };
+    } else {
+      searchState = { status: 'ok', src, q, list, message: '' };
+    }
+    renderResults();
+  } catch (err) {
+    if (seq !== searchSeq) return;
+    console.error('searchData 失敗：', SEARCH_API[src].url, err);
+    let message;
+    if (err.kind === 'http') message = `伺服器回應錯誤（HTTP ${err.status}）`;
+    else if (err.kind === 'format') message = '資料格式不正確（不是課程清單）';
+    else if (err.name === 'SyntaxError') message = '資料格式不正確（無法解析 JSON）';
+    // 錯誤 2：Network error（斷線、伺服器沒開、CORS），fetch 會 reject 一個 TypeError
+    else message = '網路連線失敗，請確認網路或伺服器是否已啟動';
+    searchState = { status: 'error', src, q, list: [], message };
+    renderResults();
+  }
+}
+
+// 單列 HTML；加入／退選按鈕沿用 actionHtml()，點擊由 document 的 click 委派處理
+function resultRowHtml(src, c) {
+  const key = keyOf(c);
+  const r = rowOf(src, c);
+  const cat = `<span class="status${r.badge ? ' ' + r.badge : ''}" title="${esc(r.catTitle)}">${esc(r.cat)}</span>`;
+  return `
+<tr>
+  <td>${esc(r.name)}${r.section ? ` <span class="muted">(${esc(r.section)}班)</span>` : ''}</td>
+  <td>${cat}</td>
+  <td>${esc(r.credits)}</td>
+  <td>${esc(r.slot || '無')}</td>
+  <td>${esc(r.teacher || '—')}</td>
+  <td>${esc(r.location || '無')}</td>
+  <td>${statusHtml(key, r.slot)}</td>
+  <td>${actionHtml(src, key)}</td>
+</tr>`;
+}
+
+// 依 searchState 重畫 #results（error / empty / ok / idle）
+// 搜尋模式下隱藏原本的課程表與分頁器，畫面上永遠只有一張表；idle 時再顯示回來
+function renderResults() {
+  const box = document.getElementById('results');
+  if (!box) return;
+  const { status, src, list, message } = searchState;
+
+  const searching = status !== 'idle';
+  ['courseTable', 'coursePager'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.hidden = searching;
+  });
+
+  if (status === 'idle') { box.innerHTML = ''; return; }
+  if (status !== 'ok') { // empty / error
+    box.innerHTML = `<div class="results-head${status === 'error' ? ' is-error' : ''}"><span>${esc(message)}</span></div>`;
+    return;
+  }
+  box.innerHTML = `
+<div class="results-head"><span>搜尋結果：共 ${list.length} 筆</span></div>
+<table class="table">
+  <thead>
+    <tr><th>課程名稱</th><th>類別</th><th>學分</th><th>時間</th><th>老師</th><th>上課地點</th><th>狀態</th><th>操作</th></tr>
+  </thead>
+  <tbody>${list.map((c) => resultRowHtml(src, c)).join('')}</tbody>
+</table>`;
+}
+
+// 清掉搜尋結果並讓進行中的請求作廢（清空搜尋框、改篩選、切換分頁時用）
+function clearSearch() {
+  clearTimeout(searchTimer);
+  searchSeq++;
+  searchState = { status: 'idle', src: curTab, q: '', list: [], message: '' };
+  renderResults();
+}
+
 // 更新前端所有 UI 頁面區塊
 function renderAll() {
   renderCourses();              // 重新渲染課程搜尋與選課清單
   renderSelected();             // 重新渲染已選課程與課表視圖
   renderProgress();             // 重新渲染學分累積與進度條統計
+  renderResults();              // 搜尋結果裡的「已新增／衝堂」狀態也要同步
 }
 
 // 全域監聽 判斷是否為加退選按鈕或刪除按鈕
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('.act-btn, .sel-del');
-  if (!btn) return;
+  if (!btn || !btn.dataset.key) return; // #openManual 等沒有 data-key，不是加退選按鈕
   if (btn.dataset.from === 'selected') removeSelected(btn.dataset.key);
   else toggleCourse(btn.dataset.src, btn.dataset.key);
 });
@@ -816,14 +946,27 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   // 監聽關鍵字搜尋輸入（自動重置頁碼並重新繪製列表）
-  document.getElementById('courseSearch').addEventListener('input', () => {
+  const searchBox = document.getElementById('courseSearch');
+  searchBox.addEventListener('input', (e) => {
+    clearTimeout(searchTimer);
     tabPage[curTab] = 1;
-    renderCourses();
+    if (!searchBox.value.trim()) { // 清空（含按搜尋框的 ✕）→ 回到原本的表
+      clearSearch();
+      renderCourses();
+      return;
+    }
+    renderCourses();                    // 原本的表先即時過濾，API 結果回來前看這個
+    if (!e.isComposing) scheduleSearch(); // 注音選字中先不送，避免拿「ㄐㄧˋ」去查
+  });
+  // 注音、拼音輸入完成（選好字）才算打完一個詞
+  searchBox.addEventListener('compositionend', () => {
+    if (searchBox.value.trim()) scheduleSearch();
   });
 
   // 監聽分類篩選下拉選單變更
   document.getElementById('courseFilter').addEventListener('change', (e) => {
     tabFilter[curTab] = e.target.value;
+    clearSearch(); // 回到即時過濾
     tabPage[curTab] = 1;
     renderCourses();
   });
