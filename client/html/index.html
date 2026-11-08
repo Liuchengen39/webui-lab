@@ -1,189 +1,234 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>暨南大學｜課程排課系統</title>
-  <link rel="stylesheet" href="css/dashboard.css" />
-</head>
-<body>
-  <div class="layout">
-    <!-- 左側導覽 -->
-    <aside class="sidebar">
-      <div class="logo">
-        <div class="logo-mark">△M</div>
-        <div class="logo-text">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#214d7f">
+    <title>綜合總覽｜暨南大學排課系統</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="js/dashboard.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button class="menu-toggle" type="button" aria-label="開啟導覽選單" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="brand" href="index.html" aria-label="暨南大學排課系統首頁">
+        <span class="brand-mark" aria-hidden="true">NCNU</span>
+        <span class="brand-copy">
           <strong>暨南大學</strong>
-          <span>課程排課系統</span>
-        </div>
+          <small>排課系統</small>
+        </span>
+      </a>
+      <div class="user-profile">
+        <span class="avatar" aria-hidden="true">劉</span>
+        <span>
+          <strong>劉承恩</strong>
+          <small>大一</small>
+        </span>
       </div>
+    </header>
 
-      <nav class="nav">
-        <a href="#" class="active"><span class="icon">▦</span><span class="label">綜合總覽</span></a>
-        <a href="timetable.html"><span class="icon">▤</span><span class="label">課表</span></a>
-        <a href="settings.html"><span class="icon">⚙</span><span class="label">系統設定</span></a>
-      </nav>
-    </aside>
-    <!-- 右側主區 -->
-    <main class="main">
-      <header class="header">
-        <div class="profile">
-          <div class="avatar"></div>
+    <div class="app-shell">
+      <div class="sidebar-backdrop" data-close-menu></div>
+      <aside class="sidebar" id="sidebar" aria-label="主要導覽">
+        <nav class="side-nav">
+          <a class="nav-link is-active" href="index.html" aria-current="page">
+            <span aria-hidden="true">▦</span>綜合總覽
+          </a>
+          <a class="nav-link" href="timetable.html">
+            <span aria-hidden="true">▤</span>課表
+          </a>
+          <a class="nav-link" href="settings.html">
+            <span aria-hidden="true">⚙</span>系統設定
+          </a>
+        </nav>
+        <p class="sidebar-note">暨南大學<br>學生排課與學分管理</p>
+      </aside>
+
+      <main class="main-content">
+        <div class="page-heading">
           <div>
-            <b>未設定</b>
-            <small></small>
+            <p class="eyebrow">學生學習管理</p>
+            <h1>綜合總覽</h1>
           </div>
+          <p class="page-description">整理學分進度、選課與修課狀況</p>
         </div>
-      </header>
+        <p class="load-error" id="loadError" role="alert" hidden></p>
 
-      <section class="content">
-        <div class="title-row">
-          <h1>綜合總覽</h1>
-          <p>整體學分進度一覽，掌握畢業要求與修課狀況</p>
-        </div>
-        <div class="columns">
-          <!-- 中間主內容 -->
-          <div>
-            <!-- 學分完成情況 -->
-            <div class="card">
-              <h2 class="card-title"><span class="ti">♟</span>學分完成情況</h2>
-              <div class="credit-grid">
-                <div class="credit-box">
-                  <div class="credit-head">
-                    <div class="circle-icon">
-                      &lt;/&gt;
-                    </div>
-                    學分進度
-                  </div>
-
-                  <div class="credit-num">
-                    <b id="creditTotalText">已修學分 0 / 128</b>
-                    <span id="creditTotalPct">0%</span>
-                  </div>
-                  <div class="progress"><i id="creditTotalBar" style="width:0%"></i></div>
-                  <div class="sub-title">必修 / 選修 / 領域課程 進度</div>
-                  <div id="creditRows"></div>
-                  <div class="warn-note" id="creditWarn"></div>
+        <div class="dashboard-grid" id="dashboard" aria-busy="true">
+          <section class="card progress-card" aria-labelledby="progressTitle">
+            <div class="card-heading">
+              <span class="heading-icon" aria-hidden="true">♟</span>
+              <h2 id="progressTitle">學分完成情況</h2>
+            </div>
+            <div class="progress-layout">
+              <div class="progress-detail">
+                <div class="subcard-heading">
+                  <span class="round-icon" aria-hidden="true">〈/〉</span>
+                  <h3>學分進度</h3>
                 </div>
-
-                <div class="credit-box total">
-                  <div class="credit-head">
-                    <div class="circle-icon">◆</div>
-                    總計
-                  </div>
-                  <div class="total-num" id="totalNum">已修學分<br>0 / 128</div>
-                  <div class="ring" id="totalRing" data-pct="0%" style="--p:0"></div>
-                  <small>※ 需符合目前的<br>畢業學分要求</small>
+                <p class="credit-total" id="creditTotal">載入中…</p>
+                <div class="progress-track" role="progressbar" id="totalProgress" aria-label="總學分完成進度">
+                  <span id="totalProgressBar"></span>
                 </div>
+                <div class="progress-caption">
+                  <span>必修 / 選修 / 領域課程進度</span>
+                  <span id="totalPercent">0%</span>
+                </div>
+                <div class="progress-rows" id="progressRows"></div>
+                <p class="notice" id="progressNotice"></p>
+              </div>
+              <div class="credit-badge">
+                <div class="subcard-heading">
+                  <span class="round-icon" aria-hidden="true">◆</span>
+                  <h3>總計</h3>
+                </div>
+                <p>已修學分</p>
+                <strong id="earnedCredits">0 / 0</strong>
+                <div class="donut" id="creditDonut">
+                  <span id="donutPercent">0%</span>
+                </div>
+                <small>依目前畢業學分要求計算</small>
               </div>
             </div>
+          </section>
 
-            <!-- 本學期課程：四種來源共用一張表，用分頁籤切換 -->
-            <div class="card table-card courses-card">
-              <div class="card-head">
-                <h2 class="card-title"><span class="ti">📘</span>本學期課程</h2>
-
-                <div class="picker">
-                  <span id="courseCount" class="picker-count">載入中…</span>
-                  <select id="courseFilter"><option value="">全部</option></select>
-                  <label class="search">
-                    <span class="search-icon">🔍</span>
-                    <input id="courseSearch" type="search" placeholder="搜尋課名、老師、課號" />
-                  </label>
-                  <button type="button" class="act-btn add" id="openManual">＋ 手動新增</button>
+          <aside class="summary-column">
+            <section class="card category-card" aria-labelledby="categoryTitle">
+              <div class="card-heading compact-heading">
+                <h2 id="categoryTitle">課程分類進度</h2>
+                <span class="muted">(目前課程後)</span>
+              </div>
+              <div id="categoryProgress"></div>
+              <div class="domain-section">
+                <div class="domain-title">
+                  <strong>通識領域課程</strong>
+                  <span id="domainCreditTotal"></span>
+                </div>
+                <div class="domain-grid" id="domainCards"></div>
+                <p class="notice" id="domainNotice"></p>
+              </div>
+              <div class="small-progress">
+                <div>
+                  <strong>自由學分</strong>
+                  <span id="freeCreditLabel"></span>
+                </div>
+                <div class="progress-track">
+                  <span id="freeCreditBar"></span>
                 </div>
               </div>
+            </section>
 
-              <div class="tabs" id="courseTabs" role="tablist">
-                <button type="button" class="tab active" role="tab" aria-selected="true" data-tab="cs">資工系必選修<small id="tabCnt-cs"></small></button>
-                <button type="button" class="tab" role="tab" aria-selected="false" data-tab="pe">體育<small id="tabCnt-pe"></small></button>
-                <button type="button" class="tab" role="tab" aria-selected="false" data-tab="cm">全校共同必修<small id="tabCnt-cm"></small></button>
-                <button type="button" class="tab" role="tab" aria-selected="false" data-tab="general">通識<small id="tabCnt-general"></small></button>
+          </aside>
+
+          <section class="card selected-card" aria-labelledby="selectedTitle">
+            <div class="selected-heading">
+              <div class="card-heading">
+                <span class="heading-icon" aria-hidden="true">▣</span>
+                <h2 id="selectedTitle">已選課程</h2>
               </div>
+              <span class="count-pill" id="selectedSummary">0 門・0 學分</span>
+            </div>
+            <ul class="selected-list" id="selectedCourses"></ul>
+            <p class="empty-state" id="emptySelected">尚未選課，請從左側課程加入課程</p>
+          </section>
 
-              <table class="table" id="courseTable">
+          <section class="card courses-card" aria-labelledby="coursesTitle">
+            <div class="courses-heading">
+              <div class="card-heading">
+                <span class="heading-icon book-icon" aria-hidden="true">▰</span>
+                <h2 id="coursesTitle">本學期課程</h2>
+              </div>
+              <div class="course-toolbar">
+                <span class="count-pill" id="courseCount">共 0 門</span>
+                <label class="sr-only" for="gradeFilter">年級篩選</label>
+                <select id="gradeFilter">
+                  <option value="all">全部年級</option>
+                </select>
+                <label class="search-box">
+                  <span aria-hidden="true">⌕</span>
+                  <span class="sr-only">搜尋課名或老師</span>
+                  <input id="courseSearch" type="search" placeholder="搜尋課名、老師">
+                </label>
+                <button class="manual-add" id="openCourseForm" type="button">＋ 手動新增</button>
+              </div>
+            </div>
+            <div class="course-tabs" id="courseFilters" role="group" aria-label="課程類別"></div>
+            <div class="table-wrap">
+              <table class="course-table">
                 <thead>
                   <tr>
-                    <th>課程名稱</th>
-                    <th>類別</th>
-                    <th>學分</th>
-                    <th>時間</th>
-                    <th>老師</th>
-                    <th>上課地點</th>
-                    <th>狀態</th>
-                    <th>操作</th>
+                    <th scope="col">課程名稱</th>
+                    <th scope="col">類別</th>
+                    <th scope="col">學分</th>
+                    <th scope="col">時間</th>
+                    <th scope="col">老師</th>
+                    <th scope="col">上課地點</th>
+                    <th scope="col">狀態</th>
+                    <th scope="col">操作</th>
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody id="courseRows"></tbody>
               </table>
-              <div id="coursePager" class="pager"></div>
-              <div id="results" aria-live="polite"></div>
+              <p class="empty-state" id="emptyCourses" hidden>找不到符合條件的課程。</p>
             </div>
-          </div>
-
-          <!-- 右側資訊欄（捲動時固定在畫面上） -->
-          <div class="side">
-            <!-- 課程分類進度 -->
-            <div class="card right-card category">
-              <h3>課程分類進度 <span style="font-size:12px;color:#7a8da8;">(目前選課後)</span></h3>
-              <div id="catList"></div>
-            </div>
-
-            <!-- 已選課程（精簡版）：加課、退選當場就看得到 -->
-            <div class="card right-card selected-card">
-              <div class="side-head">
-                <h3><span class="ti">▣</span>已選課程</h3>
-                <span id="selectedSummary" class="picker-count"></span>
+            <nav class="course-pagination" id="coursePagination" aria-label="課程分頁">
+              <span id="pageSummary" aria-live="polite">第 1 / 1 頁</span>
+              <div>
+                <button id="previousPage" type="button" disabled>‹ 上一頁</button>
+                <button id="nextPage" type="button" disabled>下一頁 ›</button>
               </div>
-              <div id="selectedList" class="sel-list"></div>
-            </div>
-          </div>
+            </nav>
+          </section>
         </div>
-      </section>
-    </main>
-  </div>
-  <!-- 手動新增課程（加簽、外系課、資料裡沒有的課） -->
-  <dialog id="manualDialog" class="manual-dialog">
-    <div class="dlg-body">
-      <h2 class="card-title"><span class="ti">✚</span>手動新增課程（加簽／補登）</h2>
-      <form id="manualForm" class="manual-form" autocomplete="off">
-        <label class="mf name">課程名稱 *
-          <input id="mfName" type="text" maxlength="40" placeholder="例如：線性代數" required />
+        <footer class="page-footer">暨南大學排課系統 <span>・</span> 學生學習管理</footer>
+      </main>
+    </div>
+
+    <dialog class="course-dialog" id="courseDialog" aria-labelledby="courseDialogTitle">
+      <form id="courseForm">
+        <div class="dialog-heading">
+          <h2 id="courseDialogTitle">手動新增課程</h2>
+          <button class="dialog-close" id="closeCourseForm" type="button" aria-label="關閉">×</button>
+        </div>
+        <label>課程名稱
+          <input name="name" required maxlength="80">
         </label>
-        <label class="mf">學分 *
-          <input id="mfCredits" type="number" min="0" max="9" step="0.5" value="3" required />
+        <div class="dialog-fields">
+          <label>類別
+            <select name="category" required>
+              <option value="專業必修">資工系必修</option>
+              <option value="專業選修">資工系選修</option>
+              <option value="特色運動">特色運動</option>
+              <option value="體育">體育</option>
+              <option value="校共同必修">校共同必修</option>
+              <option value="通識">通識</option>
+            </select>
+          </label>
+          <label>學分
+            <input name="credits" type="number" min="1" max="20" value="3" required>
+          </label>
+          <label>年級
+            <input name="grade" type="number" min="1" max="8" value="1" required>
+          </label>
+        </div>
+        <div class="dialog-fields">
+          <label>時間
+            <input name="time" required maxlength="30">
+          </label>
+          <label>老師
+            <input name="teacher" required maxlength="50">
+          </label>
+        </div>
+        <label>上課地點
+          <input name="location" required maxlength="50">
         </label>
-        <label class="mf">類別 *
-          <select id="mfCategory">
-            <option>專業必修</option>
-            <option>專業選修</option>
-            <option>校共同必修</option>
-            <option>通識-人文</option>
-            <option>通識-社會</option>
-            <option>通識-自然</option>
-            <option>通識-特色</option>
-            <option>自由學分</option>
-          </select>
-        </label>
-        <label class="mf">上課時間
-          <input id="mfTime" type="text" maxlength="30" placeholder="例如：2cd4d" />
-        </label>
-        <label class="mf">老師
-          <input id="mfTeacher" type="text" maxlength="30" />
-        </label>
-        <label class="mf">地點
-          <input id="mfLocation" type="text" maxlength="30" />
-        </label>
-        <div class="mf-actions">
-          <button type="button" class="act-btn cancel" id="mfCancel">取消</button>
-          <button type="submit" class="act-btn add">新增</button>
+        <div class="dialog-actions">
+          <button class="dialog-cancel" id="cancelCourseForm" type="button">取消</button>
+          <button class="manual-add" type="submit">新增課程</button>
         </div>
       </form>
-      <div class="mf-hint" id="mfMsg"></div>
-    </div>
-  </dialog>
-
-  <script src="js/profile.js"></script>
-  <script src="js/app.js"></script>
-</body>
+    </dialog>
+  </body>
 </html>

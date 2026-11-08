@@ -1,62 +1,211 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>課程規劃系統｜視覺化課表</title>
-  <link rel="stylesheet" href="css/timetable.css">
-</head>
-<body>
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="logo">
-        <div class="logo-mark">△M</div>
-        <div class="logo-text">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#214d7f">
+    <title>課表｜暨南大學排課系統</title>
+    <link rel="stylesheet" href="css/timetable.css">
+    <script src="js/timetable.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button class="menu-toggle" type="button" aria-label="開啟導覽選單" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="brand" href="index.html" aria-label="暨南大學排課系統首頁">
+        <span class="brand-mark" aria-hidden="true">NCNU</span>
+        <span class="brand-copy">
           <strong>暨南大學</strong>
-          <span>課程排課系統</span>
-        </div>
+          <small>排課系統</small>
+        </span>
+      </a>
+      <div class="user-profile">
+        <span class="avatar" aria-hidden="true">劉</span>
+        <span>
+          <strong>劉承恩</strong>
+          <small>大一</small>
+        </span>
       </div>
-      <nav class="nav">
-        <a href="index.html"><span class="icon">▦</span><span class="label">綜合總覽</span></a>
-        <a class="active" href="timetable.html"><span class="icon">▤</span><span class="label">課表</span></a>
-        <a href="settings.html"><span class="icon">⚙</span><span class="label">系統設定</span></a>
-      </nav>
-    </aside>
+    </header>
 
-    <div class="main">
-      <header class="header">
-        <div class="profile">
-          <div class="avatar"></div>
+    <div class="app-shell">
+      <div class="sidebar-backdrop" data-close-menu></div>
+      <aside class="sidebar" id="sidebar" aria-label="主要導覽">
+        <nav class="side-nav">
+          <a class="nav-link" href="index.html">
+            <span aria-hidden="true">▦</span>綜合總覽
+          </a>
+          <a class="nav-link is-active" href="timetable.html" aria-current="page">
+            <span aria-hidden="true">▤</span>課表
+          </a>
+          <a class="nav-link" href="settings.html">
+            <span aria-hidden="true">⚙</span>系統設定
+          </a>
+        </nav>
+        <p class="sidebar-note">暨南大學<br>學生排課與學分管理</p>
+      </aside>
+
+      <main class="main-content">
+        <div class="page-heading">
           <div>
-            <b>未設定</b>
-            <small></small>
+            <p class="eyebrow">學生學習管理</p>
+            <h1>課表</h1>
           </div>
-        </div>
-      </header>
-
-      <main class="content">
-        <div class="top">
-          <h1>視覺化課表</h1>
-          <button class="btn" id="reloadBtn">重新整理</button>
+          <p class="page-description">檢視本學期每週課程安排</p>
         </div>
 
-        <div class="card">
-          <h3>2026 秋季學期</h3>
-          <div class="tt-summary" id="ttSummary"></div>
-          <div class="tt-scroll"><div class="timetable" id="timetable"></div></div>
-
-          <div id="ttLegend" class="tt-legend"></div>
-          <div id="unscheduled"></div>
-
-          <div class="legend">
-            ● 課程會依首頁「已新增」的課程同步更新　　⚠ 衝堂課程將以紅色警示樣式顯示
+        <section class="card content-card schedule-card">
+          <div class="card-heading">
+            <span class="heading-icon" aria-hidden="true">▤</span>
+            <h2>本學期課表</h2>
           </div>
-        </div>
+          <p>依暨大節次顯示每週課程與上課時間。</p>
+          <div class="schedule-wrap">
+            <table class="schedule-table">
+              <thead>
+                <tr>
+                  <th scope="col">節次</th>
+                  <th scope="col">週一</th>
+                  <th scope="col">週二</th>
+                  <th scope="col">週三</th>
+                  <th scope="col">週四</th>
+                  <th scope="col">週五</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">
+                    <span class="period-number">A</span>
+                    <span class="period-time">08:10<br>09:00</span>
+                  </th>
+                  <td rowspan="2">
+                    <span class="schedule-course-card">
+                      <strong>微積分(上)</strong>
+                      <small>科二 113</small>
+                    </span>
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td rowspan="2">
+                    <span class="schedule-course-card">
+                      <strong>大一英文</strong>
+                      <small>人文院 A01</small>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <span class="period-number">B</span>
+                    <span class="period-time">09:10<br>10:00</span>
+                  </th>
+                  <td rowspan="2">
+                    <span class="schedule-course-card">
+                      <strong>中文閱讀與表達</strong>
+                      <small>人文院 B12</small>
+                    </span>
+                  </td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <span class="period-number">C</span>
+                    <span class="period-time">10:10<br>11:00</span>
+                  </th>
+                  <td rowspan="2">
+                    <span class="schedule-course-card">
+                      <strong>資料結構與演算法(一)</strong>
+                      <small>科二 108</small>
+                    </span>
+                  </td>
+                  <td rowspan="2">
+                    <span class="schedule-course-card">
+                      <strong>體育－桌球</strong>
+                      <small>體育館</small>
+                    </span>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <span class="period-number">D</span>
+                    <span class="period-time">11:10<br>12:00</span>
+                  </th>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <span class="period-number">E</span>
+                    <span class="period-time">13:30<br>14:20</span>
+                  </th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td rowspan="2">
+                    <span class="schedule-course-card">
+                      <strong>演算法實作</strong>
+                      <small>科二 108</small>
+                    </span>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <span class="period-number">F</span>
+                    <span class="period-time">14:30<br>15:20</span>
+                  </th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <span class="period-number">G</span>
+                    <span class="period-time">15:30<br>16:20</span>
+                  </th>
+                  <td></td>
+                  <td rowspan="2">
+                    <span class="schedule-course-card">
+                      <strong>離散數學</strong>
+                      <small>科二 113</small>
+                    </span>
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <span class="period-number">H</span>
+                    <span class="period-time">16:30<br>17:20</span>
+                  </th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <span class="period-number">I</span>
+                    <span class="period-time">17:30<br>18:20</span>
+                  </th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <footer class="page-footer">暨南大學排課系統 <span>・</span> 學生學習管理</footer>
       </main>
     </div>
-  </div>
-
-  <script src="js/profile.js"></script>
-  <script src="js/timetable.js"></script>
-</body>
+  </body>
 </html>

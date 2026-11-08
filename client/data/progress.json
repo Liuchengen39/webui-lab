@@ -1,0 +1,36 @@
+{
+  "credits": {
+    "earned": 0,
+    "required": 128
+  },
+  "creditRequirements": [
+    { "name": "系必修", "earned": 0, "required": 49 },
+    { "name": "專業選修", "earned": 0, "required": 42 },
+    { "name": "校共同必修", "earned": 0, "required": 16 },
+    { "name": "通識領域課程", "earned": 0, "required": 15 },
+    { "name": "　人文（至少 3）", "earned": 0, "required": 3, "child": true },
+    { "name": "　社會（至少 3）", "earned": 0, "required": 3, "child": true },
+    { "name": "　自然（至少 3）", "earned": 0, "required": 3, "child": true },
+    { "name": "　特色（至少 3）", "earned": 0, "required": 3, "child": true },
+    { "name": "自由學分", "earned": 0, "required": 6 }
+  ],
+  "categories": [
+    { "name": "系必修", "earned": 0, "required": 49 },
+    { "name": "專業選修", "earned": 0, "required": 42 },
+    { "name": "校共同必修", "earned": 0, "required": 16 }
+  ],
+  "domains": [
+    { "name": "人文", "earned": 0, "required": 3, "color": "#e6a845" },
+    { "name": "社會", "earned": 0, "required": 3, "color": "#e45d6a" },
+    { "name": "自然", "earned": 0, "required": 3, "color": "#38ad8b" },
+    { "name": "特色", "earned": 0, "required": 3, "color": "#36a8c4" }
+  ],
+  "freeCredits": {
+    "earned": 0,
+    "required": 6
+  },
+  "notices": {
+    "progress": "通識領域總計至少 15 學分，各領域至少 3 學分。",
+    "domains": "總計至少 15 學分，各領域至少 3 學分，另請修滿 15 學分。"
+  }
+}

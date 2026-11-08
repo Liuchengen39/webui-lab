@@ -1,825 +1,589 @@
-*{box-sizing:border-box}    
-/* 全域顏色 */
-:root{
-  --navy:#17335d;
-  --blue:#2874d9;
-  --light-blue:#eaf3ff;
-  --line:#dbe7f5;
-  --text:#29405f;
-  --muted:#70819a;
-  --green:#35ad88;
-  --red:#e95761;
-  --orange:#f3b54c;
-  --purple:#a45bc8;
+:root {
+  color-scheme: light;
+  --navy: #18395f;
+  --blue: #2874df;
+  --blue-dark: #1d5eb8;
+  --blue-soft: #edf5ff;
+  --ink: #203c5f;
+  --muted: #8294aa;
+  --line: #e2ebf5;
+  --surface: #fff;
+  --page: #f2f6fc;
+  --danger: #e24e57;
+  font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ink);
+  background: var(--page);
+}
+
+button, input, select { font: inherit; }
+button, a, select { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; text-decoration: none; }
+
+.topbar {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  display: flex;
+  height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  color: #fff;
+  background: linear-gradient(110deg, #1b426f, #2c5b91);
+  box-shadow: 0 2px 8px #18395f20;
+}
+
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.brand-mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid #ffffffa8;
+  border-radius: 9px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -2px;
+}
+.brand-copy, .user-profile > span:last-child { display: grid; line-height: 1.15; }
+.brand-copy strong { font-size: 15px; letter-spacing: .06em; }
+.brand-copy small, .user-profile small { margin-top: 3px; font-size: 10px; opacity: .8; }
+.user-profile { display: flex; align-items: center; gap: 9px; font-size: 12px; }
+.user-profile strong { font-size: 12px; }
+.avatar {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--blue-dark);
+  background: #eaf3ff;
+  font-weight: 700;
+}
+
+.menu-toggle {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  align-content: center;
+  justify-items: center;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  background: transparent;
+  cursor: pointer;
+}
+.menu-toggle span { display: block; width: 20px; height: 2px; border-radius: 2px; background: currentColor; }
+.menu-toggle:hover { background: #ffffff1a; }
+
+.app-shell { min-height: calc(100vh - 64px); }
+.sidebar {
+  position: fixed;
+  z-index: 30;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  width: min(280px, 84vw);
+  padding: 14px 10px;
+  color: #eaf2ff;
+  background: linear-gradient(180deg, #193b63, #173454);
+  box-shadow: 8px 0 28px #102d4b1f;
+  transform: translateX(-105%);
+  transition: transform .22s ease;
+}
+.sidebar-open .sidebar { transform: translateX(0); }
+.sidebar-backdrop {
+  position: fixed;
+  z-index: 25;
+  inset: 64px 0 0;
+  visibility: hidden;
+  background: #0e223b66;
+  opacity: 0;
+  transition: opacity .2s, visibility .2s;
+}
+.sidebar-open .sidebar-backdrop { visibility: visible; opacity: 1; }
+.side-nav { display: grid; gap: 5px; }
+.nav-link {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  gap: 13px;
+  padding: 0 14px;
+  border-radius: 7px;
+  color: #eaf2ff;
+  font-size: 14px;
+  transition: background .15s;
+}
+.nav-link > span { width: 17px; color: #bfdaff; font-size: 17px; text-align: center; }
+.nav-link:hover { background: #ffffff15; }
+.nav-link.is-active { color: #fff; background: #3982e2; box-shadow: inset 3px 0 #a9d8ff; }
+.sidebar-note { position: absolute; right: 18px; bottom: 18px; left: 18px; color: #ffffff80; font-size: 11px; line-height: 1.8; }
+
+.main-content { width: 100%; max-width: 1440px; min-width: 0; margin: 0 auto; padding: 25px 16px 18px; }
+.page-heading { display: flex; flex-wrap: wrap; align-items: end; gap: 6px 12px; margin-bottom: 16px; }
+.page-heading h1 { margin: 0; color: #1e426c; font-size: clamp(24px, 5vw, 29px); line-height: 1.25; }
+.eyebrow { margin: 0 0 4px; color: var(--muted); font-size: 11px; letter-spacing: .08em; }
+.page-description { margin: 0 0 3px; color: var(--muted); font-size: 12px; }
+.dashboard-grid { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 14px; }
+.card {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 3px 12px #294b7010;
+}
+.card-heading { display: flex; min-width: 0; align-items: center; gap: 8px; }
+.card-heading h2 { overflow: hidden; margin: 0; color: #294d76; font-size: 15px; font-weight: 750; text-overflow: ellipsis; white-space: nowrap; }
+.heading-icon { color: var(--blue); font-size: 16px; }
+
+.progress-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: 14px; }
+.progress-detail, .credit-badge {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #d9e8fb;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #fbfdff, #f5f9ff);
+}
+.subcard-heading { display: flex; align-items: center; gap: 7px; }
+.subcard-heading h3 { margin: 0; color: #355779; font-size: 13px; }
+.round-icon { display: grid; width: 27px; height: 27px; flex: 0 0 auto; place-items: center; border-radius: 50%; color: #fff; background: var(--blue); font-size: 13px; font-weight: 800; }
+.credit-total { margin: 9px 0 6px; font-size: 14px; font-weight: 750; }
+.progress-track { height: 7px; overflow: hidden; border-radius: 999px; background: #e6edf6; }
+.progress-track > span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #3186ed, #50b7dd); transition: width .3s ease; }
+.progress-caption { display: flex; justify-content: space-between; gap: 8px; margin: 11px 0 5px; color: #6d8199; font-size: 10px; }
+.progress-rows { display: grid; }
+.progress-row { display: flex; min-height: 27px; align-items: center; gap: 9px; border-bottom: 1px solid #edf2f8; color: #506984; font-size: 11px; }
+.progress-row.child-row { padding-left: 15px; color: #8092a8; }
+.progress-row-name { min-width: 0; flex: 1; }
+.progress-row-value { white-space: nowrap; }
+.progress-row-percent { width: 34px; color: #6d8bab; text-align: right; }
+.notice { margin: 10px 0 0; color: var(--danger); font-size: 10px; line-height: 1.55; }
+.credit-badge { display: flex; min-height: 200px; flex-direction: column; align-items: flex-start; }
+.credit-badge > p { margin: 12px 0 1px; color: #496481; font-size: 13px; font-weight: 700; }
+.credit-badge > strong { color: #285688; font-size: 19px; }
+.donut {
+  position: relative;
+  display: grid;
+  width: 86px;
+  height: 86px;
+  flex: 0 0 auto;
+  place-items: center;
+  align-self: center;
+  margin: 12px 0 8px;
+  border-radius: 50%;
+  background: conic-gradient(var(--blue) 0%, #dce7f5 0%);
+}
+.donut::before { position: absolute; width: 66px; height: 66px; border-radius: 50%; background: #fff; content: ""; }
+.donut span { z-index: 1; color: #365b83; font-size: 15px; font-weight: 800; }
+
+.summary-column { display: grid; min-width: 0; gap: 14px; }
+.compact-heading { gap: 5px; }
+.compact-heading h2 { font-size: 13px; }
+.muted { color: var(--muted); font-size: 10px; white-space: nowrap; }
+.category-line { margin-top: 12px; }
+.category-line > div:first-child, .small-progress > div:first-child { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 5px; font-size: 10px; }
+.category-line strong, .small-progress strong { font-weight: 650; }
+.category-line span, .small-progress span { color: #6585a7; }
+.domain-section { margin-top: 15px; padding: 10px; border: 1px solid #e0ebf8; border-radius: 9px; background: #f7faff; }
+.domain-title { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 8px; color: #496987; font-size: 11px; }
+.domain-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.domain-chip { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 4px; padding: 8px; border: 1px solid #e4edf7; border-radius: 7px; background: #fff; font-size: 10px; }
+.domain-name { display: flex; min-width: 0; align-items: center; gap: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.domain-dot { width: 7px; height: 7px; flex: 0 0 auto; border-radius: 50%; }
+.domain-chip strong { color: #788da5; font-size: 9px; white-space: nowrap; }
+.domain-section .notice { margin-top: 8px; }
+.small-progress { margin-top: 13px; }
+
+.selected-heading, .courses-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.count-pill { flex: 0 0 auto; padding: 5px 9px; border-radius: 999px; color: #4774a6; background: var(--blue-soft); font-size: 10px; font-weight: 700; }
+.selected-list { display: grid; gap: 7px; margin: 12px 0 0; padding: 0; list-style: none; }
+.selected-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-bottom: 7px; border-bottom: 1px solid #edf2f8; font-size: 11px; }
+.selected-item span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.remove-course { flex: 0 0 auto; border: 0; color: #8497ac; background: transparent; cursor: pointer; }
+.remove-course:hover { color: var(--danger); }
+.empty-state { margin: 18px 0 5px; color: #99a8b8; font-size: 11px; text-align: center; }
+
+.courses-card { padding: 14px 12px; }
+.book-icon { font-size: 18px; }
+.course-toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
+.course-toolbar select, .search-box { min-height: 36px; border: 1px solid #dce7f4; border-radius: 8px; color: #4a6684; background: #fff; }
+.course-toolbar select { padding: 0 26px 0 10px; font-size: 11px; }
+.search-box { display: flex; min-width: 0; flex: 1; align-items: center; gap: 6px; padding: 0 10px; color: #94a6bb; }
+.search-box input { width: 100%; min-width: 0; padding: 0; border: 0; outline: 0; color: var(--ink); background: transparent; font-size: 11px; }
+.search-box:focus-within, .course-toolbar select:focus-visible { outline: 2px solid #8dbaf0; outline-offset: 1px; }
+.course-tabs { display: flex; gap: 5px; overflow-x: auto; margin: 11px -2px 9px; border-bottom: 1px solid #e6edf6; scrollbar-width: thin; }
+.course-tab { position: relative; display: inline-flex; min-height: 35px; flex: 0 0 auto; align-items: center; gap: 6px; padding: 0 9px; border: 0; color: #788da5; background: transparent; font-size: 10px; cursor: pointer; }
+.course-tab[aria-pressed="true"] { color: #286fc9; font-weight: 750; }
+.course-tab[aria-pressed="true"]::after { position: absolute; right: 4px; bottom: -1px; left: 4px; height: 2px; background: var(--blue); content: ""; }
+.tab-count { padding: 2px 6px; border-radius: 999px; color: #6382a5; background: #edf4fc; font-size: 9px; }
+.course-tab[aria-pressed="true"] .tab-count { color: #fff; background: var(--blue); }
+.table-wrap { width: 100%; overflow-x: auto; border: 1px solid #e4ebf4; border-radius: 8px; }
+.course-table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: 10px; text-align: left; }
+.course-table th { padding: 9px 8px; color: #607995; background: #f3f7fc; font-size: 10px; font-weight: 650; white-space: nowrap; }
+.course-table td { padding: 8px; border-top: 1px solid #edf1f6; color: #526a84; white-space: nowrap; }
+.course-table tbody tr:hover { background: #f8fbff; }
+.type-pill, .status-pill { padding: 4px 7px; border-radius: 999px; font-size: 9px; }
+.type-pill { color: #3976c2; background: #e9f2ff; }
+.status-pill { color: #74869a; background: #f0f3f7; }
+.status-pill.is-added { color: #248367; background: #e8f7f1; }
+.add-course {
+  min-height: 27px;
+  padding: 4px 11px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--blue);
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.add-course:hover:not(:disabled) { background: var(--blue-dark); }
+.add-course.is-selected { color: #2874df; background: #e7f0ff; }
+.add-course.is-selected:hover { color: #2874df; background: #e7f0ff; }
+.add-course.is-selected:active { color: #fff; background: var(--blue-dark); }
+.load-error { padding: 12px; border: 1px solid #f4c6c8; border-radius: 8px; color: #a83940; background: #fff1f1; font-size: 13px; }
+.page-footer { padding: 18px 0 4px; color: #94a3b4; font-size: 10px; text-align: center; }
+.page-footer span { padding: 0 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
+
+.content-card { max-width: 900px; }
+.content-card > p { color: #71859b; font-size: 13px; line-height: 1.8; }
+.schedule-wrap { margin-top: 16px; overflow-x: auto; }
+.schedule-table { width: 100%; min-width: 620px; border-collapse: collapse; text-align: center; font-size: 12px; }
+.schedule-table th, .schedule-table td { min-width: 90px; padding: 12px 8px; border: 1px solid var(--line); }
+.schedule-table th { color: #526f91; background: #f3f7fc; }
+.schedule-table td { color: #627b97; }
+.schedule-class { border-radius: 8px; color: #3269a6 !important; background: #edf5ff; font-weight: 650; line-height: 1.6; }
+.setting-list { display: grid; gap: 12px; margin-top: 16px; }
+.setting-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px; border: 1px solid var(--line); border-radius: 9px; }
+.setting-row strong, .setting-row small { display: block; }
+.setting-row strong { font-size: 13px; }
+.setting-row small { margin-top: 4px; color: var(--muted); font-size: 11px; }
+.setting-row input { width: 18px; height: 18px; accent-color: var(--blue); }
+
+@media (min-width: 600px) {
+  .topbar { height: 68px; padding: 0 24px; }
+  .menu-toggle { display: none; }
+  .brand { position: absolute; left: 20px; }
+  .user-profile { margin-left: auto; }
+  .sidebar { top: 68px; width: 180px; padding: 10px; transform: none; box-shadow: none; }
+  .sidebar-backdrop { display: none; }
+  .sidebar-note { display: none; }
+  .main-content { width: calc(100% - 180px); margin-left: 180px; padding: 26px 22px 20px; }
+  .dashboard-grid { grid-template-columns: minmax(0, 1fr) minmax(220px, .7fr); gap: 14px; }
+  .progress-card { grid-column: 1 / -1; }
+  .progress-layout { grid-template-columns: minmax(0, 1fr) 145px; }
+  .courses-card { grid-column: 1 / -1; }
+  .course-toolbar { flex-wrap: nowrap; }
+}
+
+@media (min-width: 1000px) {
+  .topbar { height: 60px; padding: 0 28px; }
+  .brand { left: 24px; }
+  .sidebar { top: 60px; width: 190px; padding: 10px 8px; }
+  .sidebar-note { display: block; }
+  .main-content { width: calc(100% - 190px); margin-left: 190px; padding: 24px 30px 18px; }
+  .page-heading { margin-bottom: 14px; }
+  .eyebrow { display: none; }
+  .page-heading { gap: 12px; }
+  .dashboard-grid { grid-template-columns: minmax(0, 1.8fr) minmax(250px, .8fr); gap: 12px; }
+  .progress-card { grid-column: 1; }
+  .summary-column { grid-column: 2; grid-row: 1 / span 2; }
+  .courses-card { grid-column: 1; }
+  .progress-layout { grid-template-columns: minmax(0, 1fr) 145px; }
+  .card { padding: 14px; }
+}
+
+@media (min-width: 1280px) {
+  .main-content { padding-right: 42px; padding-left: 42px; }
+  .progress-layout { grid-template-columns: minmax(0, 1fr) 145px; }
+  .progress-detail, .credit-badge { padding: 13px; }
+  .courses-card { padding: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+
+body { font-size: 15px; }
+.brand-copy strong { font-size: 16px; }
+.brand-copy small, .user-profile small { font-size: 12px; }
+.user-profile, .user-profile strong { font-size: 14px; }
+.nav-link { font-size: 16px; }
+.sidebar-note { font-size: 13px; }
+.page-heading h1 { font-size: clamp(27px, 5vw, 32px); }
+.page-description { font-size: 14px; }
+.card-heading h2 { font-size: 17px; }
+.compact-heading h2 { font-size: 15px; }
+.subcard-heading h3 { font-size: 15px; }
+.credit-total, .credit-badge > p { font-size: 16px; }
+.credit-badge > strong { font-size: 21px; }
+.credit-badge small { font-size: 12px; }
+.progress-caption { font-size: 12px; }
+.progress-row { min-height: 31px; font-size: 13px; }
+.progress-row-percent { width: 40px; }
+.notice { font-size: 12px; }
+.category-line > div:first-child, .small-progress > div:first-child { font-size: 12px; }
+.muted { font-size: 12px; }
+.domain-section { padding: 12px; }
+.domain-title { font-size: 14px; }
+.domain-total-progress { margin: 0 0 12px; }
+.domain-total-label { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 6px; color: #5b7490; font-size: 12px; }
+.domain-grid { gap: 8px; }
+.domain-chip { flex-wrap: wrap; padding: 9px; font-size: 12px; }
+.domain-chip strong { font-size: 11px; }
+.count-pill { font-size: 12px; }
+.selected-item { font-size: 13px; }
+.empty-state { font-size: 13px; }
+.course-toolbar select, .search-box input { font-size: 13px; }
+.course-tab { font-size: 12px; }
+.tab-count { font-size: 11px; }
+.course-table { min-width: 760px; font-size: 13px; }
+.course-table th { font-size: 12px; }
+.type-pill, .status-pill { font-size: 11px; }
+.add-course { font-size: 12px; }
+.page-footer { font-size: 12px; }
+.content-card { max-width: 900px; }
+.content-card > p { font-size: 15px; }
+.schedule-card { max-width: none; }
+.schedule-table { min-width: 900px; font-size: 14px; }
+.schedule-table th, .schedule-table td { min-width: 92px; padding: 12px 9px; }
+.schedule-table th:first-child { min-width: 82px; }
+.schedule-table th:nth-child(2), .schedule-table td:nth-child(2) { min-width: 118px; white-space: nowrap; }
+.schedule-table td { height: 58px; }
+.schedule-table .schedule-class { min-width: 150px; }
+.schedule-break td { height: 36px; color: #8294aa; background: #f7f9fc; font-size: 12px; }
+.setting-row strong { font-size: 15px; }
+.setting-row small { font-size: 13px; }
+
+@media (min-width: 600px) {
+  .schedule-card { max-width: none; }
+}
+
+.domain-chip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+.domain-chip-heading {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.domain-chip .progress-track { height: 6px; }
+
+.schedule-wrap {
+  overflow: hidden;
+  border: 1px solid #e4ebf4;
+  border-radius: 12px;
+  background: #fff;
+}
+.schedule-table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+.schedule-table th, .schedule-table td {
+  min-width: 0;
+  height: 54px;
+  padding: 6px;
+  border-right: 1px solid #edf1f7;
+  border-bottom: 1px solid #edf1f7;
+  overflow-wrap: anywhere;
+}
+.schedule-table thead th {
+  height: 42px;
+  color: #526f91;
+  background: #f1f5fa;
+  font-size: 13px;
+}
+.schedule-table thead th:first-child, .schedule-table tbody th {
+  width: 84px;
+}
+.schedule-table tbody th {
+  color: #526f91;
+  background: #f7f9fc;
+  font-size: 12px;
+  font-weight: 650;
+}
+.schedule-table tbody tr:nth-child(even) td { background: #fafbfd; }
+.schedule-table tr > :last-child { border-right: 0; }
+.schedule-table tbody tr:last-child > * { border-bottom: 0; }
+.schedule-table td { color: #8294aa; background: #fff; }
+.period-number, .period-time { display: block; }
+.period-number { color: #355779; font-weight: 700; }
+.period-time { margin-top: 3px; color: #788da5; font-size: 11px; font-variant-numeric: tabular-nums; line-height: 1.35; }
+.schedule-table .schedule-class { min-width: 0; padding: 4px; background: #fff; }
+.schedule-course-card {
+  display: grid;
+  min-height: 100%;
+  align-content: center;
+  gap: 5px;
+  padding: 8px;
+  border: 1px solid #e2ebf5;
+  border-left: 3px solid #4386d7;
+  border-radius: 6px;
+  color: #2f5c8c;
+  background: #f0f6ff;
+  line-height: 1.45;
+  text-align: left;
+}
+.schedule-course-card strong { font-size: 12px; }
+.schedule-course-card small { color: #6f86a1; font-size: 10px; }
+.schedule-table .schedule-break th, .schedule-table .schedule-break td {
+  height: 34px;
+  color: #8c9caf;
+  background: #f8f9fc;
+  font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .main-content { padding-right: 10px; padding-left: 10px; }
+  .schedule-card { padding: 12px 7px; }
+  .schedule-table { font-size: 10px; }
+  .schedule-table th, .schedule-table td { height: 48px; padding: 4px 2px; }
+  .schedule-table thead th { height: 38px; font-size: 10px; }
+  .schedule-table thead th:first-child, .schedule-table tbody th { width: 66px; }
+  .schedule-table tbody th { font-size: 10px; }
+  .period-time { font-size: 9px; letter-spacing: -.04em; }
+  .schedule-table .schedule-class { padding: 2px; }
+  .schedule-course-card { gap: 3px; padding: 5px 3px; border-left-width: 2px; }
+  .schedule-course-card strong { font-size: 9px; }
+  .schedule-course-card small { font-size: 9px; }
+  .schedule-table .schedule-break th, .schedule-table .schedule-break td { height: 30px; font-size: 9px; }
+}
+
+.courses-heading { gap: 12px; }
+.course-toolbar {
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 0;
+}
+.course-toolbar .count-pill {
+  width: 96px;
+  flex: 0 0 96px;
+  padding: 7px 8px;
+  text-align: center;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.course-toolbar select, .search-box { min-height: 42px; border-radius: 999px; }
+.course-toolbar select { padding: 0 30px 0 14px; font-size: 13px; }
+.search-box { flex: 0 1 270px; gap: 8px; padding: 0 14px; }
+.search-box > span:first-child { font-size: 19px; line-height: 1; }
+.search-box input { font-size: 13px; }
+.manual-add {
+  min-height: 42px;
+  flex: 0 0 auto;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--blue);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.manual-add:hover { background: var(--blue-dark); }
+.course-tabs { gap: 14px; margin: 14px 0; }
+.course-tab { min-height: 42px; padding: 0 12px; font-size: 14px; }
+.course-tab[aria-pressed="true"]::after { right: 0; left: 0; height: 3px; }
+.tab-count { padding: 3px 8px; font-size: 12px; }
+.table-wrap { border-radius: 9px; }
+.courses-card .table-wrap {
+  position: relative;
+  height: 520px;
+  overflow-y: hidden;
+}
+.courses-card .empty-state {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  left: 12px;
+  margin: 0;
+  transform: translateY(-50%);
+}
+.course-table { min-width: 760px; font-size: 14px; }
+.course-table th { padding: 12px; font-size: 14px; }
+.course-table td { padding: 11px 12px; }
+.type-pill, .status-pill { padding: 6px 10px; font-size: 12px; }
+.add-course { min-height: 34px; padding: 5px 16px; font-size: 13px; }
+.course-pagination { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 3px 0; color: #7589a2; font-size: 14px; }
+.course-pagination > div { display: flex; gap: 8px; }
+.course-pagination button {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid #dce7f4;
+  border-radius: 999px;
+  color: #31577f;
+  background: #fff;
+  cursor: pointer;
+}
+.course-pagination button:hover:not(:disabled) { border-color: #9dc2f1; background: #f5f9ff; }
+.course-pagination button:disabled { color: #a6b4c4; background: #fbfcfe; cursor: default; }
+.course-dialog {
+  width: min(520px, calc(100% - 28px));
+  max-height: calc(100% - 28px);
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--ink);
+  box-shadow: 0 18px 60px #102d4b40;
+}
+.course-dialog::backdrop { background: #102d4b70; }
+.course-dialog form { display: grid; gap: 14px; }
+.dialog-heading, .dialog-actions, .dialog-fields { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.dialog-heading h2 { margin: 0; color: #294d76; font-size: 19px; }
+.dialog-close { width: 34px; height: 34px; border: 0; border-radius: 50%; color: #607995; background: #f2f6fc; font-size: 22px; cursor: pointer; }
+.course-dialog label { display: grid; min-width: 0; flex: 1; gap: 6px; color: #526f91; font-size: 13px; }
+.course-dialog input, .course-dialog select { width: 100%; min-height: 40px; padding: 7px 10px; border: 1px solid #dce7f4; border-radius: 7px; color: var(--ink); background: #fff; }
+.course-dialog input:focus, .course-dialog select:focus { outline: 2px solid #8dbaf0; outline-offset: 1px; }
+.dialog-actions { justify-content: flex-end; margin-top: 4px; }
+.dialog-actions button { min-height: 38px; }
+.dialog-cancel { padding: 0 16px; border: 1px solid #dce7f4; border-radius: 999px; color: #526f91; background: #fff; cursor: pointer; }
+
+@media (min-width: 1000px) {
+  .progress-card { grid-column: 1; grid-row: 1; }
+  .summary-column { grid-column: 2; grid-row: 1; }
+  .courses-card { grid-column: 1; grid-row: 2; }
+  .selected-card { grid-column: 2; grid-row: 2; }
+}
+
+@media (max-width: 760px) {
+  .course-toolbar { flex-wrap: wrap; justify-content: flex-start; }
+  .search-box { flex: 1 1 180px; }
+}
+
+@media (max-width: 520px) {
+  .courses-heading { align-items: flex-start; }
+  .course-toolbar { width: 100%; }
+  .course-toolbar .count-pill { order: 0; }
+  .course-toolbar select { flex: 1; }
+  .search-box { flex-basis: 100%; order: 1; }
+  .manual-add { flex: 1; }
+  .course-tabs { gap: 4px; }
+  .course-tab { padding: 0 7px; font-size: 12px; }
+  .course-pagination { align-items: flex-start; flex-direction: column; }
+  .course-pagination > div { align-self: flex-end; }
+  .dialog-fields { align-items: stretch; flex-direction: column; }
 }
-
-/* 全域 */
-body{
-  margin:0;                                                             /* 邊界消失 */
-  background:#f3f7fc;                                                 /* 背景顏色 */
-  color:var(--text);                                                    /* 全域文字顏色 */
-  font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;     /* 字體後備順序 */
-  font-size:14px;                                                       /* 全域文字預設字體大小 */
-}
-
-/* 整個頁面展示 */
-.layout{ 
-  min-height:100vh;
-  display:flex;
-}
-
-/* 側欄 */
-.sidebar{
-  width:190px;
-  flex:none;                                                          /* 不會跑偏 */
-  background:linear-gradient(180deg,#193760 0%,#142d51 100%);     /* 漸層 */
-  color:#fff;                                                       /* 字的顏色 */
-  min-height:100vh;                                                   /* 高度固定 */
-}
-
-/* 整個左上角logo + 文字 */
-.logo{
-  height:64px;
-  border-bottom:1px solid rgba(255,255,255,.12);      /* 分隔線 */
-  display:flex;
-  align-items:center;                                   /* 內部垂直置中 */
-  padding:8px 17px;                                     /* 內距*/
-  gap:10px;                                             /* 圖標與文字距離 */
-}
-
-/* 整個左上角logo */
-.logo-mark{
-  font-size:30px;
-  font-weight:900;
-  letter-spacing:-5px;       /* 字距縮短 */
-}
-
-/* 整個左上角文字 */
-.logo-text{
-  line-height:1.1;
-}
-
-/* 左上角文字--暨南大學 */
-.logo-text strong{
-  display:block;                   /* block會填滿 自動換行 */
-  font-size:16px;
-  letter-spacing:4px;              /* 字間距 */
-}
-
-/* 左上角文字--課程排課系統 */
-.logo-text span{
-  font-size:11px;
-  letter-spacing:2px;
-}
-
-/* 超連結基礎設定 */
-.nav{
-  padding-top:10px;
-}
-
-/* 超連結基礎設定 */
-.nav a{
-  height:51px;
-  display:flex;
-  align-items:center;
-  gap:13px;
-  color:#d8e4f6;
-  text-decoration:none;                       /* 清除預設底線 */
-  padding:0 18px;
-  font-size:15px;
-  border-left:3px solid transparent;          /* 最左側白線透明 */
-}
-
-/* 鼠標懸停 */
-.nav a:hover{
-  background:rgba(80,145,235,.14);
-}
-
-/* aside目前所在頁面 */
-.nav a.active{
-  background:linear-gradient(90deg,#2e7de2,#4b91e8);
-  color:#fff;
-  border-left-color:#8ec2ff;
-}
-
-/* 左側欄的內容icon */
-.icon{
-  width:21px;
-  text-align:center;
-  font-size:19px;
-}
-
-/* 右邊主要內容 */
-.main{
-  flex:1;
-  min-width:0;    /* 不會跑版 */
-}
-
-/* 右邊上面header */
-.header{
-  height:64px;
-  background:linear-gradient(90deg,#244a7c,#2f5e97);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;              /* 內容靠右對齊 */
-  padding:0 27px;
-  gap:22px;
-}
-
-/* header右邊的基本資料 */
-.profile {
-  display: flex;         
-  align-items: center;   
-  gap: 9px;             
-}
-
-/* 頭像外框容器 */
-.avatar{
-  width:39px;
-  height:39px;
-  border-radius:50%;
-  background:#e9f1fc;
-  position:relative;            /* 相對定位 */
-}
-
-/* 繪製預設大頭照的「頭部」 */
-.avatar:before{
-  content:"";                  /* 建立一個空白內容框供繪圖使用 */
-  position:absolute;           /* 相對於.avatar進行定位 */
-  width:12px;
-  height:12px;
-  background:#83a6d3;
-  border-radius:50%;
-  left:14px;                  /* 距離頭像容器左邊緣 14px */
-  top:8px;                    /* 距離頭像容器上邊緣 8px */
-}
-
-/* 利用虛擬元素繪製預設大頭照的「身體/肩膀」 */
-.avatar:after{
-  content:"";
-  position:absolute;
-  width:24px;
-  height:12px;
-  background:#83a6d3;
-  border-radius:13px 13px 8px 8px;
-  left:8px;
-  bottom:6px;
-}
-
-/* 使用者名字 */
-.profile b{
-  font-size:14px;
-}
-
-/* 使用者年級 */
-.profile small{
-  display:block;
-  color:#dce8f8;
-  margin-top:2px;           /* 與上方姓名文字間距 2 像素 */
-}
-
-/* 主要區域 */
-.content{
-  padding:18px 18px 30px;
-  max-width:1100px;
-  margin:auto;                     /* 水平居中 */
-}
-
-/* 上面提示 */
-.title-row{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  margin:0 0 14px;
-}
-
-/* 上面提示(綜合總覽) */
-.title-row h1{
-  font-size:27px;
-  margin:0;
-  color:#193c6b;
-}
-
-/* 上面提示(整體學分進度一覽，掌握畢業要求與修課狀況) */
-.title-row p{
-  margin:0;
-  color:#8492a7;
-  font-size:13px;
-}
-
-/* 中間架構設定 */
-.columns{
-  display:grid;                                   /* Grid容器允許直接控制子元素的欄與列配置。 */
-  grid-template-columns:minmax(0,1fr) 305px;      /* 左欄彈性縮放、右欄固定 */
-  gap:15px;
-}
-
-/* 學分完成情況卡片 */
-.card{
-  background:#fff;
-  border:1px solid #dce8f5;
-  border-radius:11px;
-  box-shadow:0 2px 7px rgba(29,67,112,.05);
-  padding:16px;
-  margin-bottom:14px;
-}
-
-/* 學分完成情況卡片-標題 */
-.card-title{
-  font-size:16px;
-  font-weight:800;
-  color:#294c78;
-  margin:0 0 13px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-/* 學分完成情況卡片-標題icon */
-.card-title .ti{
-  font-size:20px;
-  color:#2874d9;
-}
-
-/* 拆成學分進度跟總計兩個版面 */
-.credit-grid{
-  display:grid;
-  grid-template-columns:1fr 155px;            /* 左欄彈性 右欄固定 */
-  gap:12px;
-}
-
-/* 學分進度卡片 */
-.credit-box{
-  border:1px solid #d9e6f4;
-  border-radius:8px;
-  padding:13px;
-  background:linear-gradient(145deg,#f3f8ff,#fff);
-}
-
-/* 總計卡片 */
-.credit-box.total{
-  background:#f7fbff;
-}
-
-/* 學分進度卡片標題 */
-.credit-head{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:15px;
-  font-weight:800;
-  color:#28517f;
-}
-
-/* icon設定 */
-.circle-icon{
-  width:30px;
-  height:30px;
-  border-radius:50%;
-  background:#2874d9;
-  color:white;
-  display:grid;
-  place-items:center;         /* 水平垂直對齊 */
-  font-size:15px;
-}
-
-/* 學分進度卡片的已修學分 */
-.credit-num{
-  display:flex;
-  align-items:baseline;               /* 文字底線對齊 */
-  justify-content:space-between;      /* 內容向左右兩側分開 */
-  margin:8px 0 6px;
-}
-
-/* 已修學分 n/128 */
-.credit-num b{
-  font-size:18px;
-}
-
-/* 已修學分 n% */
-.credit-num span{
-  color:#416da5;
-  font-size:12px;
-}
-
-/* 初始進度條 */
-.progress{
-  height:8px;
-  border-radius:10px;
-  background:#e7eef7;
-  overflow:hidden;              /* 超出範圍就隱藏 */
-}
-
-/* 目前進度條 */
-.progress i{
-  height:100%;
-  display:block;
-  background:#4388e8;
-  border-radius:10px;
-}
-
-/* 必修 / 選修 / 領域課程 進度 */
-.sub-title{
-  font-size:12px;
-  font-weight:bold;    /* 粗體 */
-  color:#48617f;
-  margin:13px 0 7px;
-}
-
-/* 系必修        n/49 n% */
-.detail-row{
-  height:27px;
-  display:grid;
-  grid-template-columns:1fr 54px 40px;
-  align-items:center;
-  border-bottom:1px solid #edf1f6;
-  font-size:12px;
-}
-
-/* 0/n */ 
-.detail-row span:nth-child(2){
-  text-align:right;
-}
-
-/* n% */
-.detail-row span:last-child{
-  text-align:right;
-  color:#426fa6;
-}
-
-/* 0/n警告 */
-.detail-row.warn{
-  background:#fff5f5;
-  color:#b63840;
-  border:1px solid #ffd1d4;
-  border-radius:5px;
-  height:28px;
-  padding:0 5px;
-}
-
-/* n%警告 */
-.detail-row.warn span:last-child{
-  color:#d54d57;
-}
-
-/* 通識領域總計至少 15、各領域至少 3 學分,仍差 n 學分 */
-.warn-note{
-  color:#d74f57;
-  font-size:11px;
-  margin-top:6px;
-  font-weight:bold;
-}
-
-/* 總計卡片的已修學分 n/128 */
-.total .total-num{
-  font-size:20px;
-  font-weight:800;
-  color:#244e89;
-  margin:13px 0;
-  line-height:1.5;
-}
-
-/* 圓形圖表 */
-.ring{
-  width:88px;
-  height:88px;
-  border-radius:50%;
-  background:conic-gradient(#2874d9 0 calc(var(--p,0) * 1%),#dce7f5 0 100%);
-  display:grid;
-  place-items:center;
-  margin:3px auto 8px;
-}
-
-/* 中心數值 */
-.ring:after{
-  content:attr(data-pct);
-  width:65px;
-  height:65px;
-  border-radius:50%;
-  background:#fff;
-  display:grid;
-  place-items:center;
-  font-size:19px;
-  font-weight:800;
-  color:#315889;
-}
-
-/* ※需符合目前的畢業學分要求 */
-.total small{
-  display:block;
-  color:#71839b;
-  font-size:11px;
-  line-height:1.6;
-}
-
-/* 四種來源共用一張表，用分頁籤切換 */
-.table-card{
-  padding-bottom:10px;
-}
-
-/* 本學期課程卡片 */
-.table{
-  width:100%;
-  border-collapse:separate;
-  border-spacing:0;
-  overflow:hidden;
-  border:1px solid #dce6f2;
-  border-radius:7px;
-  font-size:12px;
-}
-
-.table th{
-  background:#f2f6fb;
-  color:#536a85;
-  font-weight:800;
-  text-align:left;
-  padding:8px 14px;
-  border-bottom:1px solid #dce6f2;
-}
-
-.table td{
-  padding:8px 14px;
-  border-bottom:1px solid #e8eef5;
-  color:#425978;
-}
-
-.table tr:last-child td{
-  border-bottom:0;
-}
-
-.table tr:hover td{
-  background:#f8fbff;
-}
-
-.status{
-  display:inline-block;
-  background:#daf5e9;
-  color:#24926d;
-  padding:4px 9px;
-  border-radius:12px;
-  font-size:11px;
-  font-weight:700;
-}
-
-.status.blue{
-  background:#e3efff;
-  color:#2f6fd3;
-}
-
-.right-card{
-  padding:15px;
-}
-
-/* 右上目標卡片 */
-.goal-card{
-  background:linear-gradient(180deg,#f7fbff 0%, #eef5ff 100%);
-  border:1px solid #cfe0f5;
-  overflow:hidden;
-}
-
-.goal-wrap{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:10px;
-  min-height:112px;
-}
-
-.goal-left h3{
-  margin:0 0 8px;
-  font-size:20px;
-  color:#35558a;
-  font-weight:900;
-  line-height:1.2;
-}
-
-.goal-left p{
-  margin:0;
-  color:#7a8da8;
-  line-height:1.7;
-  font-size:13px;
-  font-weight:700;
-}
-
-.goal-icon{
-  display:inline-block;
-  margin-right:6px;
-}
-
-.goal-illustration{
-  min-width:78px;
-  align-self:flex-end;
-  text-align:right;
-  color:#9aaed1;
-  line-height:1;
-}
-
-.grad-cap{
-  font-size:38px;
-  margin-bottom:4px;
-}
-
-.books{
-  font-size:28px;
-}
-
-.category h3{
-  font-size:15px;
-  margin:0 0 12px;
-}
-
-.cat{
-  margin:12px 0;
-}
-
-.cat-head{
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  font-weight:bold;
-  margin-bottom:5px;
-}
-
-.cat-head span:last-child{
-  color:#4775af;
-}
-
-.cat .progress{
-  height:9px;
-}
-
-.cat .progress i.blue{
-  background:#4c8be6;
-}
-
-.cat .progress i.purple{
-  background:#a45bc8;
-}
-
-.cat .progress i.orange{
-  background:#efb34f;
-}
-
-.cat .progress i.red{
-  background:#e6606c;
-}
-
-.cat small{
-  display:block;
-  text-align:right;
-  color:#e25a63;
-  margin-top:3px;
-}
-
-.general-card .card-title .ti{
-  color:#a45bc8;
-}
-
-@media(max-width:900px){
-  .columns{
-    grid-template-columns:1fr;
-  }
-
-  .credit-grid{
-    grid-template-columns:1fr;
-  }
-
-  .total{
-    grid-column:auto;
-  }
-}
-
-@media(max-width:620px){
-  .sidebar{
-    width:64px;
-  }
-
-  .logo-text,
-  .nav a span.label{
-    display:none;
-  }
-
-  .logo{
-    justify-content:center;
-    padding:0;
-  }
-
-  .nav a{
-    justify-content:center;
-    padding:0;
-  }
-
-  .content{
-    padding:12px;
-  }
-
-  .credit-grid{
-    grid-template-columns:1fr;
-  }
-
-  .total{
-    grid-column:auto;
-  }
-
-  .header{
-    padding-right:12px;
-  }
-
-  .profile small{
-    display:none;
-  }
-
-  .goal-wrap{
-    flex-direction:column;
-  }
-
-  .goal-illustration{
-    align-self:flex-end;
-  }
-}
-/* 課程挑選器（卡片標題列右上角） */
-.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:13px}
-.card-head .card-title{margin:0}
-.picker{display:flex;align-items:center;gap:8px}
-.picker-count{font-size:12px;color:#416da5;background:#eaf3ff;border-radius:12px;padding:5px 10px;white-space:nowrap;font-weight:700}
-.picker select{height:34px;border:1px solid #d3e0f0;border-radius:17px;padding:0 12px;font-size:13px;background:#f7fbff;color:var(--text);cursor:pointer;outline:none}
-.search{position:relative;display:block}
-.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:12px;opacity:.6;pointer-events:none}
-.search input{width:140px;height:34px;border:1px solid #d3e0f0;border-radius:17px;padding:0 10px 0 29px;font-size:12px;background:#f7fbff;color:var(--text);outline:none;transition:border-color .15s,box-shadow .15s,width .2s}
-.search input:focus,.picker select:focus{border-color:#4388e8;box-shadow:0 0 0 3px rgba(40,116,217,.15);background:#fff}
-.search input:focus{width:170px}
-.trash{border:0;background:transparent;cursor:pointer;font-size:14px;color:#e25a63}
-.trash:hover{background:#fff0f1;border-radius:6px}
-
-@media(max-width:620px){
-  .picker{width:100%;flex-wrap:wrap}
-  .search{flex:1}
-  .search input,.search input:focus{width:100%}
-}
-
-/* 分頁 */
-.pager{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin:12px 2px 4px;flex-wrap:wrap}
-.pg-info{margin-right:auto;font-size:12px;color:var(--muted)}
-.pg-btn,.pg-num{height:30px;min-width:30px;padding:0 10px;border:1px solid #d3e0f0;border-radius:15px;background:#f7fbff;color:var(--text);font-size:12px;cursor:pointer}
-.pg-btn:hover:not(:disabled),.pg-num:hover:not(.active){background:#eaf3ff;border-color:#b9d2f2}
-.pg-num.active{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700}
-.pg-btn:disabled{opacity:.45;cursor:default}
-
-/* 新增本學期修課程：類別/學分/狀態/操作置中，標題與內容對齊 */
-#newCourses th:nth-child(2), #newCourses td:nth-child(2),
-#newCourses th:nth-child(3), #newCourses td:nth-child(3),
-#newCourses th:nth-child(7), #newCourses td:nth-child(7),
-#newCourses th:nth-child(8), #newCourses td:nth-child(8){text-align:center}
-
-#generalCourses th:nth-child(2), #generalCourses td:nth-child(2),
-#generalCourses th:nth-child(3), #generalCourses td:nth-child(3),
-#generalCourses th:nth-child(7), #generalCourses td:nth-child(7){text-align:center}
-.pg-gap{color:var(--muted);padding:0 2px}
-/* 加入 / 退選 */
-.status.conflict{background:#ffe3e5;color:#d54d57}
-.status.idle{background:#eef2f7;color:#70819a}
-.muted{color:var(--muted)}
-.act-btn{height:26px;padding:0 12px;border-radius:13px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent}
-.act-btn.add{background:var(--blue);color:#fff}
-.act-btn.add:hover{background:#1f63bd}
-.act-btn.remove{background:#fff;color:#e25a63;border-color:#f3c3c7}
-.act-btn.remove:hover{background:#fff0f1}
-#selectedTable th:nth-child(4), #selectedTable td:nth-child(4),
-#selectedTable th:nth-child(7), #selectedTable td:nth-child(7),
-#selectedTable th:nth-child(8), #selectedTable td:nth-child(8){text-align:center}
-#generalCourses th:nth-child(8), #generalCourses td:nth-child(8){text-align:center}
-
-/* 修正換行跑版 */
-.table th, .table td{padding:8px 10px}
-.table th{white-space:nowrap}
-.status, .act-btn{white-space:nowrap}
-.act-btn{min-width:52px}
-#newCourses td, #generalCourses td{vertical-align:middle}
-
-.detail-row small{color:var(--muted);font-size:11px;margin-left:4px}
-.cat .progress i.green{background:#35ad88}
-.cat .progress i.teal{background:#2fa7c4}
-/* 通識底下的各領域子列(縮排顯示) */
-.detail-row.sub{padding-left:18px;color:#5c7088}
-.detail-row.sub span:first-child::before{content:"└ ";color:#a9b8cc}
-.cat.sub{margin-left:18px}
-
-/* 通識群組卡片:總進度 + 四個領域小卡 */
-.cat-group{margin-top:16px;padding:12px;border:1px solid #e3ecf7;border-radius:10px;background:linear-gradient(160deg,#fbfdff,#f3f8ff)}
-.cat-group-head{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;font-weight:bold;margin-bottom:6px}
-.cat-group-head span:first-child{font-size:13px;color:#294c78}
-.cat-group-head span:last-child{color:#4775af;font-weight:700}
-.dom-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.dom{background:#fff;border:1px solid #e6eef8;border-radius:8px;padding:8px 10px}
-.dom.done{border-color:#bfe8d6;background:#f4fcf8}
-.dom-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:6px}
-.dom-name{display:flex;align-items:center;gap:6px;font-weight:700;color:#35506f}
-.dom-name i{width:8px;height:8px;border-radius:50%;display:inline-block}
-.dom-num{color:#6a7f99;font-size:11px;font-weight:700}
-.dom.done .dom-num{color:#24926d}
-.dom-bar{height:5px;border-radius:5px;background:#e7eef7;overflow:hidden}
-.dom-bar b{display:block;height:100%;border-radius:5px}
-.dom-note{margin-top:10px;font-size:11px;color:#e25a63;font-weight:700}
-/* 體育 / 校共同必修卡片：與必選修表格相同的置中規則 */
-#peCourses th:nth-child(2), #peCourses td:nth-child(2),
-#peCourses th:nth-child(3), #peCourses td:nth-child(3),
-#peCourses th:nth-child(7), #peCourses td:nth-child(7),
-#peCourses th:nth-child(8), #peCourses td:nth-child(8){text-align:center}
-#peCourses td{vertical-align:middle}
-.pe-card .card-title .ti{color:#35ad88}
-
-/* 全校共同必修卡片：與其他課程表相同的置中規則 */
-#cmCourses th:nth-child(2), #cmCourses td:nth-child(2),
-#cmCourses th:nth-child(3), #cmCourses td:nth-child(3),
-#cmCourses th:nth-child(7), #cmCourses td:nth-child(7),
-#cmCourses th:nth-child(8), #cmCourses td:nth-child(8){text-align:center}
-#cmCourses td{vertical-align:middle}
-.cm-card .card-title .ti{color:#2874d9}
-
-/* 已選課程一覽：學期、類別、時間不要換行（避免 115-1 被拆成兩行） */
-#selectedTable td:nth-child(1),
-#selectedTable td:nth-child(5),
-#selectedTable td:nth-child(6){white-space:nowrap}
-#selectedTable td{vertical-align:middle}
-/* 手動新增課程（加簽／補登） */
-.manual-card .card-title .ti{color:#e08a1e}
-.manual-form{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1.3fr);gap:10px 12px;align-items:end}
-.mf{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;color:#48617f}
-.mf input,.mf select{width:100%;min-width:0;height:34px;border:1px solid #d3e0f0;border-radius:8px;padding:0 10px;font-size:13px;background:#f7fbff;color:var(--text);outline:none;font-family:inherit}
-.mf input:focus,.mf select:focus{border-color:#4388e8;box-shadow:0 0 0 3px rgba(40,116,217,.15);background:#fff}
-.mf-actions{display:flex;justify-content:flex-end}
-.mf-actions .act-btn{height:34px;padding:0 22px;border-radius:8px;font-size:13px}
-.mf-hint{margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6}
-.mf-hint.err{color:#d54d57;font-weight:700}
-.status.manual{background:#fff1dc;color:#b36a0b}
-@media(max-width:900px){.manual-form{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:620px){.manual-form{grid-template-columns:minmax(0,1fr)}}
-
-/* 右側欄固定 + 已選課程精簡清單 */
-.side{align-self:start}
-.side-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-.side-head h3{margin:0;font-size:15px;color:#294c78;display:flex;align-items:center;gap:6px}
-.side-head .ti{color:#2874d9}
-.sel-list{height:510px;overflow-y:auto;margin:0 -4px;padding:0 4px}  /* 已選課程固定高度，太多就在裡面捲動 */
-.sel-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #edf1f6}
-.sel-item:last-child{border-bottom:0}
-.sel-main{flex:1;min-width:0}
-.sel-name{font-size:13px;font-weight:700;color:#294c78;line-height:1.35;word-break:break-all}
-.sel-name .status{padding:1px 6px;margin-left:4px;font-size:10px}
-.sel-meta{font-size:11px;color:var(--muted);margin-top:2px}
-.sel-del{flex:none;width:24px;height:24px;border:0;border-radius:50%;background:transparent;color:#e25a63;cursor:pointer;font-size:12px}
-.sel-del:hover{background:#fff0f1}
-.sel-empty{padding:14px 0;text-align:center;color:var(--muted);font-size:12px}
-@media(max-width:900px){.side{position:static;max-height:none;overflow:visible}}
-
-/* ===== 課程表分頁籤 ===== */
-.tabs{display:flex;gap:4px;flex-wrap:wrap;margin:0 0 12px;border-bottom:1px solid #e3ecf7}
-.tab{border:0;background:transparent;padding:9px 14px;font-size:13px;font-weight:700;color:#70819a;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;font-family:inherit}
-.tab:hover{color:#2874d9}
-.tab.active{color:#2456a6;border-bottom-color:#2874d9}
-.tab small{margin-left:6px;font-size:11px;background:#eaf3ff;color:#416da5;border-radius:10px;padding:1px 7px}
-.tab.active small{background:#2874d9;color:#fff}
-.tab:empty{display:none}
-/* 類別標籤顏色：對照右側分類進度條 */
-.status.pur{background:#f1e9fd;color:#6b3fa8}   /* 專業選修（紫） */
-.status.hum{background:#fdf1dc;color:#a8700f}   /* 通識-人文（橘） */
-.status.soc{background:#fde6e8;color:#c0394a}   /* 通識-社會（紅） */
-.status.nat{background:#dff5ec;color:#1f8a60}   /* 通識-自然（綠） */
-.status.spe{background:#dcf2f7;color:#17717a}   /* 通識-特色（青） */
-.status.none{background:#eef2f7;color:#70819a}  /* 未分類（灰） */
-#courseTable th:nth-child(2), #courseTable td:nth-child(2),
-#courseTable th:nth-child(3), #courseTable td:nth-child(3),
-#courseTable th:nth-child(7), #courseTable td:nth-child(7),
-#courseTable th:nth-child(8), #courseTable td:nth-child(8){text-align:center}
-#courseTable td{vertical-align:middle}
-.card-head .act-btn.add{height:34px;border-radius:17px;padding:0 14px}
-
-/* ===== 手動新增彈窗 ===== */
-.manual-dialog{overflow-x:hidden;max-height:90vh;border:0;border-radius:12px;padding:0;width:min(640px,92vw);box-shadow:0 18px 50px rgba(23,51,93,.28);color:var(--text);font-family:inherit}
-.manual-dialog::backdrop{background:rgba(20,45,81,.45)}
-.dlg-body{padding:18px 20px 16px}
-.dlg-body .card-title{margin-bottom:14px}
-.manual-form .mf-actions{grid-column:1/-1;gap:8px}
-.act-btn.cancel{background:#eef3f9;color:#48617f;border-color:transparent;height:34px;padding:0 18px;border-radius:8px;font-size:13px}
-.act-btn.cancel:hover{background:#e3ebf5}
-
-/* 小提示 */
-.toast{position:fixed;right:22px;bottom:22px;background:#17335d;color:#fff;padding:10px 16px;border-radius:9px;font-size:13px;font-weight:700;box-shadow:0 6px 20px rgba(23,51,93,.3);opacity:0;transform:translateY(8px);transition:.22s;z-index:50}
-.toast.show{opacity:1;transform:none}
-/* 校共同必修（粉紅） */
-.status.com{background:#fdeaf1;color:#a1325f}
-.cat .progress i.pink{background:#ec5b97}
-
-/* ===== 搜尋結果（#results）===== */
-/* 瀏覽器預設的 [hidden] 會被 .pager{display:flex} 這類規則蓋掉，所以要補這行 */
-[hidden]{display:none!important}
-/* 與 #courseTable 相同的對齊；老師欄不換行 */
-#results .table th:nth-child(2), #results .table td:nth-child(2),
-#results .table th:nth-child(3), #results .table td:nth-child(3),
-#results .table th:nth-child(7), #results .table td:nth-child(7),
-#results .table th:nth-child(8), #results .table td:nth-child(8){text-align:center}
-#results .table td{vertical-align:middle}
-#results .table td:nth-child(5){white-space:nowrap}
-.results-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 2px 10px;font-size:12px;color:var(--muted)}
-.results-head.is-error{color:#d54d57}
