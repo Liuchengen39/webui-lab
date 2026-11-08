@@ -224,7 +224,13 @@ a { color: inherit; text-decoration: none; }
 .search-box { display: flex; min-width: 0; flex: 1; align-items: center; gap: 6px; padding: 0 10px; color: #94a6bb; }
 .search-box input { width: 100%; min-width: 0; padding: 0; border: 0; outline: 0; color: var(--ink); background: transparent; font-size: 11px; }
 .search-box:focus-within, .course-toolbar select:focus-visible { outline: 2px solid #8dbaf0; outline-offset: 1px; }
-.course-tabs { display: flex; gap: 5px; overflow-x: auto; margin: 11px -2px 9px; border-bottom: 1px solid #e6edf6; scrollbar-width: thin; }
+.course-tabs { 
+  display: flex; 
+  gap: 5px; 
+  overflow: hidden; /* 移除 scrollbar-width，改為 overflow: hidden */
+  margin: 11px -2px 9px; 
+  border-bottom: 1px solid #e6edf6; 
+}
 .course-tab { position: relative; display: inline-flex; min-height: 35px; flex: 0 0 auto; align-items: center; gap: 6px; padding: 0 9px; border: 0; color: #788da5; background: transparent; font-size: 10px; cursor: pointer; }
 .course-tab[aria-pressed="true"] { color: #286fc9; font-weight: 750; }
 .course-tab[aria-pressed="true"]::after { position: absolute; right: 4px; bottom: -1px; left: 4px; height: 2px; background: var(--blue); content: ""; }
@@ -505,7 +511,11 @@ body { font-size: 15px; }
   cursor: pointer;
 }
 .manual-add:hover { background: var(--blue-dark); }
-.course-tabs { gap: 14px; margin: 14px 0; }
+.course-tabs { 
+  gap: 14px; 
+  margin: 10px 0; 
+  overflow: hidden; 
+}
 .course-tab { min-height: 42px; padding: 0 12px; font-size: 14px; }
 .course-tab[aria-pressed="true"]::after { right: 0; left: 0; height: 3px; }
 .tab-count { padding: 3px 8px; font-size: 12px; }
