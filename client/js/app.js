@@ -51,17 +51,16 @@ async function loadGeneral() {
   return courses;
 }
 
-let COURSES = []; // 資工系課程 (/api/courses)
-let GENERAL = []; // 通識課 (/api/general-courses)
-const PAGE_SIZE = 8; // 每頁幾筆
-let PE = []; // 體育(特色運動) + 校共同必修(課名含「資工」)
-let PE_LOAD_ERROR = ''; // 體育課資料載入失敗時的提示
-let CM = []; // 全校共同必修 (/api/common-courses，來源 common.json)
+let COURSES = []; 
+let GENERAL = []; 
+const PAGE_SIZE = 8;
+let PE = []; 
+let PE_LOAD_ERROR = '';
+let CM = []; 
 let CM_LOAD_ERROR = '';
 
-const SEMESTER = '115-1'; // 新增的課程所屬學期
-const STORAGE_KEY = (window.NCNU_KEY || ((k) => k))('ncnu_added_courses'); // 依網站路徑區分(見 profile.js)
-
+const SEMESTER = '115-1'; 
+const STORAGE_KEY = (window.NCNU_KEY || ((k) => k))('ncnu_added_courses');
 // 先前已選上、不可退選的課程
 const BASE_SELECTED = [];
 
@@ -91,7 +90,7 @@ const isAdded = (key) => added.some((a) => a.key === key);
 // 算出最終總選課程清單
 const allSelected = () => [...BASE_SELECTED, ...added];
 
-// 資工系「專業選修」課號(依系上必選修科目表);不在名單內的視為專業必修
+// 資工系「專業選修」課號;不在名單內的視為專業必修
 const ELECTIVE_IDS = new Set([
   '210150', '210012', '210015', '210021', '210023', '210123', '210124', '210125',
   '210126', '210130', '210131', '210132', '210133', '210134', '210135', '210136',
@@ -126,7 +125,7 @@ const esc = (s) =>
     "'": '&#39;'
   }[c]));
 
-// 用上課時間推算學分:時間格式如 "2cd4d"(數字=星期,字母=節次),字母數 = 學分
+// 用上課時間推算學分:"2cd4d"(數字=星期,字母=節次),字母數 = 學分
 function creditsOf(c) {
   // 若原本就有學分直接回傳
   if (c.credits) return c.credits;
