@@ -135,10 +135,7 @@ def _load_courses():
             category = "專業必修" if is_cs_required else "校共同必修"
             group = "校共同必修"
         elif course_code in sources["physical"]:
-            if is_cs_required:
-                category = "專業必修"
-            else:
-                category = "特色運動" if name.startswith("體育:") else "體育"
+            category = "特色運動" if name.startswith("體育") else "體育"
             group = "體育"
         else:
             category = "專業必修" if is_cs_required else "通識"
