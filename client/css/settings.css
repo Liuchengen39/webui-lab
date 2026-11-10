@@ -46,6 +46,14 @@ a { color: inherit; text-decoration: none; }
 .page-description { margin: 0 0 3px; color: var(--muted); font-size: 14px; }
 .card { min-width: 0; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 3px 12px #294b7010; }
 .content-card { max-width: 900px; }
+.account-card { margin-bottom: 14px; }
+.account-session { display: grid; gap: 4px; margin-top: 14px; padding: 12px 14px; border: 1px solid #dce9f7; border-radius: 9px; background: #f7faff; }
+.account-session strong { color: #294d76; font-size: 15px; }
+.account-session span, .auth-status { color: #71859b; font-size: 13px; }
+.account-signout { margin-top: 12px; padding: 8px 16px; border: 1px solid #dce7f4; border-radius: 8px; color: #496481; background: #fff; cursor: pointer; }
+.account-signout:hover { border-color: #b7d1f1; background: #f8fbff; }
+.account-signout:disabled { opacity: .6; cursor: wait; }
+.auth-status { min-height: 1.5em; margin: 10px 0 0; line-height: 1.5; }
 .card-heading { display: flex; min-width: 0; align-items: center; gap: 8px; }
 .card-heading h2 { overflow: hidden; margin: 0; color: #294d76; font-size: 17px; font-weight: 750; text-overflow: ellipsis; white-space: nowrap; }
 .heading-icon { color: var(--blue); font-size: 16px; }

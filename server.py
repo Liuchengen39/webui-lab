@@ -1,18 +1,27 @@
 import io
 import json
 import re
+import secrets
 import time
 from urllib.request import Request, urlopen
 from pathlib import Path
 
 import pandas as pd
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request as FastAPIRequest, Response
+from google.auth.exceptions import GoogleAuthError, TransportError
+from google.auth.transport.requests import Request as GoogleRequest
+from google.oauth2 import id_token
+from pydantic import BaseModel, Field
 from fastapi.staticfiles import StaticFiles
 
 
 app = FastAPI()
 CLIENT = Path(__file__).resolve().parent / "client"
 DATA = CLIENT / "data"
+GOOGLE_CLIENT_ID = "609296002726-6qpc89smhfisnc7i2r81lr9r4jtc80fp.apps.googleusercontent.com"
+AUTH_SESSION_COOKIE = "webui_lab_session"
+AUTH_SESSION_SECONDS = 12 * 60 * 60
+_auth_sessions = {}
 COURSE_CSV_URL = "https://ccweb6.ncnu.edu.tw/student/current_semester_opened_listlist.php?export=csv"
 COURSE_CACHE_SECONDS = 900
 _course_cache = None
@@ -50,6 +59,77 @@ _COURSE_COLUMNS = {
     "時間",
     "學分數",
 }
+
+
+class GoogleCredential(BaseModel):
+    credential: str = Field(min_length=1, max_length=10000)
+
+
+def _prune_auth_sessions(now):
+    expired = [token for token, session in _auth_sessions.items() if session["expires_at"] <= now]
+    for token in expired:
+        del _auth_sessions[token]
+
+
+def _auth_session(request):
+    now = time.time()
+    _prune_auth_sessions(now)
+    token = request.cookies.get(AUTH_SESSION_COOKIE)
+    return _auth_sessions.get(token)
+
+
+@app.get("/api/auth/config")
+def get_auth_config():
+    return {"client_id": GOOGLE_CLIENT_ID}
+
+
+@app.post("/api/auth/google")
+def sign_in_with_google(payload: GoogleCredential, request: FastAPIRequest, response: Response):
+    try:
+        claims = id_token.verify_oauth2_token(payload.credential, GoogleRequest(), GOOGLE_CLIENT_ID)
+    except (ValueError, GoogleAuthError, TransportError) as error:
+        raise HTTPException(status_code=401, detail="Google 登入驗證失敗，請重新登入") from error
+
+    email = claims.get("email")
+    subject = claims.get("sub")
+    if not subject or not email or claims.get("email_verified") is not True:
+        raise HTTPException(status_code=401, detail="Google 帳號缺少已驗證的電子郵件")
+
+    user = {
+        "id": subject,
+        "name": claims.get("name") or email,
+        "email": email,
+        "picture": claims.get("picture", ""),
+    }
+    now = time.time()
+    _prune_auth_sessions(now)
+    session_token = secrets.token_urlsafe(32)
+    _auth_sessions[session_token] = {"user": user, "expires_at": now + AUTH_SESSION_SECONDS}
+    response.set_cookie(
+        AUTH_SESSION_COOKIE,
+        session_token,
+        max_age=AUTH_SESSION_SECONDS,
+        httponly=True,
+        secure=request.url.scheme == "https",
+        samesite="lax",
+        path="/",
+    )
+    return {"user": user}
+
+
+@app.get("/api/auth/me")
+def get_current_user(request: FastAPIRequest):
+    session = _auth_session(request)
+    return {"user": session["user"] if session else None}
+
+
+@app.post("/api/auth/logout")
+def sign_out(request: FastAPIRequest, response: Response):
+    session_token = request.cookies.get(AUTH_SESSION_COOKIE)
+    if session_token:
+        _auth_sessions.pop(session_token, None)
+    response.delete_cookie(AUTH_SESSION_COOKIE, httponly=True, samesite="lax", path="/")
+    return {"user": None}
 
 
 def _read_course_json(filename):

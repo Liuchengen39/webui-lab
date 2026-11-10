@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#214d7f">
     <title>系統設定｜暨南大學排課系統</title>
-    <link rel="stylesheet" href="css/settings.css">
-    <script src="js/settings.js" defer></script>
+    <link rel="stylesheet" href="css/settings.css?v=2">
+    <script src="js/auth.js" defer></script>
+    <script src="js/settings.js?v=2" defer></script>
   </head>
   <body>
     <header class="topbar">
@@ -21,10 +22,10 @@
         </span>
       </a>
       <div class="user-profile">
-        <span class="avatar" aria-hidden="true">劉</span>
+        <span class="avatar" aria-hidden="true">訪</span>
         <span>
-          <strong>劉承恩</strong>
-          <small>大一</small>
+          <strong>訪客</strong>
+          <small>尚未登入</small>
         </span>
       </div>
     </header>
@@ -54,6 +55,21 @@
           </div>
           <p class="page-description">調整排課系統的顯示偏好</p>
         </div>
+
+        <section class="card content-card account-card" aria-labelledby="accountTitle">
+          <div class="card-heading">
+            <span class="heading-icon" aria-hidden="true">◉</span>
+            <h2 id="accountTitle">Google 帳號登入</h2>
+          </div>
+          <p>登入後可在此瀏覽器工作階段辨識你的 Google 帳號。</p>
+          <div id="googleSignIn"></div>
+          <div class="account-session" id="accountSession" hidden>
+            <strong id="accountName"></strong>
+            <span id="accountEmail"></span>
+          </div>
+          <button class="account-signout" id="googleSignOut" type="button" hidden>登出</button>
+          <p class="auth-status" id="authStatus" role="status" aria-live="polite"></p>
+        </section>
 
         <section class="card content-card">
           <div class="card-heading">

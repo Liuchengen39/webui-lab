@@ -198,7 +198,7 @@ a { color: inherit; text-decoration: none; }
 .category-line strong, .small-progress strong { font-weight: 650; }
 .category-line span, .small-progress span { color: #6585a7; }
 .category-line.tone-required strong { color: #2874df; }
-.category-line.tone-required .progress-track > span { background-color: #2874df; }
+.category-line.tone-required .progress-track > span { background-color: #526a84; }
 .category-line.tone-elective strong { color: #7651a6; }
 .category-line.tone-elective .progress-track > span { background-color: #7651a6; }
 .category-line.tone-common strong { color: #168a83; }

@@ -21,18 +21,25 @@ const scheduleTable = document.querySelector(".schedule-table");
 
 if (scheduleTable) {
   const scheduleMessage = document.querySelector("#scheduleMessage");
-  const storageKey = "selectedCourses";
+  const storageKey = "selectedCourses.v2";
 
   function parseCourseMeetings(time, periodCount) {
     const meetings = [];
-    for (const [, day, firstPeriod, lastPeriod = firstPeriod] of String(time).matchAll(/([1-5])([a-j])([a-j])?/gi)) {
-      const first = firstPeriod.toLowerCase().charCodeAt(0) - 97;
-      const last = lastPeriod.toLowerCase().charCodeAt(0) - 97;
-      const periods = [];
-      for (let period = first; period <= last && period < periodCount; period += 1) {
-        periods.push(period);
+    for (const [, day, periodCodes] of String(time).matchAll(/([1-5])([a-j]+)/gi)) {
+      const periods = [...new Set(
+        [...periodCodes.toLowerCase()].map((code) => code.charCodeAt(0) - 97),
+      )].filter((period) => period < periodCount).sort((a, b) => a - b);
+      let run = [];
+      periods.forEach((period) => {
+        if (run.length && period !== run[run.length - 1] + 1) {
+          meetings.push({ day: Number(day), periods: run });
+          run = [];
+        }
+        run.push(period);
+      });
+      if (run.length) {
+        meetings.push({ day: Number(day), periods: run });
       }
-      if (periods.length) meetings.push({ day: Number(day), periods });
     }
     return meetings;
   }
@@ -55,7 +62,21 @@ if (scheduleTable) {
 
   function addCourseCard(cell, course, isConflict) {
     const card = document.createElement("span");
-    card.className = `schedule-course-card schedule-selected-course${isConflict ? " is-conflict" : ""}`;
+    const tone = course.category === "通識" && course.domain
+      ? ({
+        人文: "humanities",
+        社會: "society",
+        自然: "nature",
+        特色: "featured",
+      }[course.domain] || "general")
+      : ({
+        專業必修: "major-required",
+        專業選修: "major-elective",
+        校共同必修: "common-required",
+        體育: "physical",
+        特色運動: "featured-sport",
+      }[course.category] || "default");
+    card.className = `schedule-course-card schedule-selected-course tone-${tone}${isConflict ? " is-conflict" : ""}`;
     const name = document.createElement("strong");
     name.textContent = course.name;
     const details = document.createElement("small");
@@ -64,7 +85,15 @@ if (scheduleTable) {
     cell.append(card);
   }
 
+  function clearDefaultSchedule() {
+    [...scheduleTable.tBodies[0].rows].forEach((row) => {
+      const periodHeader = row.cells[0];
+      row.replaceChildren(periodHeader, ...Array.from({ length: 5 }, () => document.createElement("td")));
+    });
+  }
+
   function renderSelectedTimetable() {
+    clearDefaultSchedule();
     scheduleTable.querySelectorAll(".schedule-selected-course").forEach((card) => card.remove());
     scheduleTable.querySelectorAll(".schedule-course-card.is-conflict").forEach((card) => {
       card.classList.remove("is-conflict");
@@ -124,6 +153,10 @@ if (scheduleTable) {
             const cell = grid[periods[0]]?.[day];
             if (!cell) return;
             addCourseCard(cell, course, isConflict);
+            if (!isConflict && periods.length > 1) {
+              cell.rowSpan = periods.length;
+              periods.slice(1).forEach((period) => grid[period]?.[day]?.remove());
+            }
           });
         });
 

@@ -71,7 +71,7 @@ if (dashboard) {
   ))?.label || "其他系所";
   const gradeLabel = (grade) => ({ 0: "其他年級", 1: "大一", 2: "大二", 3: "大三" }[grade] || `大${grade}`);
   const weekdays = ["星期一", "星期二", "星期三", "星期四", "星期五"];
-  const selectedCourseStorageKey = "selectedCourses";
+  const selectedCourseStorageKey = "selectedCourses.v2";
   const categoryTone = {
     "系必修": "required",
     "專業必修": "required",
@@ -135,12 +135,9 @@ if (dashboard) {
   };
   const courseTimeSlots = (course) => {
     const slots = new Set();
-    for (const [, day, firstPeriod, lastPeriod = firstPeriod] of String(course.time).matchAll(/([1-5])([a-j])([a-j])?/gi)) {
-      const first = firstPeriod.toLowerCase().charCodeAt(0);
-      const last = lastPeriod.toLowerCase().charCodeAt(0);
-      for (let period = first; period <= last; period += 1) {
-        slots.add(`${day}-${period}`);
-      }
+    for (const [, day, periodCodes] of String(course.time).matchAll(/([1-5])([a-j]+)/gi)) {
+      [...new Set([...periodCodes.toLowerCase()].map((code) => code.charCodeAt(0)))]
+        .forEach((period) => slots.add(`${day}-${period}`));
     }
     return slots;
   };
