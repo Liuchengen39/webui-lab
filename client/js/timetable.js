@@ -22,6 +22,19 @@ const scheduleTable = document.querySelector(".schedule-table");
 if (scheduleTable) {
   const scheduleMessage = document.querySelector("#scheduleMessage");
   const storageKey = "selectedCourses.v2";
+  const PALETTE = [
+    ["#e8f1ff", "#c5dcff", "#1f4f9e", "#3b82f6"],
+    ["#e6f7ef", "#bfe8d3", "#1d7a55", "#34b27b"],
+    ["#f1e9fd", "#dccbf7", "#6b3fa8", "#9b6ee0"],
+    ["#fff1e0", "#fcd9ac", "#9a5a12", "#f59e2b"],
+    ["#fdeaf1", "#f8c9dc", "#a1325f", "#ec5b97"],
+    ["#e0f6f6", "#b4e6e6", "#17717a", "#19b0b8"],
+    ["#fff8d9", "#f5e8a1", "#86690c", "#e0b81d"],
+    ["#e9ebff", "#cdd2fb", "#3a43a3", "#6470e6"],
+    ["#eef8dc", "#d3ebab", "#4a6f12", "#86c232"],
+    ["#eef1f6", "#d3dae6", "#43546d", "#7a8aa5"],
+  ];
+  const CONFLICT_COLOR = ["#fff0f0", "#ffc4c8", "#b0303a", "#e5484d"];
 
   function parseCourseMeetings(time, periodCount) {
     const meetings = [];
@@ -60,23 +73,14 @@ if (scheduleTable) {
     return grid;
   }
 
-  function addCourseCard(cell, course, isConflict) {
+  function addCourseCard(cell, course, isConflict, courseColor) {
     const card = document.createElement("span");
-    const tone = course.category === "通識" && course.domain
-      ? ({
-        人文: "humanities",
-        社會: "society",
-        自然: "nature",
-        特色: "featured",
-      }[course.domain] || "general")
-      : ({
-        專業必修: "major-required",
-        專業選修: "major-elective",
-        校共同必修: "common-required",
-        體育: "physical",
-        特色運動: "featured-sport",
-      }[course.category] || "default");
-    card.className = `schedule-course-card schedule-selected-course tone-${tone}${isConflict ? " is-conflict" : ""}`;
+    card.className = `schedule-course-card schedule-selected-course${isConflict ? " is-conflict" : ""}`;
+    const [background, border, text, accent] = isConflict ? CONFLICT_COLOR : courseColor;
+    card.style.setProperty("--course-background", background);
+    card.style.setProperty("--course-border", border);
+    card.style.setProperty("--course-text", text);
+    card.style.setProperty("--course-accent", accent);
     const name = document.createElement("strong");
     name.textContent = course.name;
     const details = document.createElement("small");
@@ -113,9 +117,10 @@ if (scheduleTable) {
         const grid = buildScheduleGrid(tbody);
         const staticCardsBySlot = new Map();
         const selectedBySlot = new Map();
-        const selectedMeetings = selectedCourses.map((course) => ({
+        const selectedMeetings = selectedCourses.map((course, index) => ({
           course,
           meetings: parseCourseMeetings(course.time, grid.length),
+          color: PALETTE[index % PALETTE.length],
         }));
 
         grid.forEach((row, period) => {
@@ -137,7 +142,7 @@ if (scheduleTable) {
           });
         });
 
-        selectedMeetings.forEach(({ course, meetings }) => {
+        selectedMeetings.forEach(({ course, meetings, color }) => {
           const isConflict = meetings.some(({ day, periods }) => periods.some((period) => {
             const slot = `${day}-${period}`;
             return staticCardsBySlot.has(slot) || selectedBySlot.get(slot).size > 1;
@@ -152,7 +157,7 @@ if (scheduleTable) {
           meetings.forEach(({ day, periods }) => {
             const cell = grid[periods[0]]?.[day];
             if (!cell) return;
-            addCourseCard(cell, course, isConflict);
+            addCourseCard(cell, course, isConflict, color);
             if (!isConflict && periods.length > 1) {
               cell.rowSpan = periods.length;
               periods.slice(1).forEach((period) => grid[period]?.[day]?.remove());
