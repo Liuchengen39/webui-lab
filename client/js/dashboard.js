@@ -72,6 +72,8 @@ if (dashboard) {
   const gradeLabel = (grade) => ({ 0: "其他年級", 1: "大一", 2: "大二", 3: "大三" }[grade] || `大${grade}`);
   const weekdays = ["星期一", "星期二", "星期三", "星期四", "星期五"];
   const selectedCourseStorageKey = "selectedCourses.v2";
+  const clearSelectionFlag = "clearSelectedCoursesOnReturn";
+  const userCoursesApi = "/api/user/courses";
   const categoryTone = {
     "系必修": "required",
     "專業必修": "required",
@@ -99,6 +101,12 @@ if (dashboard) {
   };
   let data;
   const selectedIds = new Set();
+  let authStateKnown = false;
+  let authenticatedUser = null;
+  let authRevision = 0;
+  let userCoursesEnabled = false;
+  let serverSaveQueue = Promise.resolve();
+  let selectionRevision = 0;
   let activeCategory = categoryGroups[0].label;
   let currentPage = 1;
   const pageSize = 8;
@@ -115,6 +123,9 @@ if (dashboard) {
   };
 
   const selectedCourses = () => data.courses.filter((course) => selectedIds.has(course.id));
+  const creditCategory = (course) => (
+    course.courseCode === "903166" ? "校共同必修" : course.category
+  );
   const plannedCreditsFor = (matches) => selectedCourses()
     .filter(matches)
     .reduce((sum, course) => sum + course.credits, 0);
@@ -126,10 +137,10 @@ if (dashboard) {
     }
     if (name.startsWith("系必修")) return plannedCreditsFor((course) => course.category === "專業必修");
     if (name === "專業選修") return plannedCreditsFor((course) => course.category === "專業選修");
-    if (name === "校共同必修") return plannedCreditsFor((course) => course.category === "校共同必修");
+    if (name === "校共同必修") return plannedCreditsFor((course) => creditCategory(course) === "校共同必修");
     if (name === "通識領域課程") return plannedCreditsFor((course) => course.category === "通識");
     if (name === "自由學分") {
-      return plannedCreditsFor((course) => ["體育", "特色運動"].includes(course.category));
+      return plannedCreditsFor((course) => ["體育", "特色運動"].includes(creditCategory(course)));
     }
     return 0;
   };
@@ -145,13 +156,106 @@ if (dashboard) {
     const firstSlots = courseTimeSlots(first);
     return [...courseTimeSlots(second)].some((slot) => firstSlots.has(slot));
   };
+  const showUserCoursesError = (message) => {
+    elements.error.hidden = false;
+    elements.error.textContent = message;
+  };
+  const saveUserCourses = (courses) => {
+    const revision = authRevision;
+    serverSaveQueue = serverSaveQueue
+      .then(async () => {
+        if (revision !== authRevision || !authenticatedUser) return;
+        const response = await fetch(userCoursesApi, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({ courses }),
+        });
+        const result = await response.json();
+        if (!response.ok) {
+          if (response.status === 401) userCoursesEnabled = false;
+          throw new Error(result.detail || `雲端儲存失敗（HTTP ${response.status}）`);
+        }
+        if (elements.error.textContent.startsWith("雲端選課資料")) {
+          elements.error.hidden = true;
+          elements.error.textContent = "";
+        }
+      })
+      .catch((error) => {
+        if (revision === authRevision && authenticatedUser) {
+          showUserCoursesError(`雲端選課資料儲存失敗：${error.message}`);
+        }
+      });
+  };
+  async function loadUserCourses(revision) {
+    const loadedSelectionRevision = selectionRevision;
+    try {
+      const response = await fetch(userCoursesApi, { credentials: "same-origin" });
+      if (response.status === 401) return;
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.detail || `雲端讀取失敗（HTTP ${response.status}）`);
+      }
+      if (!Array.isArray(result.courses) || !result.courses.every((course) => (
+        course && typeof course.id === "string" && typeof course.name === "string"
+        && typeof course.credits === "number" && typeof course.time === "string"
+      ))) {
+        throw new Error("伺服器的選課資料格式錯誤");
+      }
+
+      if (revision !== authRevision || !authenticatedUser) return;
+      userCoursesEnabled = true;
+      if (selectionRevision !== loadedSelectionRevision) {
+        saveUserCourses(selectedCourses());
+        return;
+      }
+      selectedIds.clear();
+      let selectionNeedsSync = false;
+      const canonicalSelection = result.courses.map((course) => {
+        const catalogCourse = data.courses.find((existing) => existing.id === course.id);
+        if (!catalogCourse) {
+          data.courses.push(course);
+          return course;
+        }
+        if (
+          course.category !== catalogCourse.category
+          || course.group !== catalogCourse.group
+          || (course.domain ?? null) !== (catalogCourse.domain ?? null)
+        ) {
+          selectionNeedsSync = true;
+        }
+        return {
+          ...course,
+          category: catalogCourse.category,
+          group: catalogCourse.group,
+          domain: catalogCourse.domain,
+        };
+      });
+      canonicalSelection.forEach((course) => {
+        selectedIds.add(course.id);
+      });
+      try {
+        sessionStorage.setItem(selectedCourseStorageKey, JSON.stringify(canonicalSelection));
+      } catch (error) {
+        showUserCoursesError(`已從雲端載入選課資料，但無法同步到此分頁：${error.message}`);
+      }
+      if (selectionNeedsSync) saveUserCourses(canonicalSelection);
+      render();
+    } catch (error) {
+      if (revision === authRevision && authenticatedUser) {
+        showUserCoursesError(`雲端選課資料載入失敗：${error.message}`);
+      }
+    }
+  }
   const persistSelectedCourses = () => {
+    selectionRevision += 1;
     try {
       sessionStorage.setItem(selectedCourseStorageKey, JSON.stringify(selectedCourses()));
     } catch (error) {
       elements.error.hidden = false;
       elements.error.textContent = `無法暫存選課資料：${error.message}`;
     }
+    if (userCoursesEnabled) saveUserCourses(selectedCourses());
   };
 
   function renderProgress() {
@@ -183,8 +287,8 @@ if (dashboard) {
 
     data.categories.forEach((category) => {
       const planned = category.name === "系必修"
-        ? plannedCreditsFor((course) => course.category === "專業必修")
-        : plannedCreditsFor((course) => course.category === category.name);
+        ? plannedCreditsFor((course) => creditCategory(course) === "專業必修")
+        : plannedCreditsFor((course) => creditCategory(course) === category.name);
       const earned = category.earned + planned;
       const line = make("div", `category-line tone-${categoryTone[category.name] || "required"}`);
       const labels = make("div");
@@ -192,6 +296,11 @@ if (dashboard) {
       labels.append(make("span", "", `${percentage(earned, category.required)}%`));
       const track = make("div", "progress-track");
       const fill = make("span");
+      fill.style.background = {
+        required: "#2874df",
+        elective: "#168a83",
+        common: "#7651a6",
+      }[categoryTone[category.name] || "required"];
       updateProgress(fill, earned, category.required);
       track.append(fill);
       line.append(labels, track);
@@ -217,15 +326,16 @@ if (dashboard) {
       track.setAttribute("aria-valuemin", "0");
       track.setAttribute("aria-valuemax", String(domain.required));
       track.setAttribute("aria-valuenow", String(earned));
-      fill.style.backgroundColor = domain.color;
+      fill.style.background = domain.color;
       updateProgress(fill, earned, domain.required);
       track.append(fill);
       chip.append(heading, track);
       elements.domainCards.append(chip);
     });
     elements.domainNotice.textContent = data.notices.domains;
-    const freeCreditsEarned = data.freeCredits.earned + plannedCreditsFor((course) => ["體育", "特色運動"].includes(course.category));
+    const freeCreditsEarned = data.freeCredits.earned + plannedCreditsFor((course) => ["體育", "特色運動"].includes(creditCategory(course)));
     elements.freeCreditLabel.textContent = `${percentage(freeCreditsEarned, data.freeCredits.required)}%`;
+    elements.freeCreditBar.style.background = "#6585a7";
     updateProgress(elements.freeCreditBar, freeCreditsEarned, data.freeCredits.required);
   }
 
@@ -361,6 +471,40 @@ if (dashboard) {
     dashboard.setAttribute("aria-busy", "false");
   }
 
+  function clearSelectionAfterLogout() {
+    if (!data) return;
+    selectedIds.clear();
+    data.courses = data.courses.filter((course) => !course.id.startsWith("manual-"));
+    sessionStorage.removeItem(selectedCourseStorageKey);
+    sessionStorage.removeItem(clearSelectionFlag);
+    render();
+  }
+
+  function syncSelectionWithAuthState() {
+    if (!data || !authStateKnown) return;
+    authRevision += 1;
+    userCoursesEnabled = false;
+    clearSelectionAfterLogout();
+    if (authenticatedUser) loadUserCourses(authRevision);
+  }
+
+  window.addEventListener("google-auth-state-change", (event) => {
+    authenticatedUser = event.detail;
+    authStateKnown = true;
+    syncSelectionWithAuthState();
+  });
+  window.addEventListener("pageshow", (event) => {
+    if (sessionStorage.getItem(clearSelectionFlag) === "true") {
+      clearSelectionAfterLogout();
+    }
+    if (event.persisted) {
+      window.refreshGoogleAuthState().catch((error) => showUserCoursesError(error.message));
+    }
+  });
+  window.addEventListener("focus", () => {
+    window.refreshGoogleAuthState().catch((error) => showUserCoursesError(error.message));
+  });
+
   elements.courseFilters.addEventListener("click", (event) => {
     const button = event.target.closest("[data-category]");
     if (!button) return;
@@ -447,7 +591,7 @@ if (dashboard) {
   });
 
   Promise.all([
-    fetch("data/progress.json"),
+    fetch("data/progress.json?v=2", { cache: "no-store" }),
     fetch("/api/courses"),
   ])
     .then(async ([progressResponse, coursesResponse]) => {
@@ -456,23 +600,11 @@ if (dashboard) {
       data = await progressResponse.json();
       const courseData = await coursesResponse.json();
       data.courses = courseData.courses;
-      const storedSelection = sessionStorage.getItem(selectedCourseStorageKey);
-      if (storedSelection) {
-        const storedCourses = JSON.parse(storedSelection);
-        if (!Array.isArray(storedCourses) || !storedCourses.every((course) => (
-          course && typeof course.id === "string" && typeof course.name === "string"
-          && typeof course.credits === "number" && typeof course.time === "string"
-        ))) {
-          throw new Error("暫存的選課資料格式錯誤");
-        }
-        storedCourses.forEach((storedCourse) => {
-          if (!data.courses.some((course) => course.id === storedCourse.id)) {
-            data.courses.push(storedCourse);
-          }
-          selectedIds.add(storedCourse.id);
-        });
-      }
+      selectedIds.clear();
+      sessionStorage.removeItem(selectedCourseStorageKey);
+      sessionStorage.removeItem(clearSelectionFlag);
       render();
+      syncSelectionWithAuthState();
     })
     .catch((error) => {
       elements.error.hidden = false;

@@ -1,8 +1,14 @@
 import io
+import hashlib
 import json
+import os
 import re
 import secrets
+import sqlite3
+import tempfile
 import time
+from contextlib import closing
+from typing import List, Optional
 from urllib.request import Request, urlopen
 from pathlib import Path
 
@@ -18,6 +24,8 @@ from fastapi.staticfiles import StaticFiles
 app = FastAPI()
 CLIENT = Path(__file__).resolve().parent / "client"
 DATA = CLIENT / "data"
+USER_DATA_DIR = Path(__file__).resolve().parent / "user_data"
+USER_DATA_DB = Path(__file__).resolve().parent / "user_data.sqlite3"
 GOOGLE_CLIENT_ID = "609296002726-6qpc89smhfisnc7i2r81lr9r4jtc80fp.apps.googleusercontent.com"
 AUTH_SESSION_COOKIE = "webui_lab_session"
 AUTH_SESSION_SECONDS = 12 * 60 * 60
@@ -63,6 +71,25 @@ _COURSE_COLUMNS = {
 
 class GoogleCredential(BaseModel):
     credential: str = Field(min_length=1, max_length=10000)
+
+
+class SelectedCourse(BaseModel):
+    id: str = Field(min_length=1, max_length=160)
+    name: str = Field(min_length=1, max_length=160)
+    category: str = Field(min_length=1, max_length=40)
+    credits: float = Field(ge=0, le=100)
+    time: str = Field(max_length=80)
+    group: Optional[str] = None
+    domain: Optional[str] = None
+    teacher: str = Field(default="", max_length=100)
+    location: str = Field(default="", max_length=100)
+    grade: int = Field(default=0, ge=0, le=12)
+    courseCode: Optional[str] = Field(default=None, max_length=32)
+    gradeEligibility: Optional[str] = Field(default=None, max_length=80)
+
+
+class SelectedCoursesPayload(BaseModel):
+    courses: List[SelectedCourse] = Field(max_items=200)
 
 
 def _prune_auth_sessions(now):
@@ -130,6 +157,133 @@ def sign_out(request: FastAPIRequest, response: Response):
         _auth_sessions.pop(session_token, None)
     response.delete_cookie(AUTH_SESSION_COOKIE, httponly=True, samesite="lax", path="/")
     return {"user": None}
+
+
+def _authenticated_user_id(request):
+    session = _auth_session(request)
+    if not session:
+        raise HTTPException(status_code=401, detail="請先登入 Google 帳號")
+    return session["user"]["id"]
+
+
+def _selected_course_data(course):
+    values = {
+        "id": course.id,
+        "name": course.name,
+        "category": course.category,
+        "credits": course.credits,
+        "time": course.time,
+        "group": course.group,
+        "domain": course.domain,
+        "teacher": course.teacher,
+        "location": course.location,
+        "grade": course.grade,
+        "courseCode": course.courseCode,
+        "gradeEligibility": course.gradeEligibility,
+    }
+    return {key: value for key, value in values.items() if value is not None}
+
+
+def _user_data_path(user_id):
+    filename = hashlib.sha256(user_id.encode("utf-8")).hexdigest()
+    return USER_DATA_DIR / f"{filename}.json"
+
+
+def _normalize_user_courses(courses):
+    if not isinstance(courses, list) or len(courses) > 200:
+        raise ValueError("選課資料必須是最多 200 門課程的陣列")
+    normalized = []
+    for course in courses:
+        if not isinstance(course, dict):
+            raise ValueError("課程資料格式錯誤")
+        normalized.append(_selected_course_data(SelectedCourse(**course)))
+    return normalized
+
+
+def _save_user_courses_file(user_id, courses):
+    USER_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    path = _user_data_path(user_id)
+    temporary_path = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=USER_DATA_DIR,
+            prefix=".user-courses-",
+            suffix=".tmp",
+            delete=False,
+        ) as temporary_file:
+            temporary_path = Path(temporary_file.name)
+            json.dump(
+                {
+                    "user_id": user_id,
+                    "courses": courses,
+                    "updated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                },
+                temporary_file,
+                ensure_ascii=False,
+                indent=2,
+            )
+            temporary_file.write("\n")
+        os.replace(temporary_path, path)
+    except OSError as error:
+        raise HTTPException(status_code=500, detail=f"無法儲存使用者選課 JSON：{error}") from error
+    finally:
+        if temporary_path and temporary_path.exists():
+            temporary_path.unlink()
+
+
+def _legacy_user_courses(user_id):
+    if not USER_DATA_DB.exists():
+        return None
+    try:
+        with closing(sqlite3.connect(USER_DATA_DB, timeout=10)) as connection:
+            row = connection.execute(
+                "SELECT courses_json FROM user_selections WHERE user_id = ?",
+                (user_id,),
+            ).fetchone()
+    except sqlite3.Error as error:
+        if "no such table" in str(error).lower():
+            return None
+        raise HTTPException(status_code=500, detail=f"無法讀取舊版選課資料：{error}") from error
+    if not row:
+        return None
+    try:
+        return _normalize_user_courses(json.loads(row[0]))
+    except (TypeError, ValueError) as error:
+        raise HTTPException(status_code=500, detail=f"舊版選課資料格式錯誤：{error}") from error
+
+
+@app.get("/api/user/courses")
+def get_user_courses(request: FastAPIRequest):
+    user_id = _authenticated_user_id(request)
+    path = _user_data_path(user_id)
+    if path.exists():
+        try:
+            user_data = json.loads(path.read_text(encoding="utf-8"))
+            if (
+                not isinstance(user_data, dict)
+                or user_data.get("user_id") != user_id
+            ):
+                raise ValueError("使用者選課 JSON 格式錯誤")
+            courses = _normalize_user_courses(user_data.get("courses"))
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError, TypeError, ValueError) as error:
+            raise HTTPException(status_code=500, detail=f"無法讀取使用者選課 JSON：{error}") from error
+        return {"courses": courses}
+
+    courses = _legacy_user_courses(user_id)
+    if courses is None:
+        return {"courses": []}
+    _save_user_courses_file(user_id, courses)
+    return {"courses": courses}
+
+
+@app.put("/api/user/courses")
+def save_user_courses(payload: SelectedCoursesPayload, request: FastAPIRequest):
+    user_id = _authenticated_user_id(request)
+    courses = [_selected_course_data(course) for course in payload.courses]
+    _save_user_courses_file(user_id, courses)
+    return {"courses": courses}
 
 
 def _read_course_json(filename):

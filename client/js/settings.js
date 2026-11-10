@@ -112,7 +112,10 @@ if (signInButton) {
       if (!response.ok) throw new Error(`登出失敗（HTTP ${response.status}）`);
       renderAccount(null);
       await window.refreshGoogleAuthState();
-      authStatus.textContent = "已登出 Google 帳號。";
+      sessionStorage.removeItem("selectedCourses.v2");
+      sessionStorage.setItem("clearSelectedCoursesOnReturn", "true");
+      await loadGoogleSignIn();
+      authStatus.textContent = "已登出 Google 帳號，請使用下方按鈕重新登入。";
     } catch (error) {
       authStatus.textContent = error.message;
     } finally {

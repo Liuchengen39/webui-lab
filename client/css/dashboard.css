@@ -162,7 +162,7 @@ a { color: inherit; text-decoration: none; }
 .round-icon { display: grid; width: 27px; height: 27px; flex: 0 0 auto; place-items: center; border-radius: 50%; color: #fff; background: var(--blue); font-size: 13px; font-weight: 800; }
 .credit-total { margin: 9px 0 6px; font-size: 14px; font-weight: 750; }
 .progress-track { height: 7px; overflow: hidden; border-radius: 999px; background: #e6edf6; }
-.progress-track > span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #3186ed, #50b7dd); transition: width .3s ease; }
+.progress-track > span { display: block; width: 0; height: 100%; border-radius: inherit; background-color: #3186ed; transition: width .3s ease; }
 .progress-caption { display: flex; justify-content: space-between; gap: 8px; margin: 11px 0 5px; color: #6d8199; font-size: 10px; }
 .progress-rows { display: grid; }
 .progress-row { display: flex; min-height: 27px; align-items: center; gap: 9px; border-bottom: 1px solid #edf2f8; color: #506984; font-size: 11px; }
@@ -198,11 +198,11 @@ a { color: inherit; text-decoration: none; }
 .category-line strong, .small-progress strong { font-weight: 650; }
 .category-line span, .small-progress span { color: #6585a7; }
 .category-line.tone-required strong { color: #2874df; }
-.category-line.tone-required .progress-track > span { background-color: #526a84; }
-.category-line.tone-elective strong { color: #7651a6; }
-.category-line.tone-elective .progress-track > span { background-color: #7651a6; }
-.category-line.tone-common strong { color: #168a83; }
-.category-line.tone-common .progress-track > span { background-color: #168a83; }
+.category-line.tone-required .progress-track > span { background: #2874df; }
+.category-line.tone-elective strong { color: #168a83; }
+.category-line.tone-elective .progress-track > span { background: #168a83; }
+.category-line.tone-common strong { color: #7651a6; }
+.category-line.tone-common .progress-track > span { background: #7651a6; }
 .domain-section { margin-top: 15px; padding: 10px; border: 1px solid #e0ebf8; border-radius: 9px; background: #f7faff; }
 .domain-title { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 8px; color: #496987; font-size: 11px; }
 .domain-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
@@ -212,6 +212,7 @@ a { color: inherit; text-decoration: none; }
 .domain-chip strong { color: #788da5; font-size: 9px; white-space: nowrap; }
 .domain-section .notice { margin-top: 8px; }
 .small-progress { margin-top: 13px; }
+.small-progress .progress-track > span { background: #6585a7; }
 
 .selected-heading, .courses-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
 .count-pill { flex: 0 0 auto; padding: 5px 9px; border-radius: 999px; color: #4774a6; background: var(--blue-soft); font-size: 10px; font-weight: 700; }

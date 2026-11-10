@@ -177,7 +177,19 @@ if (scheduleTable) {
   }
 
   renderSelectedTimetable();
+  window.addEventListener("google-auth-state-change", (event) => {
+    if (!event.detail) {
+      sessionStorage.removeItem(storageKey);
+    }
+    renderSelectedTimetable();
+  });
   window.addEventListener("pageshow", (event) => {
     if (event.persisted) renderSelectedTimetable();
+  });
+  window.addEventListener("focus", () => {
+    window.refreshGoogleAuthState().catch((error) => {
+      scheduleMessage.classList.add("load-error");
+      scheduleMessage.textContent = error.message;
+    });
   });
 }
