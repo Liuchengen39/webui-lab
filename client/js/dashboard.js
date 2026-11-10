@@ -420,7 +420,7 @@ if (dashboard) {
     const name = String(fields.get("name")).trim();
     const category = name.includes("資工") ? "專業必修" : String(fields.get("category"));
     const grade = Number(fields.get("grade"));
-    data.courses.push({
+    const course = {
       id: `manual-${Date.now()}-${data.courses.length}`,
       name,
       category,
@@ -430,7 +430,10 @@ if (dashboard) {
       teacher: String(fields.get("teacher")).trim(),
       location: String(fields.get("location")).trim(),
       grade,
-    });
+    };
+    data.courses.push(course);
+    selectedIds.add(course.id);
+    persistSelectedCourses();
     activeCategory = groupForCategory(category);
     renderFilterOptions();
     elements.courseSearch.value = "";
@@ -438,6 +441,8 @@ if (dashboard) {
     elements.courseDialog.close();
     elements.courseForm.reset();
     renderFilters();
+    renderProgress();
+    renderSelected();
     renderCourses();
   });
 
