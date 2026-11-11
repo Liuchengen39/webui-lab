@@ -21,7 +21,7 @@ if (signInButton) {
   async function handleGoogleCredential(response) {
     authStatus.textContent = "正在驗證 Google 帳號…";
     try {
-      const result = await fetch("/api/auth/google", {
+      const result = await fetch("api/auth/google", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
@@ -49,12 +49,11 @@ if (signInButton) {
       ux_mode: "popup",
     });
     window.google.accounts.id.renderButton(signInButton, {
+      type: "icon",
       theme: "outline",
       size: "large",
-      shape: "rectangular",
-      text: "signin_with",
+      shape: "circle",
       locale: "zh-TW",
-      width: 280,
     });
     googleInitialized = true;
     authStatus.textContent = "請使用下方按鈕登入 Google 帳號。";
@@ -62,7 +61,7 @@ if (signInButton) {
 
   async function loadGoogleSignIn() {
     authStatus.textContent = "正在載入 Google 登入…";
-    const configResponse = await fetch("/api/auth/config", { credentials: "same-origin" });
+    const configResponse = await fetch("api/auth/config", { credentials: "same-origin" });
     if (!configResponse.ok) throw new Error(`無法載入 Google 登入設定（HTTP ${configResponse.status}）`);
     const { client_id: clientId } = await configResponse.json();
     if (!clientId) throw new Error("伺服器尚未設定 Google Client ID。");
@@ -87,7 +86,7 @@ if (signInButton) {
   signOutButton.addEventListener("click", async () => {
     signOutButton.disabled = true;
     try {
-      const response = await fetch("/api/auth/logout", {
+      const response = await fetch("api/auth/logout", {
         method: "POST",
         credentials: "same-origin",
       });

@@ -1,5 +1,5 @@
 async function refreshGoogleAuthState() {
-  const response = await fetch("/api/auth/me", { credentials: "same-origin" });
+  const response = await fetch("api/auth/me", { credentials: "same-origin" });
   if (!response.ok) throw new Error(`無法取得登入狀態（HTTP ${response.status}）`);
   const { user } = await response.json();
   const profile = document.querySelector(".user-profile");

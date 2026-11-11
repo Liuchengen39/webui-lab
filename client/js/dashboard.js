@@ -55,7 +55,7 @@ if (dashboard) {
   const weekdays = ["星期一", "星期二", "星期三", "星期四", "星期五"];
   const selectedCourseStorageKey = "selectedCourses.v2";
   const clearSelectionFlag = "clearSelectedCoursesOnReturn";
-  const userCoursesApi = "/api/user/courses";
+  const userCoursesApi = "api/user/courses";
   const categoryTone = {
     "系必修": "required",
     "專業必修": "required",
@@ -670,10 +670,10 @@ if (dashboard) {
   });
 
   const courseEndpoints = [
-    ["/api/courses/cs", "資工系必選修"],
-    ["/api/courses/physical", "體育"],
-    ["/api/courses/common", "校共同必修"],
-    ["/api/courses/general", "通識"],
+    ["api/courses/cs", "資工系必選修"],
+    ["api/courses/physical", "體育"],
+    ["api/courses/common", "校共同必修"],
+    ["api/courses/general", "通識"],
   ];
   Promise.all([
     fetch("data/progress.json?v=3", { cache: "no-store" }),

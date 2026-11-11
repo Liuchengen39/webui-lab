@@ -292,8 +292,8 @@ def _course_sources():
     if not general_years:
         raise HTTPException(status_code=500, detail="通識分類資料缺少學年度")
     semester = max(general_years)
-    domains_by_code = {
-        record["course_id"]: record["domain"]
+    general_metadata_by_code = {
+        record["course_id"]: record
         for record in general_domains
         if record.get("year") == semester and record.get("course_id") and record.get("domain")
     }
@@ -304,7 +304,7 @@ def _course_sources():
         "cs": cs_courses,
         "general": general_courses,
         "physical": physical,
-        "domains": domains_by_code,
+        "general_metadata": general_metadata_by_code,
     }
 
 
@@ -363,9 +363,12 @@ def _load_local_courses():
             else:
                 category = "專業必修" if is_cs_required else "通識"
                 group = "通識"
-                domain_name = sources["domains"].get(course_code, "")
+                general_metadata = sources["general_metadata"].get(course_code, {})
+                domain_name = general_metadata.get("domain", "")
                 domain = _GENERAL_DOMAIN_AREAS.get(domain_name[:1])
-                credits = len(re.findall(r"[A-Za-z]", time_slot))
+                credits = float(general_metadata["credits"]) if general_metadata.get("credits") else len(
+                    re.findall(r"[A-Za-z]", time_slot)
+                )
 
             courses.append({
                 "id": f"{course_code}-{class_code}",
