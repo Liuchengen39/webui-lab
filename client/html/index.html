@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#214d7f">
     <title>綜合總覽｜暨南大學排課系統</title>
-    <link rel="stylesheet" href="css/dashboard.css?v=4">
+    <link rel="stylesheet" href="css/dashboard.css?v=5">
+    <link rel="stylesheet" href="css/transitions.css?v=1">
+    <script src="js/transitions.js?v=2" defer></script>
     <script src="js/auth.js" defer></script>
-    <script src="js/dashboard.js?v=14" defer></script>
+    <script src="js/dashboard.js?v=16" defer></script>
   </head>
   <body>
     <header class="topbar">
@@ -35,13 +37,13 @@
       <aside class="sidebar" id="sidebar" aria-label="主要導覽">
         <nav class="side-nav">
           <a class="nav-link is-active" href="index.html" aria-current="page">
-            <span aria-hidden="true">▦</span>綜合總覽
+            <span class="nav-dot" aria-hidden="true"></span>綜合總覽
           </a>
           <a class="nav-link" href="timetable.html">
-            <span aria-hidden="true">▤</span>課表
+            <span class="nav-dot" aria-hidden="true"></span>課表
           </a>
           <a class="nav-link" href="settings.html">
-            <span aria-hidden="true">⚙</span>系統設定
+            <span class="nav-dot" aria-hidden="true"></span>系統設定
           </a>
         </nav>
         <p class="sidebar-note">暨南大學<br>學生排課與學分管理</p>
@@ -60,13 +62,13 @@
         <div class="dashboard-grid" id="dashboard" aria-busy="true">
           <section class="card progress-card" aria-labelledby="progressTitle">
             <div class="card-heading">
-              <span class="heading-icon" aria-hidden="true">♟</span>
+              <span class="heading-icon" aria-hidden="true"></span>
               <h2 id="progressTitle">學分完成情況</h2>
             </div>
             <div class="progress-layout">
               <div class="progress-detail">
                 <div class="subcard-heading">
-                  <span class="round-icon" aria-hidden="true">〈/〉</span>
+                  <span class="round-icon" aria-hidden="true"></span>
                   <h3>學分進度</h3>
                 </div>
                 <p class="credit-total" id="creditTotal">載入中…</p>
@@ -82,7 +84,7 @@
               </div>
               <div class="credit-badge">
                 <div class="subcard-heading">
-                  <span class="round-icon" aria-hidden="true">◆</span>
+                  <span class="round-icon" aria-hidden="true"></span>
                   <h3>總計</h3>
                 </div>
                 <p>已修學分</p>
@@ -123,10 +125,10 @@
 
           </aside>
 
-          <section class="card selected-card" aria-labelledby="selectedTitle">
+          <section class="card selected-card t-resize" aria-labelledby="selectedTitle">
             <div class="selected-heading">
               <div class="card-heading">
-                <span class="heading-icon" aria-hidden="true">▣</span>
+                <span class="heading-icon" aria-hidden="true"></span>
                 <h2 id="selectedTitle">已選課程</h2>
               </div>
               <span class="count-pill" id="selectedSummary">0 門・0 學分</span>
@@ -138,7 +140,7 @@
           <section class="card courses-card" aria-labelledby="coursesTitle">
             <div class="courses-heading">
               <div class="card-heading">
-                <span class="heading-icon book-icon" aria-hidden="true">▰</span>
+                <span class="heading-icon book-icon" aria-hidden="true"></span>
                 <h2 id="coursesTitle">本學期課程</h2>
               </div>
               <div class="course-toolbar">
@@ -187,7 +189,7 @@
       </main>
     </div>
 
-    <dialog class="course-dialog" id="courseDialog" aria-labelledby="courseDialogTitle">
+    <dialog class="course-dialog t-modal" id="courseDialog" aria-labelledby="courseDialogTitle">
       <form id="courseForm">
         <div class="dialog-heading">
           <h2 id="courseDialogTitle">手動新增課程</h2>
@@ -231,5 +233,6 @@
         </div>
       </form>
     </dialog>
+    <div class="app-toast" id="appToast" role="status" aria-live="polite" aria-atomic="true"></div>
   </body>
 </html>

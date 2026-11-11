@@ -1,22 +1,3 @@
-const menuButton = document.querySelector(".menu-toggle");
-
-if (menuButton) {
-  const closeMenu = () => {
-    document.body.classList.remove("sidebar-open");
-    menuButton.setAttribute("aria-expanded", "false");
-  };
-
-  menuButton.addEventListener("click", () => {
-    const isOpen = document.body.classList.toggle("sidebar-open");
-    menuButton.setAttribute("aria-expanded", String(isOpen));
-  });
-  document.querySelector("[data-close-menu]")?.addEventListener("click", closeMenu);
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeMenu();
-  });
-  document.querySelectorAll(".side-nav a").forEach((link) => link.addEventListener("click", closeMenu));
-}
-
 const dashboard = document.querySelector("#dashboard");
 
 if (dashboard) {
@@ -38,6 +19,7 @@ if (dashboard) {
     freeCreditLabel: document.querySelector("#freeCreditLabel"),
     freeCreditBar: document.querySelector("#freeCreditBar"),
     selectedSummary: document.querySelector("#selectedSummary"),
+    selectedCard: document.querySelector(".selected-card"),
     selectedCourses: document.querySelector("#selectedCourses"),
     emptySelected: document.querySelector("#emptySelected"),
     courseCount: document.querySelector("#courseCount"),
@@ -110,6 +92,9 @@ if (dashboard) {
   let activeCategory = categoryGroups[0].label;
   let currentPage = 1;
   const pageSize = 8;
+  let selectedCardResizeFrame;
+  let selectedCardResizeTimer;
+  let finishSelectedCardResize = () => {};
 
   const make = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -120,6 +105,43 @@ if (dashboard) {
   const percentage = (value, target) => target > 0 ? Math.min(100, Math.round((value / target) * 100)) : 0;
   const updateProgress = (bar, value, target) => {
     bar.style.width = `${percentage(value, target)}%`;
+  };
+  const resizeSelectedCard = (update) => {
+    finishSelectedCardResize();
+    const card = elements.selectedCard;
+    const originalHeight = card.style.height;
+    const originalOverflow = card.style.overflow;
+    const startHeight = card.getBoundingClientRect().height;
+    card.style.height = `${startHeight}px`;
+    card.style.overflow = "hidden";
+    update();
+
+    const styles = getComputedStyle(card);
+    const borderHeight = Number.parseFloat(styles.borderTopWidth) + Number.parseFloat(styles.borderBottomWidth);
+    const endHeight = card.scrollHeight + borderHeight;
+    const restore = () => {
+      cancelAnimationFrame(selectedCardResizeFrame);
+      clearTimeout(selectedCardResizeTimer);
+      card.removeEventListener("transitionend", handleTransitionEnd);
+      card.style.height = originalHeight;
+      card.style.overflow = originalOverflow;
+      if (finishSelectedCardResize === restore) finishSelectedCardResize = () => {};
+    };
+    const handleTransitionEnd = (event) => {
+      if (event.target === card && event.propertyName === "height") restore();
+    };
+    finishSelectedCardResize = restore;
+
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches || Math.abs(endHeight - startHeight) < 1) {
+      restore();
+      return;
+    }
+
+    card.addEventListener("transitionend", handleTransitionEnd);
+    selectedCardResizeFrame = requestAnimationFrame(() => {
+      card.style.height = `${endHeight}px`;
+    });
+    selectedCardResizeTimer = window.setTimeout(restore, 350);
   };
 
   const selectedCourses = () => data.courses.filter((course) => selectedIds.has(course.id));
@@ -146,7 +168,7 @@ if (dashboard) {
   };
   const courseTimeSlots = (course) => {
     const slots = new Set();
-    for (const [, day, periodCodes] of String(course.time).matchAll(/([1-5])([a-j]+)/gi)) {
+    for (const [, day, periodCodes] of String(course.time).matchAll(/([1-5])([a-k]+)/gi)) {
       [...new Set([...periodCodes.toLowerCase()].map((code) => code.charCodeAt(0)))]
         .forEach((period) => slots.add(`${day}-${period}`));
     }
@@ -160,6 +182,12 @@ if (dashboard) {
     elements.error.hidden = false;
     elements.error.textContent = message;
   };
+  function confirmAddingConflictingCourse(course, conflictingCourses) {
+    return window.confirmCourseConflict(
+      course.name,
+      conflictingCourses.map((conflict) => conflict.name),
+    );
+  }
   const saveUserCourses = (courses) => {
     const revision = authRevision;
     serverSaveQueue = serverSaveQueue
@@ -342,18 +370,20 @@ if (dashboard) {
   function renderSelected() {
     const selected = data.courses.filter((course) => selectedIds.has(course.id));
     const total = selected.reduce((sum, course) => sum + course.credits, 0);
-    elements.selectedSummary.textContent = `${selected.length} 門・${total} 學分`;
-    elements.selectedCourses.replaceChildren();
-    elements.emptySelected.hidden = selected.length > 0;
-    selected.forEach((course) => {
-      const item = make("li", "selected-item");
-      item.append(make("span", "", course.name));
-      const remove = make("button", "remove-course", "移除");
-      remove.type = "button";
-      remove.setAttribute("aria-label", `移除${course.name}`);
-      remove.dataset.removeCourse = course.id;
-      item.append(remove);
-      elements.selectedCourses.append(item);
+    resizeSelectedCard(() => {
+      elements.selectedSummary.textContent = `${selected.length} 門・${total} 學分`;
+      elements.selectedCourses.replaceChildren();
+      elements.emptySelected.hidden = selected.length > 0;
+      selected.forEach((course) => {
+        const item = make("li", "selected-item");
+        item.append(make("span", "", course.name));
+        const remove = make("button", "remove-course", "移除");
+        remove.type = "button";
+        remove.setAttribute("aria-label", `移除${course.name}`);
+        remove.dataset.removeCourse = course.id;
+        item.append(remove);
+        elements.selectedCourses.append(item);
+      });
     });
   }
 
@@ -516,14 +546,29 @@ if (dashboard) {
     });
     renderCourses();
   });
-  elements.courseRows.addEventListener("click", (event) => {
+  elements.courseRows.addEventListener("click", async (event) => {
     const button = event.target.closest("[data-add-course]");
     if (!button) return;
-    if (selectedIds.has(button.dataset.addCourse)) {
+    const wasSelected = selectedIds.has(button.dataset.addCourse);
+    const changedCourse = data.courses.find((course) => course.id === button.dataset.addCourse);
+    if (!changedCourse) return;
+    if (wasSelected) {
       selectedIds.delete(button.dataset.addCourse);
     } else {
+      const conflictingCourses = selectedCourses().filter((selected) => coursesConflict(changedCourse, selected));
+      if (conflictingCourses.length > 0) {
+        button.disabled = true;
+        let confirmed;
+        try {
+          confirmed = await confirmAddingConflictingCourse(changedCourse, conflictingCourses);
+        } finally {
+          button.disabled = false;
+        }
+        if (!confirmed) return;
+      }
       selectedIds.add(button.dataset.addCourse);
     }
+    window.showAppToast(`${wasSelected ? "已退選" : "已加入"}「${changedCourse.name}」`);
     persistSelectedCourses();
     renderProgress();
     renderSelected();
@@ -532,7 +577,9 @@ if (dashboard) {
   elements.selectedCourses.addEventListener("click", (event) => {
     const button = event.target.closest("[data-remove-course]");
     if (!button) return;
+    const removedCourse = data.courses.find((course) => course.id === button.dataset.removeCourse);
     selectedIds.delete(button.dataset.removeCourse);
+    window.showAppToast(`已移除「${removedCourse.name}」`);
     persistSelectedCourses();
     renderProgress();
     renderSelected();
@@ -554,9 +601,41 @@ if (dashboard) {
     currentPage += 1;
     renderCourses();
   });
-  elements.openCourseForm.addEventListener("click", () => elements.courseDialog.showModal());
+  let dialogCloseTimer;
+  let dialogOpenFrame;
+  const dialogCloseDuration = () => (
+    matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? 0
+      : Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--modal-close-dur")) || 150
+  );
+  const closeCourseDialog = (resetForm = false) => {
+    const dialog = elements.courseDialog;
+    if (!dialog.open || dialog.classList.contains("is-closing")) return;
+    cancelAnimationFrame(dialogOpenFrame);
+    dialog.classList.remove("is-open");
+    dialog.classList.add("is-closing");
+    dialogCloseTimer = window.setTimeout(() => {
+      dialog.classList.remove("is-closing");
+      dialog.close();
+      if (resetForm) elements.courseForm.reset();
+    }, dialogCloseDuration());
+  };
+  elements.openCourseForm.addEventListener("click", () => {
+    const dialog = elements.courseDialog;
+    window.clearTimeout(dialogCloseTimer);
+    if (!dialog.open) dialog.showModal();
+    dialog.classList.remove("is-closing", "is-open");
+    dialogOpenFrame = requestAnimationFrame(() => dialog.classList.add("is-open"));
+  });
+  elements.courseDialog.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    closeCourseDialog();
+  });
+  elements.courseDialog.addEventListener("click", (event) => {
+    if (event.target === elements.courseDialog) closeCourseDialog();
+  });
   [elements.closeCourseForm, elements.cancelCourseForm].forEach((button) => {
-    button.addEventListener("click", () => elements.courseDialog.close());
+    button.addEventListener("click", () => closeCourseDialog());
   });
   elements.courseForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -582,24 +661,34 @@ if (dashboard) {
     renderFilterOptions();
     elements.courseSearch.value = "";
     currentPage = 1;
-    elements.courseDialog.close();
-    elements.courseForm.reset();
+    closeCourseDialog(true);
+    window.showAppToast(`已新增並加入「${name}」`);
     renderFilters();
     renderProgress();
     renderSelected();
     renderCourses();
   });
 
+  const courseEndpoints = [
+    ["/api/courses/cs", "資工系必選修"],
+    ["/api/courses/physical", "體育"],
+    ["/api/courses/common", "校共同必修"],
+    ["/api/courses/general", "通識"],
+  ];
   Promise.all([
-    fetch("data/progress.json?v=2", { cache: "no-store" }),
-    fetch("/api/courses"),
+    fetch("data/progress.json?v=3", { cache: "no-store" }),
+    ...courseEndpoints.map(([endpoint]) => fetch(endpoint)),
   ])
-    .then(async ([progressResponse, coursesResponse]) => {
+    .then(async ([progressResponse, ...courseResponses]) => {
       if (!progressResponse.ok) throw new Error(`無法載入學分進度設定（HTTP ${progressResponse.status}）`);
-      if (!coursesResponse.ok) throw new Error(`無法載入課程資料（HTTP ${coursesResponse.status}）`);
+      const courseData = await Promise.all(courseResponses.map(async (response, index) => {
+        if (!response.ok) {
+          throw new Error(`無法載入${courseEndpoints[index][1]}課程資料（HTTP ${response.status}）`);
+        }
+        return response.json();
+      }));
       data = await progressResponse.json();
-      const courseData = await coursesResponse.json();
-      data.courses = courseData.courses;
+      data.courses = courseData.flatMap((result) => result.courses);
       selectedIds.clear();
       sessionStorage.removeItem(selectedCourseStorageKey);
       sessionStorage.removeItem(clearSelectionFlag);

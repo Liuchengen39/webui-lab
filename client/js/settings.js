@@ -1,22 +1,3 @@
-const menuButton = document.querySelector(".menu-toggle");
-
-if (menuButton) {
-  const closeMenu = () => {
-    document.body.classList.remove("sidebar-open");
-    menuButton.setAttribute("aria-expanded", "false");
-  };
-
-  menuButton.addEventListener("click", () => {
-    const isOpen = document.body.classList.toggle("sidebar-open");
-    menuButton.setAttribute("aria-expanded", String(isOpen));
-  });
-  document.querySelector("[data-close-menu]")?.addEventListener("click", closeMenu);
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeMenu();
-  });
-  document.querySelectorAll(".side-nav a").forEach((link) => link.addEventListener("click", closeMenu));
-}
-
 const signInButton = document.querySelector("#googleSignIn");
 
 if (signInButton) {
@@ -50,6 +31,7 @@ if (signInButton) {
       if (!result.ok) throw new Error(payload.detail || `登入失敗（HTTP ${result.status}）`);
       renderAccount(payload.user);
       await window.refreshGoogleAuthState();
+      window.showAppToast("Google 帳號登入成功");
     } catch (error) {
       authStatus.textContent = error.message;
     }
@@ -116,6 +98,7 @@ if (signInButton) {
       sessionStorage.setItem("clearSelectedCoursesOnReturn", "true");
       await loadGoogleSignIn();
       authStatus.textContent = "已登出 Google 帳號，請使用下方按鈕重新登入。";
+      window.showAppToast("已登出 Google 帳號");
     } catch (error) {
       authStatus.textContent = error.message;
     } finally {

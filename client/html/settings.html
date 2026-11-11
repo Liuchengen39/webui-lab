@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#214d7f">
     <title>系統設定｜暨南大學排課系統</title>
-    <link rel="stylesheet" href="css/settings.css?v=2">
+    <link rel="stylesheet" href="css/settings.css?v=3">
+    <link rel="stylesheet" href="css/transitions.css?v=1">
+    <script src="js/transitions.js?v=1" defer></script>
     <script src="js/auth.js" defer></script>
-    <script src="js/settings.js?v=3" defer></script>
+    <script src="js/settings.js?v=4" defer></script>
   </head>
   <body>
     <header class="topbar">
@@ -35,13 +37,13 @@
       <aside class="sidebar" id="sidebar" aria-label="主要導覽">
         <nav class="side-nav">
           <a class="nav-link" href="index.html">
-            <span aria-hidden="true">▦</span>綜合總覽
+            <span class="nav-dot" aria-hidden="true"></span>綜合總覽
           </a>
           <a class="nav-link" href="timetable.html">
-            <span aria-hidden="true">▤</span>課表
+            <span class="nav-dot" aria-hidden="true"></span>課表
           </a>
           <a class="nav-link is-active" href="settings.html" aria-current="page">
-            <span aria-hidden="true">⚙</span>系統設定
+            <span class="nav-dot" aria-hidden="true"></span>系統設定
           </a>
         </nav>
         <p class="sidebar-note">暨南大學<br>學生排課與學分管理</p>
@@ -58,7 +60,7 @@
 
         <section class="card content-card account-card" aria-labelledby="accountTitle">
           <div class="card-heading">
-            <span class="heading-icon" aria-hidden="true">◉</span>
+            <span class="heading-icon" aria-hidden="true"></span>
             <h2 id="accountTitle">Google 帳號登入</h2>
           </div>
           <p>登入後可在此瀏覽器工作階段辨識你的 Google 帳號。</p>
@@ -73,7 +75,7 @@
 
         <section class="card content-card">
           <div class="card-heading">
-            <span class="heading-icon" aria-hidden="true">⚙</span>
+            <span class="heading-icon" aria-hidden="true"></span>
             <h2>顯示偏好</h2>
           </div>
           <p>設定目前僅供介面示範；切換項目可在此頁面操作。</p>
@@ -105,5 +107,6 @@
         <footer class="page-footer">暨南大學排課系統 <span>・</span> 學生學習管理</footer>
       </main>
     </div>
+    <div class="app-toast" id="appToast" role="status" aria-live="polite" aria-atomic="true"></div>
   </body>
 </html>

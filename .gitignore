@@ -19,3 +19,4 @@ Thumbs.db
 npm-debug.log*
 user_data/
 user_data.sqlite3*
+logs/

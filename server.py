@@ -1,4 +1,3 @@
-import io
 import hashlib
 import json
 import os
@@ -8,11 +7,10 @@ import sqlite3
 import tempfile
 import time
 from contextlib import closing
+from threading import Lock
 from typing import List, Optional
-from urllib.request import Request, urlopen
 from pathlib import Path
 
-import pandas as pd
 from fastapi import FastAPI, HTTPException, Request as FastAPIRequest, Response
 from google.auth.exceptions import GoogleAuthError, TransportError
 from google.auth.transport.requests import Request as GoogleRequest
@@ -30,10 +28,10 @@ GOOGLE_CLIENT_ID = "609296002726-6qpc89smhfisnc7i2r81lr9r4jtc80fp.apps.googleuse
 AUTH_SESSION_COOKIE = "webui_lab_session"
 AUTH_SESSION_SECONDS = 12 * 60 * 60
 _auth_sessions = {}
-COURSE_CSV_URL = "https://ccweb6.ncnu.edu.tw/student/current_semester_opened_listlist.php?export=csv"
 COURSE_CACHE_SECONDS = 900
 _course_cache = None
 _course_cache_expires_at = 0.0
+_course_cache_lock = Lock()
 _CS_ELECTIVE_CODES = frozenset(
     """
     210150 210012 210015 210021 210023 210123 210124 210125
@@ -55,20 +53,6 @@ _GENERAL_DOMAIN_AREAS = {
     "N": "特色",
     "O": "特色",
 }
-_COURSE_COLUMNS = {
-    "學期",
-    "課號",
-    "班別",
-    "中文課名",
-    "開課系所",
-    "系統可選年級",
-    "開課教師",
-    "地點",
-    "時間",
-    "學分數",
-}
-
-
 class GoogleCredential(BaseModel):
     credential: str = Field(min_length=1, max_length=10000)
 
@@ -297,87 +281,93 @@ def _read_course_json(filename):
     return records
 
 
-def _course_sources(semester):
+def _course_sources():
     common = _read_course_json("common.json")
     cs_courses = _read_course_json("cs_courses.json")
     general_courses = _read_course_json("general_courses.json")
     general_domains = _read_course_json("general_domains.json")
     physical = _read_course_json("physical.json")
 
-    general_year = semester[:3]
+    general_years = [record.get("year") for record in general_domains if record.get("year")]
+    if not general_years:
+        raise HTTPException(status_code=500, detail="通識分類資料缺少學年度")
+    semester = max(general_years)
     domains_by_code = {
         record["course_id"]: record["domain"]
         for record in general_domains
-        if record.get("year") == general_year and record.get("course_id") and record.get("domain")
+        if record.get("year") == semester and record.get("course_id") and record.get("domain")
     }
 
     return {
-        "common": {record["課號"] for record in common if record.get("課號")},
-        "cs": {record["course_id"] for record in cs_courses if record.get("course_id")},
-        "general": {record["course_id"] for record in general_courses if record.get("course_id")},
-        "physical": {record["課號"] for record in physical if record.get("課號")},
+        "semester": semester,
+        "common": common,
+        "cs": cs_courses,
+        "general": general_courses,
+        "physical": physical,
         "domains": domains_by_code,
     }
 
 
-def _load_courses():
+def _load_local_courses():
     global _course_cache, _course_cache_expires_at
-    if _course_cache is not None and time.monotonic() < _course_cache_expires_at:
-        return _course_cache
-
-    request = Request(COURSE_CSV_URL, headers={"User-Agent": "NCNU-course-dashboard/1.0"})
-    try:
-        with urlopen(request, timeout=30) as response:
-            csv_data = response.read()
-        frame = pd.read_csv(io.BytesIO(csv_data), dtype=str, encoding="utf-8-sig", keep_default_na=False)
-    except (OSError, UnicodeDecodeError, pd.errors.ParserError) as error:
-        raise HTTPException(status_code=502, detail=f"無法取得或解析學校課程 CSV：{error}") from error
-
-    missing_columns = _COURSE_COLUMNS.difference(frame.columns)
-    if missing_columns:
-        missing = "、".join(sorted(missing_columns))
-        raise HTTPException(status_code=502, detail=f"課程 CSV 缺少必要欄位：{missing}")
-
-    if frame.empty:
-        raise HTTPException(status_code=502, detail="課程 CSV 沒有可用的課程資料")
-    semester = frame.iloc[0]["學期"].strip()
-    sources = _course_sources(semester)
-    source_codes = sources["common"] | sources["cs"] | sources["general"] | sources["physical"]
+    sources = _course_sources()
     courses = []
-    for row in frame.to_dict(orient="records"):
-        course_code = row["課號"].strip()
-        if course_code not in source_codes:
-            continue
-        class_code = row["班別"].strip()
-        name = row["中文課名"].strip()
-        if not course_code or not name:
-            raise HTTPException(status_code=502, detail="課程 CSV 包含缺少課號或課名的資料列")
+    sources_by_group = (
+        ("cs", sources["cs"]),
+        ("common", sources["common"]),
+        ("physical", sources["physical"]),
+        ("general", sources["general"]),
+    )
+    generated_class_codes = {}
 
-        credits_value = pd.to_numeric(row["學分數"], errors="coerce")
-        if pd.isna(credits_value):
-            raise HTTPException(status_code=502, detail=f"課程「{name}」的學分數格式無效")
-        credits_number = float(credits_value)
-        credits = int(credits_number) if credits_number.is_integer() else credits_number
-        grade_eligibility = row["系統可選年級"].strip()
-        grade_match = re.search(r"\d+", grade_eligibility)
-        domain = None
-        is_cs_required = "資工" in name
-        if course_code in sources["cs"]:
-            category = "專業選修" if course_code in _CS_ELECTIVE_CODES and not is_cs_required else "專業必修"
-            group = "資工系必選修"
-        elif course_code in sources["common"]:
-            category = "專業必修" if is_cs_required else "校共同必修"
-            group = "校共同必修"
-        elif course_code in sources["physical"]:
-            category = "特色運動" if name.startswith("體育") else "體育"
-            group = "體育"
-        else:
-            category = "專業必修" if is_cs_required else "通識"
-            group = "通識"
-            domain_name = sources["domains"].get(course_code, "")
-            domain = _GENERAL_DOMAIN_AREAS.get(domain_name[:1])
-        courses.append(
-            {
+    for source, records in sources_by_group:
+        for row in records:
+            if source in ("common", "physical"):
+                course_code = str(row.get("課號", "")).strip()
+                name = str(row.get("中文課名", "")).strip()
+                class_code = str(row.get("班別", "")).strip()
+                grade_eligibility = str(row.get("系統可選年級", "")).strip()
+                time_slot = str(row.get("時間", "")).strip()
+                teacher = str(row.get("開課教師", "")).strip()
+                location = str(row.get("地點", "")).strip()
+            else:
+                course_code = str(row.get("course_id", "")).strip()
+                name = str(row.get("course_name", "")).strip()
+                grade_eligibility = str(row.get("grade", "")).strip()
+                time_slot = str(row.get("time_slot", "")).strip()
+                teacher = str(row.get("teacher", "")).strip()
+                location = str(row.get("location", "")).strip()
+                if course_code:
+                    class_index = generated_class_codes.get(course_code, 0)
+                    class_code = str(class_index)
+                    generated_class_codes[course_code] = class_index + 1
+
+            if not course_code or not name:
+                raise HTTPException(status_code=500, detail=f"本地課程資料 {source} 包含缺少課號或課名的資料列")
+
+            grade_match = re.search(r"\d+", grade_eligibility)
+            is_cs_required = "資工" in name
+            domain = None
+            if source == "cs":
+                category = "專業選修" if course_code in _CS_ELECTIVE_CODES and not is_cs_required else "專業必修"
+                group = "資工系必選修"
+                credits = len(re.findall(r"[A-Za-z]", time_slot))
+            elif source == "common":
+                category = "校共同必修"
+                group = "校共同必修"
+                credits = len(re.findall(r"[A-Za-z]", time_slot))
+            elif source == "physical":
+                category = "特色運動" if name.startswith("體育") else "體育"
+                group = "體育"
+                credits = 0 if category == "特色運動" else 1
+            else:
+                category = "專業必修" if is_cs_required else "通識"
+                group = "通識"
+                domain_name = sources["domains"].get(course_code, "")
+                domain = _GENERAL_DOMAIN_AREAS.get(domain_name[:1])
+                credits = len(re.findall(r"[A-Za-z]", time_slot))
+
+            courses.append({
                 "id": f"{course_code}-{class_code}",
                 "courseCode": course_code,
                 "name": name,
@@ -385,25 +375,57 @@ def _load_courses():
                 "group": group,
                 "domain": domain,
                 "credits": credits,
-                "time": row["時間"].strip(),
-                "teacher": row["開課教師"].strip(),
-                "location": row["地點"].strip(),
+                "time": time_slot,
+                "teacher": teacher,
+                "location": location,
                 "grade": int(grade_match.group()) if grade_match else 0,
                 "gradeEligibility": grade_eligibility,
-            }
-        )
+            })
 
     if not courses:
-        raise HTTPException(status_code=502, detail="學校 CSV 中找不到分類資料所列的開課課程")
+        raise HTTPException(status_code=500, detail="本地課程資料沒有可用的課程")
 
-    _course_cache = {"semester": semester, "courses": courses}
+    _course_cache = {"semester": sources["semester"], "courses": courses}
     _course_cache_expires_at = time.monotonic() + COURSE_CACHE_SECONDS
     return _course_cache
 
 
-@app.get("/api/courses")
-def get_courses():
-    return _load_courses()
+def _load_courses():
+    if _course_cache is not None and time.monotonic() < _course_cache_expires_at:
+        return _course_cache
+
+    with _course_cache_lock:
+        if _course_cache is not None and time.monotonic() < _course_cache_expires_at:
+            return _course_cache
+        return _load_local_courses()
+
+
+def _courses_for_group(group):
+    course_data = _load_courses()
+    return {
+        "semester": course_data["semester"],
+        "courses": [course for course in course_data["courses"] if course["group"] == group],
+    }
+
+
+@app.get("/api/courses/cs")
+def get_cs_courses():
+    return _courses_for_group("資工系必選修")
+
+
+@app.get("/api/courses/physical")
+def get_physical_courses():
+    return _courses_for_group("體育")
+
+
+@app.get("/api/courses/common")
+def get_common_courses():
+    return _courses_for_group("校共同必修")
+
+
+@app.get("/api/courses/general")
+def get_general_courses():
+    return _courses_for_group("通識")
 
 
 app.mount("/css", StaticFiles(directory=CLIENT / "css"), name="css")
