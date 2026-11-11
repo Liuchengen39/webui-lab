@@ -39,12 +39,14 @@ if (dashboard) {
     closeCourseForm: document.querySelector("#closeCourseForm"),
     cancelCourseForm: document.querySelector("#cancelCourseForm"),
   };
+
   const categoryGroups = [
     { label: "資工系必選修", categories: ["專業必修", "專業選修"] },
     { label: "體育", categories: ["體育", "特色運動"] },
     { label: "校共同必修", categories: ["校共同必修"] },
     { label: "通識", categories: ["通識"] },
   ];
+
   const courseGroup = (course) => course.group
     || categoryGroups.find((group) => group.categories.includes(course.category))?.label
     || "其他系所";

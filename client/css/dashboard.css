@@ -688,3 +688,98 @@ body { font-size: 15px; }
   .course-pagination > div { align-self: flex-end; }
   .dialog-fields { align-items: stretch; flex-direction: column; }
 }
+
+.selected-card {
+  padding: 18px;
+  border-color: #dce8f5;
+  box-shadow: 0 5px 18px rgba(32, 70, 112, 0.07);
+}
+.selected-heading {
+  padding-bottom: 13px;
+  border-bottom: 1px solid #e8eef6;
+}
+.selected-card .card-heading { gap: 10px; }
+.selected-card .card-heading h2 { color: #244b75; font-size: 19px; }
+.selected-card .heading-icon {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 8px;
+  color: #fff;
+  background: linear-gradient(145deg, #4388e6, #2768bd);
+  box-shadow: 0 3px 8px rgba(39, 104, 189, 0.2);
+}
+.selected-card .heading-icon::before { display: none; }
+.selected-card .heading-icon::after {
+  content: "✓";
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+}
+.selected-card .count-pill {
+  padding: 7px 11px;
+  border: 1px solid #dfebfb;
+  color: #3267a3;
+  background: #f0f6ff;
+  font-size: 13px;
+  letter-spacing: .01em;
+}
+.selected-list {
+  gap: 0;
+  margin-top: 5px;
+}
+.selected-item {
+  min-height: 44px;
+  padding: 7px 2px;
+  border-bottom-color: #e9eff6;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: background-color .15s, padding .15s;
+}
+.selected-item:hover {
+  padding-right: 7px;
+  padding-left: 9px;
+  border-radius: 7px;
+  background: #f6f9fd;
+}
+.selected-item > span {
+  overflow: visible;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.selected-card .remove-course {
+  min-width: 48px;
+  min-height: 34px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: #7d91a8;
+  font-size: 13px;
+  transition: color .15s, background-color .15s, border-color .15s;
+}
+.selected-card .remove-course:hover {
+  border-color: #f3d9d9;
+  color: #c64b51;
+  background: #fff3f3;
+}
+.selected-card .empty-state {
+  margin: 14px 0 0;
+  padding: 16px 10px;
+  border: 1px dashed #dce7f3;
+  border-radius: 9px;
+  color: #788da5;
+  background: #f8fafd;
+  font-size: 13px;
+}
+
+@media (max-width: 520px) {
+  .selected-card { padding: 15px; }
+  .selected-card .card-heading h2 { font-size: 18px; }
+  .selected-card .count-pill { padding: 6px 9px; font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .selected-item, .selected-card .remove-course { transition: none; }
+}
