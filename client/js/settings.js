@@ -49,11 +49,12 @@ if (signInButton) {
       ux_mode: "popup",
     });
     window.google.accounts.id.renderButton(signInButton, {
-      type: "icon",
+      type: "standard",
       theme: "outline",
       size: "large",
-      shape: "circle",
-      locale: "zh-TW",
+      text: "signin_with",
+      shape: "rectangular",
+      locale: "en",
     });
     googleInitialized = true;
     authStatus.textContent = "請使用下方按鈕登入 Google 帳號。";

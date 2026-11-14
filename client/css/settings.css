@@ -106,6 +106,7 @@ button, a, select, .setting-row { transition: background-color .18s ease, border
 .content-card { max-width: 900px; }
 .account-card { margin-bottom: 14px; }
 .account-session { display: grid; gap: 4px; margin-top: 14px; padding: 12px 14px; border: 1px solid #dce9f7; border-radius: 9px; background: #f7faff; }
+.account-session[hidden] { display: none; }
 .account-session strong { color: #294d76; font-size: 15px; }
 .account-session span, .auth-status { color: #71859b; font-size: 13px; }
 .account-signout { margin-top: 12px; padding: 8px 16px; border: 1px solid #dce7f4; border-radius: 8px; color: #496481; background: #fff; cursor: pointer; }
