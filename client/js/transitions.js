@@ -1,16 +1,11 @@
 const menuButton = document.querySelector(".menu-toggle");
 const sidebar = document.querySelector(".sidebar");
-let menuCloseTimer;
 
 if (menuButton && sidebar) {
   const closeMenu = () => {
     if (!document.body.classList.contains("sidebar-open")) return;
     document.body.classList.remove("sidebar-open");
     menuButton.setAttribute("aria-expanded", "false");
-    sidebar.classList.add("is-closing");
-    window.clearTimeout(menuCloseTimer);
-    const closeMs = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 150;
-    menuCloseTimer = window.setTimeout(() => sidebar.classList.remove("is-closing"), closeMs);
   };
 
   menuButton.addEventListener("click", () => {
@@ -18,8 +13,6 @@ if (menuButton && sidebar) {
       closeMenu();
       return;
     }
-    window.clearTimeout(menuCloseTimer);
-    sidebar.classList.remove("is-closing");
     document.body.classList.add("sidebar-open");
     menuButton.setAttribute("aria-expanded", "true");
   });
@@ -76,25 +69,13 @@ conflictDialog.append(conflictForm);
 document.body.append(conflictDialog);
 
 let conflictDialogResolve;
-let conflictDialogCloseTimer;
-let conflictDialogOpenFrame;
 
 const closeConflictDialog = (confirmed) => {
-  if (!conflictDialog.open || conflictDialog.classList.contains("is-closing")) return;
-  cancelAnimationFrame(conflictDialogOpenFrame);
-  conflictDialog.classList.remove("is-open");
-  conflictDialog.classList.add("is-closing");
-  const closeDuration = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ? 0
-    : Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--modal-close-dur")) || 150;
-  window.clearTimeout(conflictDialogCloseTimer);
-  conflictDialogCloseTimer = window.setTimeout(() => {
-    conflictDialog.classList.remove("is-closing");
-    conflictDialog.close();
-    const resolve = conflictDialogResolve;
-    conflictDialogResolve = undefined;
-    resolve?.(confirmed);
-  }, closeDuration);
+  if (!conflictDialog.open) return;
+  conflictDialog.close();
+  const resolve = conflictDialogResolve;
+  conflictDialogResolve = undefined;
+  resolve?.(confirmed);
 };
 
 conflictForm.addEventListener("submit", (event) => {
@@ -113,10 +94,7 @@ conflictDialog.addEventListener("click", (event) => {
 window.confirmCourseConflict = (courseName, conflictingCourseNames) => {
   if (conflictDialog.open) return Promise.resolve(false);
   conflictMessage.textContent = `「${courseName}」與已選課程「${conflictingCourseNames.join("、")}」有衝堂，確定仍要加入嗎？`;
-  conflictDialog.classList.remove("is-closing", "is-open");
-  window.clearTimeout(conflictDialogCloseTimer);
   conflictDialog.showModal();
-  conflictDialogOpenFrame = requestAnimationFrame(() => conflictDialog.classList.add("is-open"));
   return new Promise((resolve) => {
     conflictDialogResolve = resolve;
   });
