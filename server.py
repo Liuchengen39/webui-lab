@@ -27,7 +27,7 @@ USER_DATA_DIR = Path(__file__).resolve().parent / "user_data"  # 每位使用者
 USER_DATA_DB = Path(__file__).resolve().parent / "user_data.sqlite3"  
 
 GOOGLE_CLIENT_ID = "609296002726-6qpc89smhfisnc7i2r81lr9r4jtc80fp.apps.googleusercontent.com"
-AUTH_SESSION_COOKIE = "webui_lab_session"   # 存放 session token 的 cookie
+AUTH_SESSION_COOKIE = "s115321012_app_session"   # 存放 session token 的 cookie
 AUTH_SESSION_SECONDS = 12 * 60 * 60         # session 有效時間
 _auth_sessions = {}
 

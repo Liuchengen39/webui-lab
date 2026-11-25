@@ -94,7 +94,7 @@ if (signInButton) {
       if (!response.ok) throw new Error(`登出失敗（HTTP ${response.status}）`);
       renderAccount(null);
       await window.refreshGoogleAuthState();
-      sessionStorage.removeItem("selectedCourses.v2");
+      sessionStorage.removeItem("selectedCourses");
       sessionStorage.setItem("clearSelectedCoursesOnReturn", "true");
       await loadGoogleSignIn();
       authStatus.textContent = "已登出 Google 帳號，請使用下方按鈕重新登入。";

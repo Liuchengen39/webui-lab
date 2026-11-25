@@ -2,7 +2,7 @@ const scheduleTable = document.querySelector(".schedule-table");
 
 if (scheduleTable) {
   const scheduleMessage = document.querySelector("#scheduleMessage");
-  const storageKey = "selectedCourses.v2";
+  const storageKey = "selectedCourses";
   const PALETTE = [
     ["#e8f1ff", "#c5dcff", "#1f4f9e", "#3b82f6"],
     ["#e6f7ef", "#bfe8d3", "#1d7a55", "#34b27b"],
@@ -158,10 +158,13 @@ if (scheduleTable) {
   }
 
   renderSelectedTimetable();
+  let wasAuthenticated = false;
   window.addEventListener("google-auth-state-change", (event) => {
-    if (!event.detail) {
+    const isAuthenticated = Boolean(event.detail);
+    if (wasAuthenticated && !isAuthenticated) {
       sessionStorage.removeItem(storageKey);
     }
+    wasAuthenticated = isAuthenticated;
     renderSelectedTimetable();
   });
   window.addEventListener("pageshow", (event) => {
